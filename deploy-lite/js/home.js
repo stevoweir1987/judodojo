@@ -598,16 +598,28 @@ function renderHome() {
     ? '<img src="' + totdThumb + '" class="nh-video-thumb" onerror="this.style.display=\'none\'" alt="Technique demo">'
     : '';
 
-  // CTA HTML
+  // CTA HTML — dominant action
+  var sessionPct = 0;
+  if (hasActive && typeof getTotalItemCount === 'function' && getTotalItemCount() > 0) {
+    sessionPct = Math.min(99, Math.round((getCurrentItemNum() - 1) / getTotalItemCount() * 100));
+  }
   var ctaHtml;
   if (hasActive) {
-    ctaHtml = '<button class="nh-hero-btn" style="background:#f59e0b;color:#0d0d12" onclick="showView(\'train\')">' +
-      '<span class="nh-btn-icon">&#9654;</span> CONTINUE SESSION' +
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-continue" onclick="showView(\'train\')">' +
+      '<span class="nh-btn-play">&#9654;</span>' +
+      '<span class="nh-btn-label">CONTINUE SESSION</span>' +
+      '<span class="nh-btn-pct">' + sessionPct + '%</span>' +
       '</button>' +
       '<button class="nh-sec-btn" onclick="onStartFocused()">+ Start today&#39;s training instead</button>';
+  } else if (donedToday) {
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-done" onclick="onStartFocused()">' +
+      '<span class="nh-btn-play">&#10003;</span>' +
+      '<span class="nh-btn-label">SESSION DONE · TRAIN AGAIN?</span>' +
+      '</button>';
   } else {
-    ctaHtml = '<button class="nh-hero-btn" style="background:#e63946;color:#fff" onclick="onStartFocused()">' +
-      '<span class="nh-btn-icon">&#9654;</span> START TODAY&#39;S TRAINING' +
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-start" onclick="onStartFocused()">' +
+      '<span class="nh-btn-play">&#9654;</span>' +
+      '<span class="nh-btn-label">START TODAY\'S TRAINING</span>' +
       '</button>';
   }
 
@@ -641,7 +653,7 @@ function renderHome() {
   '.nh-adapt-title{font-size:12px;font-weight:700;margin-bottom:2px}' +
   '.nh-adapt-body{font-size:11px;color:#999;line-height:1.45}' +
   /* ── Today training card ── */
-  '.nh-today-card{background:#14090a;border:1px solid #3d1015;border-radius:14px;padding:10px 14px 8px;margin:0 14px 8px}' +
+  '.nh-today-card{background:#120508;border:1.5px solid rgba(230,57,70,.3);border-radius:16px;padding:14px 14px 12px;margin:0 14px 10px;box-shadow:0 2px 20px rgba(230,57,70,.08)}' +
   '.nh-belt-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:3px 9px;font-size:9px;font-weight:700;color:#999;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}' +
   '.nh-belt-dot-sm{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}' +
   '.nh-tech-name{font-size:21px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:2px;letter-spacing:-.4px}' +
@@ -651,11 +663,17 @@ function renderHome() {
   '.nh-meta-done{color:#4ade80!important;background:rgba(74,222,128,.09)!important;border-color:rgba(74,222,128,.18)!important}' +
   '.nh-meta-focus{color:#f97316!important;background:rgba(249,115,22,.09)!important;border-color:rgba(249,115,22,.18)!important}' +
   /* ── Video thumbnail ── */
-  '.nh-video-thumb{width:100%;height:130px;object-fit:cover;object-position:center center;border-radius:10px;margin-bottom:12px;background:#0d0d12;display:block}' +
+  '.nh-video-thumb{width:100%;height:130px;object-fit:cover;object-position:center center;border-radius:10px;margin-top:10px;margin-bottom:0;background:#0d0d12;display:block}' +
   /* ── CTA buttons ── */
-  '.nh-hero-btn{width:100%;border:none;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:5px;letter-spacing:.1px;display:flex;align-items:center;justify-content:center;gap:7px;-webkit-tap-highlight-color:transparent}' +
-  '.nh-btn-icon{font-size:11px}' +
-  '.nh-sec-btn{width:100%;background:transparent;border:none;color:#e63946;font-size:11px;font-weight:600;padding:5px;cursor:pointer;opacity:.75;-webkit-tap-highlight-color:transparent}' +
+  '.nh-hero-btn{width:100%;border:none;border-radius:14px;padding:17px 20px;font-size:16px;font-weight:900;cursor:pointer;margin-bottom:8px;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .1s}' +
+  '.nh-hero-btn:active{transform:scale(.98)}' +
+  '.nh-hero-btn-start{background:#e63946;color:#fff;box-shadow:0 4px 20px rgba(230,57,70,.45)}' +
+  '.nh-hero-btn-continue{background:#f59e0b;color:#0d0d12;box-shadow:0 4px 20px rgba(245,158,11,.4)}' +
+  '.nh-hero-btn-done{background:#16a34a;color:#fff;box-shadow:0 4px 20px rgba(22,163,74,.35)}' +
+  '.nh-btn-play{font-size:13px;opacity:.85}' +
+  '.nh-btn-label{flex:1;text-align:center}' +
+  '.nh-btn-pct{font-size:13px;font-weight:700;opacity:.8;background:rgba(0,0,0,.15);padding:2px 8px;border-radius:6px}' +
+  '.nh-sec-btn{width:100%;background:transparent;border:none;color:#e63946;font-size:12px;font-weight:600;padding:6px;cursor:pointer;opacity:.7;-webkit-tap-highlight-color:transparent}' +
   /* ── Week streak ── */
   '.nh-streak-section{margin:0 14px 8px;background:#0f0f14;border:1px solid #1e1e28;border-radius:13px;padding:10px 13px}' +
   '.nh-streak-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}' +
@@ -702,8 +720,8 @@ function renderHome() {
           ? '<span class="nh-meta-chip nh-meta-done">&#10003; Done today</span>'
           : '<span class="nh-meta-chip nh-meta-focus">&#128293; Today&#39;s focus</span>') +
       '</div>' +
-      thumbHtml +
       ctaHtml +
+      (totdThumb ? '<div style="margin-top:10px">' + thumbHtml + '</div>' : '') +
     '</div>' +
 
     '<!-- WEEK STREAK -->' +
@@ -718,16 +736,16 @@ function renderHome() {
     '<!-- QUICK STATS -->' +
     '<div class="nh-stats-row">' +
       '<div class="nh-stat-card">' +
-        '<div class="nh-stat-val">' + streak + '</div>' +
-        '<div class="nh-stat-lbl">Day streak</div>' +
-      '</div>' +
-      '<div class="nh-stat-card">' +
-        '<div class="nh-stat-val" style="font-size:15px;color:#f59e0b">' + matHours + '</div>' +
+        '<div class="nh-stat-val" style="color:#f59e0b">' + matHours + '</div>' +
         '<div class="nh-stat-lbl">Mat hours</div>' +
       '</div>' +
       '<div class="nh-stat-card">' +
-        '<div class="nh-stat-val" style="font-size:15px;color:#4ade80">' + pct + '%</div>' +
+        '<div class="nh-stat-val" style="color:#4ade80">' + pct + '%</div>' +
         '<div class="nh-stat-lbl">Belt done</div>' +
+      '</div>' +
+      '<div class="nh-stat-card">' +
+        '<div class="nh-stat-val" style="color:#818cf8">' + (typeof getXP === 'function' ? getXP() : 0) + '</div>' +
+        '<div class="nh-stat-lbl">XP earned</div>' +
       '</div>' +
     '</div>' +
 
@@ -761,6 +779,7 @@ function onStartFocused() {
   const theme = DAILY_THEMES[new Date().getDay()];
   currentSession = generateSession(selectedMinutes || 15, selectedLocation || 'home', theme.tag);
   showView('train');
+  if (typeof switchTrainTab === 'function') switchTrainTab('training');
 }
 
 

@@ -528,6 +528,28 @@
     <div class="tdp-body" id="tdp-body"></div>
   </div>
 
+    <!-- ── TYPE / PROFILE PICKER OVERLAY ── -->
+  <div id="type-picker-overlay" onclick="closeTypePicker(event)" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:flex-end;justify-content:center">
+    <div style="background:#13131c;border-radius:20px 20px 0 0;padding:20px 16px 40px;width:100%;max-width:480px;box-sizing:border-box" onclick="event.stopPropagation()">
+      <div style="width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px"></div>
+      <div style="font-size:16px;font-weight:800;color:#f0f4ff;margin-bottom:14px">Your Profile</div>
+
+      <!-- Belt picker -->
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">CURRENT BELT</div>
+      <div id="belt-picker-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px"></div>
+
+      <!-- Adult / Junior toggle -->
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">TRAINING MODE</div>
+      <div style="display:flex;background:rgba(255,255,255,.05);border-radius:10px;padding:3px;gap:3px">
+        <button class="type-picker-btn" onclick="setUserType('adult')" style="flex:1;background:transparent;border:none;color:#888;font-size:13px;font-weight:700;padding:9px 0;border-radius:8px;cursor:pointer">Adult</button>
+        <button class="type-picker-btn" onclick="setUserType('junior')" style="flex:1;background:transparent;border:none;color:#888;font-size:13px;font-weight:700;padding:9px 0;border-radius:8px;cursor:pointer">Junior</button>
+      </div>
+
+      <button onclick="closeTypePicker()" style="width:100%;margin-top:16px;padding:12px;background:rgba(255,255,255,.06);border:none;border-radius:12px;color:#888;font-size:13px;font-weight:700;cursor:pointer">Done</button>
+    </div>
+  </div>
+
+  <!-- ── MORE DRAWER ── -->
   <div id="more-overlay" onclick="closeMoreDrawer()"></div>
   <div id="more-drawer">
     <div class="more-drawer-handle"></div>
@@ -540,9 +562,6 @@
       </div>
       <span class="more-drawer-arrow">›</span>
     </button>
-
-
-
     <a class="more-drawer-item" href="mailto:judohub@outlook.com?subject=JudoHub Feedback" style="text-decoration:none">
       <span class="more-drawer-icon">✉️</span>
       <div class="more-drawer-text">
@@ -553,172 +572,23 @@
     </a>
   </div>
 
-
-  <!-- ── DESKTOP SIDE NAV (hidden on mobile via CSS) ── -->
-  <nav id="desktop-nav" style="display:none">
-    <div class="dnav-logo">🥋 <span>JudoHub</span></div>
-    <div class="dnav-items">
-      <button class="dnav-btn active" onclick="showView('home')" data-view="home">
-        <span class="dnav-icon">🏠</span> Home
-      </button>
-      <button class="dnav-btn" onclick="showView('techniques')" data-view="techniques">
-        <span class="dnav-icon">📖</span> Learn
-      </button>
-      <button class="dnav-btn" onclick="showView('belt')" data-view="belt">
-        <span class="dnav-icon">🏅</span> Grades
-      </button>
-      <button class="dnav-btn" onclick="showView('progress')" data-view="progress">
-        <span class="dnav-icon">📊</span> Progress
-      </button>
-
-
-
-    </div>
-    <div class="dnav-footer">
-      <button class="dnav-profile-btn" onclick="openProfile()" id="dnav-profile-btn">
-        <span id="dnav-belt-dot" class="header-belt-dot"></span>
-        <span id="dnav-profile-label">Profile</span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- ── GRADING READINESS OVERLAY ── -->
-  <div id="grading-overlay"></div>
-
-</div><!-- /app-wrap -->
-
-<!-- ── VIDEO MODAL ── -->
-<div id="video-modal" onclick="onModalBgClick(event)">
-  <div class="vmodal-wrap">
-
-    <!-- Top bar: counter + close only -->
-    <div class="vmodal-topbar">
-      <span class="vmodal-counter" id="vm-counter"></span>
-      <button class="vmodal-close" onclick="closeVideoModal()">✕</button>
-    </div>
-
-    <!-- Video — dominates the screen -->
-    <div class="vmodal-player" id="vm-player"></div>
-
-    <!-- Compact footer: name + nav -->
-    <div class="vmodal-footer">
-      <button class="vmodal-arr" id="vm-prev" onclick="flushModalNotes();modalNav(-1)">&#8592;</button>
-      <div class="vmodal-footer-info">
-        <div class="vmodal-footer-name" id="vm-title"></div>
-        <div class="vmodal-footer-en" id="vm-subtitle"></div>
-      </div>
-      <button class="vmodal-arr" id="vm-next" onclick="flushModalNotes();modalNav(1)">&#8594;</button>
-    </div>
-
-    <!-- Info handle — tap to reveal notes/depth -->
-    <div class="vmodal-info-handle" onclick="toggleVModalInfo()">
-      <span id="vm-handle-label">&#8679; Notes &amp; Info</span>
-    </div>
-
-    <!-- Collapsible info panel -->
-    <div class="vmodal-info-panel" id="vm-info-panel" style="display:none">
-      <div id="vm-tags"></div>
-      <div id="vm-depth"></div>
-      <div class="vmodal-notes-area">
-        <label class="vmodal-notes-label">My Notes</label>
-        <textarea id="vm-notes" placeholder="Personal cues, things to work on…"></textarea>
-      </div>
-      <button class="vmodal-plan-btn" onclick="addCurrentToPlan()">+ Add to this week's plan</button>
-    </div>
-
-    <!-- Hidden legacy div so existing JS refs don't break -->
-    <div id="vm-info" style="display:none"></div>
-
-  </div>
-</div>
-
-<div id="toast"></div>
-
-<!-- Netlify Forms detection (hidden) -->
-<form name="judohub-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input name="bot-field">
-  <input name="rating">
-  <input name="category">
-  <input name="message">
-  <input name="page">
-</form>
-
-<!-- ── FEEDBACK OVERLAY ── -->
-<div id="feedback-overlay" onclick="onFeedbackBgClick(event)">
-  <div class="fb-modal">
-    <div class="fb-header">
-      <div class="fb-title">💬 Send Feedback</div>
-      <button class="fb-close" onclick="closeFeedback()">✕</button>
-    </div>
-    <div class="fb-body">
-      <div class="fb-field">
-        <div class="fb-label">How are you finding JudoHub?</div>
-        <div class="fb-stars" id="fb-stars">
-          <span class="fb-star" data-v="1" onclick="setRating(1)">★</span>
-          <span class="fb-star" data-v="2" onclick="setRating(2)">★</span>
-          <span class="fb-star" data-v="3" onclick="setRating(3)">★</span>
-          <span class="fb-star" data-v="4" onclick="setRating(4)">★</span>
-          <span class="fb-star" data-v="5" onclick="setRating(5)">★</span>
-        </div>
-      </div>
-      <div class="fb-field">
-        <div class="fb-label">Type of feedback</div>
-        <div class="fb-cats" id="fb-cats">
-          <button class="fb-cat" onclick="selectCat(this,'General')">General</button>
-          <button class="fb-cat" onclick="selectCat(this,'Bug')">🐛 Bug</button>
-          <button class="fb-cat" onclick="selectCat(this,'Feature idea')">💡 Feature idea</button>
-          <button class="fb-cat" onclick="selectCat(this,'Content')">📖 Content</button>
-        </div>
-      </div>
-      <div class="fb-field">
-        <div class="fb-label">Tell us more</div>
-        <textarea class="fb-textarea" id="fb-text" placeholder="Describe the issue or idea…"></textarea>
-      </div>
-      <button class="fb-submit" onclick="submitFeedback()">Send Feedback</button>
-    </div>
-  </div>
-
-  <!-- ── TECHNIQUE DETAIL PANEL (full-screen slide-up) ── -->
-  <div id="tech-detail-panel" class="tech-detail-panel">
-    <div class="tdp-header">
-      <button class="tdp-back" onclick="closeTechDetail()">&#8592; Techniques</button>
-      <div class="tdp-kodokan" id="tdp-kodokan"></div>
-    </div>
-    <div class="tdp-video" id="tdp-video"></div>
-    <div class="tdp-body" id="tdp-body"></div>
-  </div>
-
-  <div id="more-overlay" onclick="closeMoreDrawer()"></div>
-  <div id="more-drawer">
-    <div class="more-drawer-handle"></div>
-    <div class="more-drawer-title">More</div>
-    <button class="more-drawer-item" onclick="showView('techniques');closeMoreDrawer()">
-      <span class="more-drawer-icon">📖</span>
-      <div class="more-drawer-text">
-        <div class="more-drawer-name">Technique Library</div>
-        <div class="more-drawer-desc">Browse &amp; watch all techniques</div>
-      </div>
-      <span class="more-drawer-arrow">›</span>
-    </button>
-  </div>
-
   <!-- ── SCRIPTS ── -->
-  <script src="js/data.js?v=1779145644"></script>
-  <script src="js/tech_depth.js?v=1779145644"></script>
-  <script src="js/onboarding.js?v=1779145644"></script>
-  <script src="js/app.js?v=1779145644"></script>
-  <script src="js/techniques.js?v=1779145644"></script>
-  <script src="js/tech_detail.js?v=1779145644"></script>
-  <script src="js/belt.js?v=1779145644"></script>
-  <script src="js/grading.js?v=1779145644"></script>
-  <script src="js/builder.js?v=1779145644"></script>
-  <script src="js/home.js?v=1779145644"></script>
-  <script src="js/mon.js?v=1779145644"></script>
-  <script src="js/junior-grades.js?v=1779145644"></script>
-  <script src="js/junior-home.js?v=1779145644"></script>
-  <script src="js/junior-progress.js?v=1779145644"></script>
-  <script src="js/progress.js?v=1779145644"></script>
-  <script src="js/pt.js?v=1779145644"></script>
-  <script src="js/randori.js?v=1779145644"></script>
+  <script src="js/data.js?v=1779147303"></script>
+  <script src="js/tech_depth.js?v=1779147303"></script>
+  <script src="js/onboarding.js?v=1779147303"></script>
+  <script src="js/app.js?v=1779147303"></script>
+  <script src="js/techniques.js?v=1779147303"></script>
+  <script src="js/tech_detail.js?v=1779147303"></script>
+  <script src="js/belt.js?v=1779147303"></script>
+  <script src="js/grading.js?v=1779147303"></script>
+  <script src="js/builder.js?v=1779147303"></script>
+  <script src="js/home.js?v=1779147303"></script>
+  <script src="js/mon.js?v=1779147303"></script>
+  <script src="js/junior-grades.js?v=1779147303"></script>
+  <script src="js/junior-home.js?v=1779147303"></script>
+  <script src="js/junior-progress.js?v=1779147303"></script>
+  <script src="js/progress.js?v=1779147303"></script>
+  <script src="js/pt.js?v=1779147303"></script>
+  <script src="js/randori.js?v=1779147303"></script>
 </body>
 </html>
