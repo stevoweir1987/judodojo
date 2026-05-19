@@ -1,0 +1,522 @@
+[
+  {
+    "Name": "Ippon-seoi-nage",
+    "English Translation": "One-arm shoulder throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=OmKfUXAAdZ0"
+  },
+  {
+    "Name": "Morote-seoi-nage",
+    "English Translation": "Two-arm shoulder throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=UjtL1h9htb8"
+  },
+  {
+    "Name": "Tai-otoshi",
+    "English Translation": "Body drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=DUiZ8JZkGx8"
+  },
+  {
+    "Name": "Kata-guruma",
+    "English Translation": "Shoulder wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=cnHRhSy8yi4"
+  },
+  {
+    "Name": "Seoi-otoshi",
+    "English Translation": "Shoulder drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=vu1TMVNnq34"
+  },
+  {
+    "Name": "Sumi-otoshi",
+    "English Translation": "Corner drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=lLU9wv52ni0"
+  },
+  {
+    "Name": "Uki-otoshi",
+    "English Translation": "Floating drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=6H5tmncOY4Q"
+  },
+  {
+    "Name": "Yama-arashi",
+    "English Translation": "Mountain storm",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=MGlyKmSuzdc"
+  },
+  {
+    "Name": "Kibisu-gaeshi",
+    "English Translation": "Heel trip",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=tJylJYfBliA"
+  },
+  {
+    "Name": "Kuchiki-taoshi",
+    "English Translation": "Single leg takedown",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=ZNL47q1aJNY"
+  },
+  {
+    "Name": "Morote-gari",
+    "English Translation": "Two-leg reap",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=BHLQS4K85bs"
+  },
+  {
+    "Name": "Sukui-nage",
+    "English Translation": "Scooping throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=vU6aJ2kFxoI"
+  },
+  {
+    "Name": "Obi-otoshi",
+    "English Translation": "Belt drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=ff8U2TVZIYI"
+  },
+  {
+    "Name": "Tsubame-gaeshi",
+    "English Translation": "Swallow counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=GwweWqqFB5g"
+  },
+  {
+    "Name": "Uchi-makikomi",
+    "English Translation": "Inner wraparound",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=5BowcjduxVc"
+  },
+  {
+    "Name": "Daki-age",
+    "English Translation": "High lift",
+    "Category": "Nage-waza",
+    "Sub-category": "Te-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=5lFXv3crN30"
+  },
+  {
+    "Name": "O-goshi",
+    "English Translation": "Major hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=yhu1mfy2vJ4"
+  },
+   {
+    "Name": "Koshi-guruma",
+    "English Translation": "Hip wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=SU7Id6uVJ44"
+  },
+  {
+    "Name": "Tsurikomi-goshi",
+    "English Translation": "Lifting pulling hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=McfzA0yRVt4"
+  },
+  {
+    "Name": "Harai-goshi",
+    "English Translation": "Sweeping hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=qTo8HlAAkOo"
+  },
+  {
+    "Name": "Hane-goshi",
+    "English Translation": "Spring hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=M9_7De6A1kk"
+  },
+  {
+    "Name": "Ushiro-goshi",
+    "English Translation": "Rear hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=ORIYstuxYT8"
+  },
+  {
+    "Name": "Utsuri-goshi",
+    "English Translation": "Hip shift",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=4pQd_bEnlf0"
+  },
+  {
+    "Name": "O-tsuri-goshi",
+    "English Translation": "Major lifting hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=oB3hwIbdzqM"
+  },
+  {
+    "Name": "O-guruma",
+    "English Translation": "Large wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=SnZciTAY9vc"
+  },
+  {
+    "Name": "Sode-tsurikomi-goshi",
+    "English Translation": "Sleeve lifting pulling hip throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Koshi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=QsmAxpmYLOI"
+  },
+  {
+    "Name": "Deashi-harai",
+    "English Translation": "Advanced foot sweep",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=4BUUvqxi_Kk"
+  },
+  {
+    "Name": "Okuri-ashi-harai",
+    "English Translation": "Sliding foot sweep",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=nw1ZdRjrdRI"
+  },
+  {
+    "Name": "Harai-tsurikomi-ashi",
+    "English Translation": "Lifting pulling foot sweep",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=gGPXvWL8VbE"
+  },
+  {
+    "Name": "Sasae-tsurikomi-ashi",
+    "English Translation": "Lifting pulling ankle block",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=699i--pvYmE"
+  },
+  {
+    "Name": "Hiza-guruma",
+    "English Translation": "Knee wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=JPJx9-oAVns"
+  },
+  {
+    "Name": "Ouchi-gari",
+    "English Translation": "Major inner reap",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=0itJFhV9pDQ"
+  },
+  {
+    "Name": "Ko-uchi-gari",
+    "English Translation": "Minor inner reap",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=3Jb3tZvr9Ng"
+  },
+  {
+    "Name": "O-soto-gari",
+    "English Translation": "Major outer reap",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=c-A_nP7mKAc"
+  },
+  {
+    "Name": "Ko-soto-gari",
+    "English Translation": "Minor outer reap",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=jeQ541ScLB4"
+  },
+  {
+    "Name": "O-soto-otoshi",
+    "English Translation": "Major outer drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=2DsVvDw7b8g"
+  },
+  {
+    "Name": "Ko-soto-otoshi",
+    "English Translation": "Minor outer drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": ""
+  },
+  {
+    "Name": "Ko-soto-gake",
+    "English Translation": "Minor outer hook",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=8b6kY4s4zH4"
+  },
+  {
+    "Name": "O-soto-guruma",
+    "English Translation": "Major outer wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=92KbCm6pQeI"
+ },
+  {
+    "Name": "O-uchi-gaeshi",
+    "English Translation": "Inner reap counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=dCyZTXyjIXE"
+ },
+  {
+    "Name": "Ko-uchi-gaeshi",
+    "English Translation": "Inner minor reap counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=_MWAdYi_LC4"
+  },
+  {
+    "Name": "Ashi-guruma",
+    "English Translation": "Leg wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=ROeayhvom9U"
+  },
+  {
+    "Name": "Tsubame-gaeshi",
+    "English Translation": "Swallow counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=GwweWqqFB5g"
+  },
+  {
+    "Name": "Hane-goshi-gaeshi",
+    "English Translation": "Hip spring counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=9bZAZSBtnGs"
+  },
+  {
+    "Name": "Ushiro-goshi",
+    "English Translation": "Rear throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=ORIYstuxYT8"
+  },
+  {
+    "Name": "Tai-otoshi-gaeshi",
+    "English Translation": "Body drop counter",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=imECTzUV-vY"
+ },
+  {
+    "Name": "Daki-wakare",
+    "English Translation": "Hug split",
+    "Category": "Nage-waza",
+    "Sub-category": "Ashi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=Hr0cOMGBDYo"
+  },
+  {
+    "Name": "Tomoe-nage",
+    "English Translation": "Circle throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=TON-fQk3aTc"
+  },
+  {
+    "Name": "Hikikomi-gaeshi",
+    "English Translation": "Pulling sacrifice throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=92zUYWBp5N8"
+  },
+  {
+    "Name": "Sumi-gaeshi",
+    "English Translation": "Corner reversal",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=5VhduA5xkbA"
+  },
+  {
+    "Name": "Tawara-gaeshi",
+    "English Translation": "Rice bag reversal",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=TmTWgrmViZc"
+ },
+  {
+    "Name": "Ura-nage",
+    "English Translation": "Rear throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=Fgi9b8DJ5sQ"
+  },
+  {
+    "Name": "Yoko-otoshi",
+    "English Translation": "Side drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=MnNG67pF_a0"
+  },
+  {
+    "Name": "Tani-otoshi",
+    "English Translation": "Valley drop",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=3b9Me3Fohpk"
+  },
+  {
+    "Name": "Yoko-gake",
+    "English Translation": "Side hook",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=tP1Sj1uDfSo"
+  },
+  {
+    "Name": "Yoko-guruma",
+    "English Translation": "Side wheel",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=MehP6I5cY2c"
+  },
+  {
+    "Name": "Yoko-wakare",
+    "English Translation": "Side separation",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=bp1tscHlePI"
+  },
+  {
+    "Name": "Uchi-makikomi",
+    "English Translation": "Inner wraparound",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=5BowcjduxVc"
+  },
+  {
+    "Name": "Soto-makikomi",
+    "English Translation": "Outer wraparound",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=bWG9O1BVKtQ"
+  },
+ {
+    "Name": "Kawazu-gake",
+    "English Translation": "One-leg entanglement",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=-SQCIZFscNs"
+  },
+  {
+    "Name": "Kani-basami",
+    "English Translation": "Crab scissors",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=OR-HGHnarYc"
+  },
+  {
+    "Name": "Daki-wakare",
+    "English Translation": "Hug split",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=Hr0cOMGBDYo"
+  },
+  {
+    "Name": "Obi-tori-gaeshi",
+    "English Translation": "Belt grab reversal",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "Yes",
+    "Video URL": "https://www.youtube.com/watch?v=bpc82SrunUU"
+  },
+ {
+    "Name": "Ko-uchi-makikomi",
+    "English Translation": "small inner wrap-around throw",
+    "Category": "Nage-waza",
+    "Sub-category": "Ma-sutemi-waza",
+    "Official Kodokan": "No",
+    "Video URL": "https://www.youtube.com/watch?v=_1eygIXLD_w"
+  },
+ {
+    "Name": "Yoko-sumi-gaeshi",
+    "English Translation": "",
+    "Category": "Nage-waza",
+    "Sub-category": "Yoko-sutemi-waza",
+    "Official Kodokan": "No",
+    "Video URL": "https://www.youtube.com/watch?v=TnvdcBbB0sA"
+  }
+]

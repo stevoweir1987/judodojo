@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Judo Training Hub",
+    "slug": "judo-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "judo",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.steven.judomobile"
+    },
+    "android": {
+      "package": "com.steven.judomobile"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-asset",
+        {
+          "assets": ["./assets/data", "./assets/pdfs"]
+        }
+      ]
+    ]
+  }
+}

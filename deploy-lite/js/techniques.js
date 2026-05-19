@@ -338,13 +338,21 @@ document.addEventListener('keydown', e => {
 // ── GRADING VIDEO OPENER ─────────────────────────────────────────
 // Uses the existing video-modal so the UI is identical to technique videos
 function openGradingVideo(url, title) {
-  if (!getVideoId(url)) return;
-  // Inject a synthetic entry so paintModal can render it normally
-  modalList = [{ name: title, url: url, en: 'Grading technique', cat: 'Grading', sub: '' }];
-  modalIdx  = 0;
-  paintModal();
-  document.getElementById('video-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  // Route through openTechDetail
+  if (typeof openTechDetail === 'function') {
+    const found = (typeof TECHNIQUES !== 'undefined') ? TECHNIQUES.find(t => t.name === title) : null;
+    if (found) { openTechDetail(title); return; }
+    // Synthetic entry for grading-only techniques
+    const synth = { name: title, url: url, en: 'Grading technique', cat: 'Grading', sub: '', ko: 'No' };
+    if (typeof TECHNIQUES !== 'undefined') TECHNIQUES.push(synth);
+    openTechDetail(title);
+    setTimeout(function() {
+      if (typeof TECHNIQUES !== 'undefined') {
+        const idx = TECHNIQUES.findIndex(t => t.name === title && t.en === 'Grading technique');
+        if (idx > -1) TECHNIQUES.splice(idx, 1);
+      }
+    }, 500);
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────

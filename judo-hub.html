@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Judo Training Hub</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --surface3: #2a2f47;
+    --border: #2e3354;
+    --accent: #e8c84a;
+    --accent2: #c9952f;
+    --text: #e8eaf0;
+    --text-muted: #8890aa;
+    --red: #e05252;
+    --sidebar-w: 240px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── SIDEBAR ── */
+  #sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+  .sidebar-logo { padding: 16px 12px; border-bottom: 3px solid #e8640a; background: #ffffff; display: flex; align-items: center; justify-content: center; }
+  .sidebar-logo img { width: 100%; max-width: 190px; height: auto; display: block; }
+  .sidebar-nav { padding: 12px 8px; flex: 1; }
+  .nav-section { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; padding: 8px 8px 4px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 7px; cursor: pointer; font-size: 13.5px; color: var(--text-muted); transition: all .15s; margin-bottom: 2px; border: none; background: none; width: 100%; text-align: left; }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: #e8640a; color: #ffffff; font-weight: 600; }
+  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .sidebar-footer { padding: 12px 16px; border-top: 3px solid #e8640a; background: #0a1a3a; font-size: 11px; color: #a0b4d0; display: flex; align-items: center; gap: 8px; }
+  .sidebar-footer img { height: 28px; width: auto; }
+
+  /* ── MAIN ── */
+  #main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .view { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+  .view.active { display: flex; }
+  .view-header { padding: 0; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; overflow: hidden; }
+  .view-header-hero { background: #ffffff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 4px solid #0a3d7a; }
+  .view-header-hero img { height: 64px; width: auto; }
+  .view-header-hero-text h2 { font-size: 20px; font-weight: 800; color: #0a3d7a; }
+  .view-header-hero-text p { font-size: 12px; color: #666; margin-top: 2px; }
+  .view-header-plain { padding: 20px 28px 16px; }
+  .view-header-plain h2 { font-size: 18px; font-weight: 700; }
+  .view-header-plain p { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .view-body { flex: 1; overflow-y: auto; padding: 24px 28px; }
+
+  /* ── TECHNIQUES ── */
+  .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .filter-bar input, .filter-bar select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 7px; font-size: 13px; outline: none; }
+  .filter-bar input { flex: 1; min-width: 200px; }
+  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--accent); }
+  .filter-bar select option { background: var(--surface2); }
+  .count-badge { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .tech-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color .15s; }
+  .tech-card:hover { border-color: var(--accent); }
+  .tech-card.expanded { border-color: var(--accent); }
+  .tech-card-header { padding: 14px 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .tech-name { font-weight: 600; font-size: 14px; }
+  .tech-en { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .tech-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .tag { font-size: 10.5px; padding: 2px 7px; border-radius: 4px; font-weight: 600; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); }
+  .tag.cat { background: #1a2a4a; border-color: #2a4a8a; color: #7ab4f0; }
+  .tag.sub { background: #1a2a1a; border-color: #2a5a2a; color: #7ad07a; }
+  .tag.ko { background: #2a2400; border-color: #5a4a00; color: var(--accent); }
+  .tech-chevron { color: var(--text-muted); font-size: 16px; flex-shrink: 0; transition: transform .2s; margin-top: 2px; }
+  .tech-card.expanded .tech-chevron { transform: rotate(180deg); }
+  .tech-body { display: none; border-top: 1px solid var(--border); padding: 14px 16px; }
+  .tech-card.expanded .tech-body { display: block; }
+  .tech-notes-ta { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 10px; font-size: 12.5px; resize: vertical; min-height: 80px; font-family: inherit; outline: none; }
+  .tech-notes-ta:focus { border-color: var(--accent); }
+
+  .watch-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; background: var(--surface3); border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; cursor: pointer; font-size: 12px; transition: all .15s; white-space: nowrap; flex-shrink: 0; }
+  .watch-btn:hover { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+  .add-to-plan-btn { margin-top: 10px; display: block; width: 100%; padding: 7px 14px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; cursor: pointer; font-size: 12px; transition: all .15s; text-align: left; }
+  .add-to-plan-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── VIDEO MODAL ── */
+  #video-modal { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.88); backdrop-filter: blur(6px); align-items: center; justify-content: center; }
+  #video-modal.open { display: flex; }
+  .vmodal-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; width: min(94vw, 1100px); height: min(90vh, 680px); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.7); }
+  .vmodal-header { padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--surface2); }
+  .vmodal-header h3 { font-size: 15px; font-weight: 700; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vmodal-subtitle { font-size: 12px; color: var(--text-muted); }
+  .vmodal-nav { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .vmodal-nav button { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all .15s; }
+  .vmodal-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .vmodal-nav button:disabled { opacity: 0.3; cursor: default; }
+  .vmodal-counter { font-size: 11px; color: var(--text-muted); padding: 0 4px; }
+  .vmodal-close { background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 16px; transition: all .15s; flex-shrink: 0; }
+  .vmodal-close:hover { border-color: var(--red); color: var(--red); }
+  .vmodal-body { display: flex; flex: 1; min-height: 0; }
+  .vmodal-player { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; position: relative; }
+  .vmodal-player iframe { width: 100%; height: 100%; border: none; display: block; }
+  .vmodal-novideo { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-muted); }
+  .vmodal-novideo span:first-child { font-size: 48px; opacity: .3; }
+  .vmodal-side { width: 270px; flex-shrink: 0; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+  .vmodal-info { padding: 14px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .vmodal-info p { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-style: italic; line-height: 1.4; }
+  .vmodal-notes-area { flex: 1; display: flex; flex-direction: column; padding: 12px 14px; gap: 7px; overflow: hidden; }
+  .vmodal-notes-area label { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; flex-shrink: 0; }
+  .vmodal-notes-area textarea { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 10px; font-size: 12.5px; resize: none; font-family: inherit; outline: none; }
+  .vmodal-notes-area textarea:focus { border-color: var(--accent); }
+  .vmodal-foot { padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .vmodal-foot button { width: 100%; padding: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; cursor: pointer; font-size: 12px; transition: all .15s; }
+  .vmodal-foot button:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── BELT PROGRESSION ── */
+  .belt-section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
+  .belt-header { padding: 16px 20px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: background .15s; }
+  .belt-header:hover { background: var(--surface2); }
+  .belt-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; border: 2px solid rgba(255,255,255,.2); }
+  .belt-title { flex: 1; }
+  .belt-title h3 { font-size: 14.5px; font-weight: 600; }
+  .belt-title p { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+  .progress-bar { width: 120px; height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width .3s; }
+  .progress-pct { font-size: 12px; color: var(--text-muted); min-width: 36px; text-align: right; }
+  .belt-chevron { font-size: 18px; color: var(--text-muted); transition: transform .2s; }
+  .belt-section.open .belt-chevron { transform: rotate(180deg); }
+  .belt-body { display: none; border-top: 1px solid var(--border); padding: 20px; }
+  .belt-section.open .belt-body { display: block; }
+  .req-group { margin-bottom: 20px; }
+  .req-group-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--accent); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .req-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; cursor: pointer; }
+  .req-checkbox { width: 17px; height: 17px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all .15s; background: var(--surface2); }
+  .req-item.done .req-checkbox { background: var(--accent); border-color: var(--accent); }
+  .req-item.done .req-checkbox::after { content: '✓'; font-size: 11px; color: #000; font-weight: 700; }
+  .req-text { font-size: 13px; color: var(--text-muted); transition: color .15s; line-height: 1.45; }
+  .req-item:hover .req-text { color: var(--text); }
+  .req-item.done .req-text { text-decoration: line-through; opacity: 0.5; }
+
+  /* ── TRAINING BUILDER ── */
+  .builder-layout { display: grid; grid-template-columns: 260px 1fr; gap: 18px; height: 100%; min-height: 0; }
+  .builder-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; display: flex; flex-direction: column; overflow: hidden; }
+  .builder-panel-header { padding: 14px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .builder-panel-header h3 { font-size: 13.5px; font-weight: 600; }
+  .builder-panel-header p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .builder-search { padding: 10px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .builder-search input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 10px; border-radius: 6px; font-size: 12.5px; outline: none; }
+  .builder-search input:focus { border-color: var(--accent); }
+  .builder-list { flex: 1; overflow-y: auto; padding: 8px; }
+  .draggable-tech { padding: 8px 10px; border-radius: 6px; cursor: grab; font-size: 12.5px; background: var(--surface2); border: 1px solid var(--border); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; user-select: none; transition: border-color .12s; }
+  .draggable-tech:hover { border-color: var(--accent); }
+  .draggable-tech:active { cursor: grabbing; opacity: .7; }
+  .drag-handle { color: var(--text-muted); font-size: 12px; }
+  .tech-label { flex: 1; min-width: 0; }
+  .tech-label span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tech-label small { font-size: 10.5px; color: var(--text-muted); }
+  .lib-group-head { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; color: var(--text-muted); padding: 8px 4px 4px; }
+  .builder-main { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+  .week-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+  .week-controls button { padding: 7px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); border-radius: 6px; cursor: pointer; font-size: 12.5px; transition: all .15s; }
+  .week-controls button:hover { border-color: var(--accent); color: var(--accent); }
+  .week-controls .btn-primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+  .week-controls .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); color: #000; }
+  .week-label { font-size: 13px; color: var(--text-muted); flex: 1; }
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .day-col { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; min-height: 200px; display: flex; flex-direction: column; }
+  .day-col.drag-over { border-color: var(--accent); background: var(--surface2); }
+  .day-header { padding: 8px 10px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .day-header span { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .day-clear { font-size: 12px; color: var(--text-muted); cursor: pointer; background: none; border: none; padding: 0; opacity: 0; transition: opacity .15s; }
+  .day-col:hover .day-clear { opacity: 1; }
+  .day-clear:hover { color: var(--red) !important; }
+  .day-drop-zone { padding: 6px; flex: 1; min-height: 120px; }
+  .day-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 5px; padding: 6px 8px; margin-bottom: 4px; font-size: 11.5px; display: flex; align-items: flex-start; gap: 5px; cursor: grab; user-select: none; transition: border-color .12s; }
+  .day-item:hover { border-color: var(--accent); }
+  .day-item:active { cursor: grabbing; }
+  .day-item.custom-item { border-left: 2px solid var(--accent2); }
+  .day-item-remove { color: var(--text-muted); cursor: pointer; flex-shrink: 0; font-size: 14px; line-height: 1; opacity: 0; transition: opacity .12s; margin-left: auto; }
+  .day-item:hover .day-item-remove { opacity: 1; }
+  .day-item-remove:hover { color: var(--red); }
+  .drop-hint { text-align: center; font-size: 11px; color: var(--border); padding: 20px 8px; pointer-events: none; }
+  .add-custom-row { padding: 6px; border-top: 1px solid var(--border); flex-shrink: 0; }
+  .add-custom-row input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 5px 8px; border-radius: 5px; font-size: 11.5px; outline: none; }
+  .add-custom-row input:focus { border-color: var(--accent); }
+
+  /* ── MISC ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--surface3); border: 1px solid var(--accent); color: var(--text); padding: 10px 18px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 9999; }
+  #toast.show { opacity: 1; }
+  .belt-color-red    { background: #c0392b; }
+  .belt-color-yellow { background: #f1c40f; }
+  .belt-color-orange { background: #e67e22; }
+  .belt-color-green  { background: #27ae60; }
+  .belt-color-blue   { background: #2980b9; }
+  .belt-color-brown  { background: #795548; }
+
+  /* ── MOBILE BOTTOM NAV (hidden on desktop) ── */
+  #mobile-nav { display: none; }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 639px) {
+    /* Hide desktop sidebar, show bottom nav */
+    #sidebar { display: none; }
+    #mobile-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 200;
+      height: 58px;
+      align-items: stretch;
+    }
+    .mnav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 10px;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: color .15s;
+    }
+    .mnav-btn .icon { font-size: 22px; line-height: 1; }
+    .mnav-btn.active { color: var(--accent); }
+
+    /* Body layout */
+    body { overflow: auto; height: auto; min-height: 100dvh; flex-direction: column; }
+    #main { overflow: visible; padding-bottom: 70px; }
+    .view { overflow: visible; }
+    .view.active { display: flex; }
+
+    /* View header */
+    .view-header { padding: 0; }
+    .view-header-hero { padding: 10px 14px; flex-direction: column; align-items: flex-start; gap: 4px; }
+    .view-header-hero img { height: 44px; }
+    .view-header-hero-text { text-align: left !important; }
+    .view-header-hero-text h2 { font-size: 16px; }
+    .view-header-hero-text p { font-size: 11px; }
+    .view-header-plain { padding: 12px 14px 10px; }
+    .view-header-plain h2 { font-size: 16px; }
+    .view-header-plain p { font-size: 11px; }
+
+    /* View body */
+    .view-body { padding: 12px; }
+
+    /* Techniques grid — single column */
+    .tech-grid { grid-template-columns: 1fr; }
+
+    /* Filter bar — stack vertically */
+    .filter-bar { flex-direction: column; gap: 8px; }
+    .filter-bar input { min-width: 0; width: 100%; }
+    .filter-bar select { width: 100%; }
+    .count-badge { margin-left: 0; }
+
+    /* Belt progression */
+    .progress-bar { width: 70px; }
+    .belt-header { padding: 12px 14px; gap: 10px; }
+    .belt-body { padding: 14px; }
+
+    /* Training builder — stack panels vertically */
+    .view-body[style] { padding: 10px 12px !important; height: auto !important; overflow: visible !important; }
+    .builder-layout { display: flex !important; flex-direction: column !important; height: auto !important; gap: 14px; }
+    .builder-panel { height: 240px; }
+    .builder-main { overflow: visible; }
+    .week-controls { flex-wrap: wrap; gap: 8px; }
+    .week-label { width: 100%; order: -1; }
+
+    /* Week grid — horizontal scroll */
+    .week-grid {
+      display: flex !important;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .day-col { min-width: 145px; flex-shrink: 0; }
+
+    /* Video modal — full screen, vertical stack */
+    #video-modal.open { align-items: flex-end; }
+    .vmodal-wrap {
+      width: 100vw !important;
+      height: 92dvh !important;
+      border-radius: 14px 14px 0 0 !important;
+      max-width: none !important;
+    }
+    .vmodal-body { flex-direction: column; }
+    .vmodal-player { height: 220px; flex: none; width: 100%; }
+    .vmodal-side { width: 100% !important; border-left: none !important; border-top: 1px solid var(--border); flex: 1; overflow-y: auto; }
+    .vmodal-notes-area { min-height: 80px; }
+
+    /* Toast — above bottom nav */
+    #toast { bottom: 68px; right: 12px; left: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" style="width:100%;max-width:190px;height:auto;display:block">
+  <rect x="2" y="2" width="56" height="56" rx="10" fill="#0a3d7a"/>
+  <rect x="8" y="8" width="44" height="44" rx="7" fill="#1a5cbf"/>
+  <text x="30" y="40" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">J</text>
+  <text x="76" y="30" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#0a3d7a">Judo</text>
+  <text x="76" y="52" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#e8640a">Hub</text>
+</svg>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Learn</div>
+    <button class="nav-item active" onclick="showView('techniques')" data-view="techniques"><span class="icon">📖</span> Techniques Bible</button>
+    <button class="nav-item" onclick="showView('belt')" data-view="belt"><span class="icon">🏅</span> Belt Progression</button>
+    <div class="nav-section" style="margin-top:12px">Plan</div>
+    <button class="nav-item" onclick="showView('builder')" data-view="builder"><span class="icon">📅</span> Training Builder</button>
+  </div>
+  <div class="sidebar-footer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" style="width:100%;max-width:190px;height:auto;display:block">
+  <rect x="2" y="2" width="56" height="56" rx="10" fill="#0a3d7a"/>
+  <rect x="8" y="8" width="44" height="44" rx="7" fill="#1a5cbf"/>
+  <text x="30" y="40" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">J</text>
+  <text x="76" y="30" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#0a3d7a">Judo</text>
+  <text x="76" y="52" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#e8640a">Hub</text>
+</svg> All data saved locally</div>
+</nav>
+
+<!-- ── MOBILE BOTTOM NAV ── -->
+<nav id="mobile-nav">
+  <button class="mnav-btn active" onclick="showView('techniques')" data-view="techniques"><span class="icon">📖</span>Techniques</button>
+  <button class="mnav-btn" onclick="showView('belt')" data-view="belt"><span class="icon">🏅</span>Belt</button>
+  <button class="mnav-btn" onclick="showView('builder')" data-view="builder"><span class="icon">📅</span>Builder</button>
+</nav>
+
+<!-- ── MAIN ── -->
+<main id="main">
+
+  <!-- TECHNIQUES -->
+  <div class="view active" id="view-techniques">
+    <div class="view-header">
+      <div class="view-header-hero">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" style="width:100%;max-width:190px;height:auto;display:block">
+  <rect x="2" y="2" width="56" height="56" rx="10" fill="#0a3d7a"/>
+  <rect x="8" y="8" width="44" height="44" rx="7" fill="#1a5cbf"/>
+  <text x="30" y="40" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="28" font-weight="900" fill="#ffffff">J</text>
+  <text x="76" y="30" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#0a3d7a">Judo</text>
+  <text x="76" y="52" font-family="Arial Black,Arial,sans-serif" font-size="20" font-weight="900" fill="#e8640a">Hub</text>
+</svg>
+        <div class="view-header-hero-text" style="text-align:right;">
+          <h2>Techniques Bible</h2>
+          <p>Click ▶ Watch to open the video player — click a card to expand notes</p>
+        </div>
+      </div>
+    </div>
+    <div class="view-body">
+      <div class="filter-bar">
+        <input type="text" id="tech-search" placeholder="Search by name or translation…" oninput="filterTechniques()">
+        <select id="tech-cat" onchange="filterTechniques()">
+          <option value="">All Categories</option>
+          <option value="Te-waza">Te-waza (Hand throws)</option>
+          <option value="Koshi-waza">Koshi-waza (Hip throws)</option>
+          <option value="Ashi-waza">Ashi-waza (Foot throws)</option>
+          <option value="Ma-sutemi-waza">Ma-sutemi-waza (Front sacrifice)</option>
+          <option value="Yoko-sutemi-waza">Yoko-sutemi-waza (Side sacrifice)</option>
+          <option value="Ground">Ground / Katame-waza</option>
+          <option value="Combination">Combinations &amp; Ne-waza</option>
+        </select>
+        <span class="count-badge" id="tech-count"></span>
+      </div>
+      <div class="tech-grid" id="tech-grid"></div>
+    </div>
+  </div>
+
+  <!-- BELT PROGRESSION -->
+  <div class="view" id="view-belt">
+    <div class="view-header">
+      <div class="view-header-plain">
+        <h2>Belt Progression</h2>
+        <p>Track requirements for each grade — all progress saves automatically</p>
+      </div>
+    </div>
+    <div class="view-body" id="belt-body"></div>
+  </div>
+
+  <!-- TRAINING BUILDER -->
+  <div class="view" id="view-builder">
+    <div class="view-header">
+      <div class="view-header-plain">
+        <h2>Training Builder</h2>
+        <p>Drag techniques into your week — or type a custom item and press Enter</p>
+      </div>
+    </div>
+    <div class="view-body" style="overflow:hidden;height:100%;display:flex;flex-direction:column;padding:18px 28px;">
+      <div class="builder-layout" style="flex:1;min-height:0;">
+        <div class="builder-panel">
+          <div class="builder-panel-header">
+            <h3>Technique Library</h3>
+            <p>Drag onto any day</p>
+          </div>
+          <div class="builder-search">
+            <input type="text" id="builder-search" placeholder="Filter techniques…" oninput="filterBuilderList()">
+          </div>
+          <div class="builder-list" id="builder-list"></div>
+        </div>
+        <div class="builder-main">
+          <div class="week-controls">
+            <button onclick="prevWeek()">← Prev</button>
+            <span class="week-label" id="week-label"></span>
+            <button onclick="nextWeek()">Next →</button>
+            <button class="btn-primary" onclick="clearWeek()">Clear Week</button>
+          </div>
+          <div class="week-grid" id="week-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── VIDEO MODAL ── -->
+<div id="video-modal" onclick="onModalBgClick(event)">
+  <div class="vmodal-wrap">
+    <div class="vmodal-header">
+      <div style="flex:1;min-width:0;">
+        <h3 id="vm-title"></h3>
+        <p class="vmodal-subtitle" id="vm-subtitle"></p>
+      </div>
+      <div class="vmodal-nav">
+        <button id="vm-prev" onclick="modalNav(-1)" title="Previous (← arrow)">←</button>
+        <span class="vmodal-counter" id="vm-counter"></span>
+        <button id="vm-next" onclick="modalNav(1)" title="Next (→ arrow)">→</button>
+      </div>
+      <button class="vmodal-close" onclick="closeVideoModal()" title="Close (Esc)">✕</button>
+    </div>
+    <div class="vmodal-body">
+      <div class="vmodal-player" id="vm-player"></div>
+      <div class="vmodal-side">
+        <div class="vmodal-info" id="vm-info"></div>
+        <div class="vmodal-notes-area">
+          <label>My Notes</label>
+          <textarea id="vm-notes" placeholder="Personal cues, things to work on, common mistakes…"></textarea>
+        </div>
+        <div class="vmodal-foot">
+          <button onclick="addCurrentToPlan()">+ Add to this week's plan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+
+const TECHNIQUES = [
+  {name:"Ippon-seoi-nage",en:"One-arm shoulder throw",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=OmKfUXAAdZ0"},
+  {name:"Morote-seoi-nage",en:"Two-arm shoulder throw",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=UjtL1h9htb8"},
+  {name:"Tai-otoshi",en:"Body drop",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=DUiZ8JZkGx8"},
+  {name:"Kata-guruma",en:"Shoulder wheel",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=cnHRhSy8yi4"},
+  {name:"Seoi-otoshi",en:"Shoulder drop",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=vu1TMVNnq34"},
+  {name:"Sumi-otoshi",en:"Corner drop",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=lLU9wv52ni0"},
+  {name:"Uki-otoshi",en:"Floating drop",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=6H5tmncOY4Q"},
+  {name:"Yama-arashi",en:"Mountain storm",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=MGlyKmSuzdc"},
+  {name:"Kibisu-gaeshi",en:"Heel trip",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=tJylJYfBliA"},
+  {name:"Kuchiki-taoshi",en:"Single leg takedown",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=ZNL47q1aJNY"},
+  {name:"Morote-gari",en:"Two-leg reap",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=BHLQS4K85bs"},
+  {name:"Sukui-nage",en:"Scooping throw",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=vU6aJ2kFxoI"},
+  {name:"Obi-otoshi",en:"Belt drop",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=ff8U2TVZIYI"},
+  {name:"Tsubame-gaeshi",en:"Swallow counter",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=GwweWqqFB5g"},
+  {name:"Uchi-makikomi",en:"Inner wraparound",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=5BowcjduxVc"},
+  {name:"Daki-age",en:"High lift",cat:"Nage-waza",sub:"Te-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=5lFXv3crN30"},
+  {name:"O-goshi",en:"Major hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=yhu1mfy2vJ4"},
+  {name:"Koshi-guruma",en:"Hip wheel",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=SU7Id6uVJ44"},
+  {name:"Tsurikomi-goshi",en:"Lifting pulling hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=McfzA0yRVt4"},
+  {name:"Harai-goshi",en:"Sweeping hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=qTo8HlAAkOo"},
+  {name:"Hane-goshi",en:"Spring hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=M9_7De6A1kk"},
+  {name:"Ushiro-goshi",en:"Rear hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=ORIYstuxYT8"},
+  {name:"Utsuri-goshi",en:"Hip shift",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=4pQd_bEnlf0"},
+  {name:"O-tsuri-goshi",en:"Major lifting hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=oB3hwIbdzqM"},
+  {name:"O-guruma",en:"Large wheel",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=SnZciTAY9vc"},
+  {name:"Sode-tsurikomi-goshi",en:"Sleeve lifting pulling hip throw",cat:"Nage-waza",sub:"Koshi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=QsmAxpmYLOI"},
+  {name:"Deashi-harai",en:"Advanced foot sweep",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=4BUUvqxi_Kk"},
+  {name:"Okuri-ashi-harai",en:"Sliding foot sweep",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=nw1ZdRjrdRI"},
+  {name:"Harai-tsurikomi-ashi",en:"Lifting pulling foot sweep",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=gGPXvWL8VbE"},
+  {name:"Sasae-tsurikomi-ashi",en:"Lifting pulling ankle block",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=699i--pvYmE"},
+  {name:"Hiza-guruma",en:"Knee wheel",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=JPJx9-oAVns"},
+  {name:"Ouchi-gari",en:"Major inner reap",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=0itJFhV9pDQ"},
+  {name:"Ko-uchi-gari",en:"Minor inner reap",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=3Jb3tZvr9Ng"},
+  {name:"O-soto-gari",en:"Major outer reap",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=c-A_nP7mKAc"},
+  {name:"Ko-soto-gari",en:"Minor outer reap",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=jeQ541ScLB4"},
+  {name:"O-soto-otoshi",en:"Major outer drop",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=2DsVvDw7b8g"},
+  {name:"Ko-soto-otoshi",en:"Minor outer drop",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:""},
+  {name:"Ko-soto-gake",en:"Minor outer hook",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=8b6kY4s4zH4"},
+  {name:"O-soto-guruma",en:"Major outer wheel",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=92KbCm6pQeI"},
+  {name:"O-uchi-gaeshi",en:"Inner reap counter",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=dCyZTXyjIXE"},
+  {name:"Ko-uchi-gaeshi",en:"Inner minor reap counter",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=_MWAdYi_LC4"},
+  {name:"Ashi-guruma",en:"Leg wheel",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=ROeayhvom9U"},
+  {name:"Tsubame-gaeshi",en:"Swallow counter (foot version)",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=GwweWqqFB5g"},
+  {name:"Hane-goshi-gaeshi",en:"Hip spring counter",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=9bZAZSBtnGs"},
+  {name:"Tai-otoshi-gaeshi",en:"Body drop counter",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=imECTzUV-vY"},
+  {name:"Daki-wakare",en:"Hug split",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=Hr0cOMGBDYo"},
+  {name:"Uchi-mata",en:"Inner thigh throw",cat:"Nage-waza",sub:"Ashi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v="},
+  {name:"Tomoe-nage",en:"Circle throw",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=TON-fQk3aTc"},
+  {name:"Hikikomi-gaeshi",en:"Pulling sacrifice throw",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=92zUYWBp5N8"},
+  {name:"Sumi-gaeshi",en:"Corner reversal",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=5VhduA5xkbA"},
+  {name:"Tawara-gaeshi",en:"Rice bag reversal",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=TmTWgrmViZc"},
+  {name:"Ura-nage",en:"Rear throw",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=Fgi9b8DJ5sQ"},
+  {name:"Ko-uchi-makikomi",en:"Small inner wrap-around throw",cat:"Nage-waza",sub:"Ma-sutemi-waza",ko:"No",url:"https://www.youtube.com/watch?v=_1eygIXLD_w"},
+  {name:"Yoko-otoshi",en:"Side drop",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=MnNG67pF_a0"},
+  {name:"Tani-otoshi",en:"Valley drop",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=3b9Me3Fohpk"},
+  {name:"Yoko-gake",en:"Side hook",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=tP1Sj1uDfSo"},
+  {name:"Yoko-guruma",en:"Side wheel",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=MehP6I5cY2c"},
+  {name:"Yoko-wakare",en:"Side separation",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=bp1tscHlePI"},
+  {name:"Soto-makikomi",en:"Outer wraparound",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=bWG9O1BVKtQ"},
+  {name:"Kawazu-gake",en:"One-leg entanglement",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=-SQCIZFscNs"},
+  {name:"Kani-basami",en:"Crab scissors",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=OR-HGHnarYc"},
+  {name:"Obi-tori-gaeshi",en:"Belt grab reversal",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=bpc82SrunUU"},
+  {name:"Daki-wakare",en:"Hug split (side sacrifice)",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=Hr0cOMGBDYo"},
+  {name:"Yoko-sumi-gaeshi",en:"Side corner reversal",cat:"Nage-waza",sub:"Yoko-sutemi-waza",ko:"No",url:"https://www.youtube.com/watch?v=TnvdcBbB0sA"},
+  {name:"Yoko-shiho-gatame",en:"Side four quarter hold",cat:"Katame-waza",sub:"Osaekomi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=1GJn6OEyuO4"},
+  {name:"Tate-shiho-gatame",en:"Vertical four quarters hold",cat:"Katame-waza",sub:"Osaekomi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=XjWzNxlKH1M"},
+  {name:"Kami-shiho-gatame",en:"Upper four quarter hold",cat:"Katame-waza",sub:"Osaekomi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v=2evEh7OBnBg"},
+  {name:"Kesa-gatame",en:"Scarf hold",cat:"Katame-waza",sub:"Osaekomi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v="},
+  {name:"Kata-gatame",en:"Shoulder hold",cat:"Katame-waza",sub:"Osaekomi-waza",ko:"Yes",url:"https://www.youtube.com/watch?v="},
+  {name:"Tai-otoshi into Yoko-shiho-gatame",en:"Combination — throw to hold",cat:"Combination",sub:"",ko:"",url:"https://www.youtube.com/watch?v=caXBWqLeW6I"},
+  {name:"Ippon-seoi-nage into Kami-shiho-gatame",en:"Combination — throw to hold",cat:"Combination",sub:"",ko:"",url:"https://www.youtube.com/watch?v=jBl0Q-Egbdg"},
+  {name:"Ouchi-gari into Tate-shiho-gatame",en:"Combination — throw to hold",cat:"Combination",sub:"",ko:"",url:"https://www.youtube.com/watch?v=OH8PgkWGxQU"},
+  {name:"Escape from Kami-shiho-gatame (action & reaction)",en:"Ne-waza escape",cat:"Ne-waza",sub:"Escape",ko:"",url:"https://www.youtube.com/watch?v=Hl0C4RRavHo"},
+  {name:"Escape from Tate-shiho-gatame (clamp & roll)",en:"Ne-waza escape",cat:"Ne-waza",sub:"Escape",ko:"",url:"https://www.youtube.com/watch?v=PV_anL347rw"},
+  {name:"Escape from Yoko-shiho-gatame (trap, bridge & roll)",en:"Ne-waza escape",cat:"Ne-waza",sub:"Escape",ko:"",url:"https://www.youtube.com/watch?v=yK_GSamSPko"},
+  {name:"Turnover into Kesa-gatame (all fours)",en:"Ne-waza turnover",cat:"Ne-waza",sub:"Turnover",ko:"",url:"https://www.youtube.com/watch?v=r-ODhj19vL0"},
+  {name:"Turnover into Yoko-shiho-gatame (face-down)",en:"Ne-waza turnover",cat:"Ne-waza",sub:"Turnover",ko:"",url:"https://www.youtube.com/watch?v=19TTB0bdL7w"},
+  {name:"Standard grips (right and left)",en:"Kumi-kata demonstration",cat:"Ne-waza",sub:"Gripping",ko:"",url:"https://www.youtube.com/watch?v=T6c_FpfVZy4"},
+  {name:"Right vs left, double lapel, high collar grips",en:"Kumi-kata demonstration",cat:"Ne-waza",sub:"Gripping",ko:"",url:"https://www.youtube.com/watch?v=97djf2GY6I0"},
+  {name:"Nage-komi in light randori",en:"Repetitive throwing demonstration",cat:"Ne-waza",sub:"Randori",ko:"",url:"https://www.youtube.com/watch?v=QUKkd08DT9M"}
+];
+
+const BELT_DATA = [
+  {
+    id:"toYellow",label:"6th Kyu → 5th Kyu",from:"Red",to:"Yellow",
+    fromColor:"belt-color-red",toColor:"belt-color-yellow",duration:"Typically 3–6 months",
+    groups:[
+      {title:"Fundamental — Ukemi",items:["Mae Ukemi (Front Breakfall)"]},
+      {title:"Fundamental — Tachi-waza",items:["Tai-otoshi","Ippon-seoi-nage","Ouchi-gari"]},
+      {title:"Fundamental — Osaekomi-waza",items:["Yoko-shiho-gatame","Tate-shiho-gatame","Kami-shiho-gatame"]},
+      {title:"Performance — Transitions",items:["Tai-otoshi → Yoko-shiho-gatame","Ippon-seoi-nage → Kami-shiho-gatame","Ouchi-gari → Tate-shiho-gatame"]},
+      {title:"Performance — Ne-waza",items:["Escape from Kami-shiho-gatame (action & reaction)","Escape from Tate-shiho-gatame (clamp & roll)","Escape from Yoko-shiho-gatame (trap, bridge & roll)","Turnover into Kesa-gatame (uke all fours)","Turnover into Mune-gatame (uke all fours)","Turnover into Yoko-shiho-gatame (uke face-down)"]},
+      {title:"Performance — Kumi-kata",items:["Right & left standard grips","Right vs left, double lapel, high collar grips"]},
+      {title:"Performance — Nage-komi & Randori",items:["Nage-komi in light randori (~2 min)","Alternating throws both sides with partner"]},
+      {title:"Personal Choice",items:["One additional tachi-waza of choice","One additional ne-waza of choice"]},
+      {title:"Knowledge — Contest Rules",items:["Give two examples of actions against the contest rules"]},
+      {title:"Moral Code",items:["Courtesy","Courage","Honesty","Honour","Modesty","Respect","Self-control","Friendship"]}
+    ]
+  },
+  {
+    id:"toOrange",label:"5th Kyu → 4th Kyu",from:"Yellow",to:"Orange",
+    fromColor:"belt-color-yellow",toColor:"belt-color-orange",duration:"Typically 6–12 months",
+    groups:[
+      {title:"Fundamental — Tachi-waza",items:["Tsurikomi-goshi","O-goshi","Seoi-otoshi","Morote-seoi-nage","Ko-uchi-gari","Ko-soto-gake","Ko-soto-gari","O-soto-gari"]},
+      {title:"Performance — Combinations",items:["Ouchi-gari → Ko-uchi-gari","Ko-uchi-gari → O-soto-gari or O-soto-gake","Ko-uchi-gari → Morote-seoi-nage","Ippon-seoi-nage → Ko-uchi-gari","Any technique combined with Seoi-otoshi or Ko-uchi-gari"]},
+      {title:"Performance — Counters",items:["Ouchi-gari countered by Tsurikomi-goshi","Tai-otoshi countered by Ko-soto-gari or Ko-soto-gake"]},
+      {title:"Performance — Ne-waza",items:["Escape from Kesa-gatame (bridge & roll)","Move into Kesa-gatame from between uke's legs","Move into Yoko-shiho-gatame from between uke's legs","Arm roll — uke approaching from front","Arm roll — uke approaching from behind","Turnover from underneath into Tate-shiho-gatame"]},
+      {title:"Performance — Randori",items:["Randori demonstration (~3 min)","Variety of techniques & kumi-kata","Throws to both sides where possible"]},
+      {title:"Personal Choice",items:["Two tachi-waza of choice","One ne-waza of choice","Show as combination, counter, and ne-waza transition"]},
+      {title:"Knowledge — Terminology",items:["Ko-soto-gake — Minor Outer Hook","Ko-soto-gari — Minor Outer Reap","Ko-uchi-gari — Minor Inner Reap","Morote-seoi-nage — Two-Handed Shoulder Throw","O-goshi — Major Hip Throw","O-soto-gari — Major Outer Reap","Seoi-otoshi — Shoulder Drop","Tsurikomi-goshi — Drawing Hip Throw","Shido — Official warning","Hansoku-make — Disqualification"]},
+      {title:"Knowledge — Referee Signals",items:["Mate","Osaekomi","Toketa","Adjusting the judogi"]},
+      {title:"Knowledge — Contest Rules",items:["Give two examples of actions (not grips) against the contest rules for negative or safety reasons","Demonstrate the proper procedures for coming onto and leaving the mat for a contest"]}
+    ]
+  },
+  {
+    id:"toGreen",label:"4th Kyu → 3rd Kyu",from:"Orange",to:"Green",
+    fromColor:"belt-color-orange",toColor:"belt-color-green",duration:"Typically 12–18 months",
+    groups:[
+      {title:"Fundamental — Tachi-waza",items:["Kata-guruma","Sumi-otoshi","Uki-otoshi","Kibisu-gaeshi","Sukui-nage"]},
+      {title:"Fundamental — Ne-waza",items:["Kesa-gatame","Yoko-tate-shiho-gatame","Kata-gatame"]},
+      {title:"Performance — Combinations",items:["O-goshi → Kesa-gatame","Tai-otoshi → Kesa-gatame","Ko-soto-gari → Yoko-shiho-gatame"]},
+      {title:"Performance — Counters",items:["Ko-uchi-gari countered by Hane-goshi","Ouchi-gari countered by Uchi-mata"]},
+      {title:"Performance — Ne-waza",items:["Escape from Kesa-gatame (shifting weight)","Escape from Kata-gatame (bridge & roll)","Sweep from Kesa-gatame to uke's back position"]},
+      {title:"Performance — Randori",items:["Randori demonstration (~4 min)","Variety of standing & ground techniques","Show awareness of scoring opportunities"]},
+      {title:"Personal Choice",items:["One tachi-waza of choice","One ne-waza of choice — correct timing & situation"]},
+      {title:"Knowledge — Scoring",items:["Ippon — Full point","Waza-ari — Half point","Yuko — Minor point"]},
+      {title:"Knowledge — Moral Code",items:["Explain: Jita Kyoei (Mutual Welfare & Benefit)","Explain: Seiryoku Zenyo (Maximum Efficiency)"]},
+      {title:"Knowledge — Referee Signals",items:["Ippon","Waza-ari","Yuko","Shido","Mate","Hajime","Sono-mama","Toketa"]}
+    ]
+  },
+  {
+    id:"toBlue",label:"3rd Kyu → 2nd Kyu",from:"Green",to:"Blue",
+    fromColor:"belt-color-green",toColor:"belt-color-blue",duration:"Typically 18–24 months",
+    groups:[
+      {title:"Fundamental — Tachi-waza",items:["Uchi-mata","Harai-goshi","Hane-goshi","Ushiro-goshi","O-soto-guruma","Ashi-guruma"]},
+      {title:"Fundamental — Ne-waza",items:["Held down for 25 seconds in any hold"]},
+      {title:"Performance — Combinations",items:["Uchi-mata → O-goshi","O-goshi → Kesa-gatame","Ko-soto-gari → Uchi-mata"]},
+      {title:"Performance — Counters",items:["Uchi-mata countered by Sode-tsurikomi-goshi","Ouchi-gari countered by Uki-goshi"]},
+      {title:"Performance — Ne-waza",items:["Transition from Kesa-gatame to Kata-gatame","Sweep from guard to uke's back","Apply Shime-waza from back control"]},
+      {title:"Performance — Randori",items:["Randori demonstration (~5 min)","At least one scoring technique","Show control & tactical awareness"]},
+      {title:"Personal Choice",items:["Two tachi-waza of choice","One ne-waza of choice — realistic contest situation"]},
+      {title:"Knowledge",items:["Explain Golden Score (Overtime)","Describe prohibited acts in competition","Explain role of referee & judges","Tori — person executing","Uke — person receiving","Shime-waza — strangulation","Kansetsu-waza — joint lock"]}
+    ]
+  },
+  {
+    id:"toBrown",label:"2nd Kyu → 1st Kyu",from:"Blue",to:"Brown",
+    fromColor:"belt-color-blue",toColor:"belt-color-brown",duration:"Typically 24–36 months",
+    groups:[
+      {title:"Fundamental — Tachi-waza",items:["Tani-otoshi","Yoko-gake","Yoko-guruma","Tomoe-nage","Ura-nage","Sumi-gaeshi"]},
+      {title:"Fundamental — Ne-waza",items:["Apply Kansetsu-waza (arm lock) safely","Multiple transitions between holds","Hold uke for 30 seconds in any ne-waza technique"]},
+      {title:"Performance — Combinations",items:["Tai-otoshi → Uchi-mata","O-goshi → Ura-nage","Ouchi-gari → Tani-otoshi"]},
+      {title:"Performance — Counters",items:["Tai-otoshi countered by Harai-goshi","O-goshi countered by Sukui-nage"]},
+      {title:"Performance — Ne-waza",items:["Complete ne-waza sequence both sides","Transition from pin to strangulation","Apply joint lock from various positions"]},
+      {title:"Performance — Randori",items:["Randori demonstration (~6 min)","Multiple scoring opportunities","Advanced tactical awareness & strategy"]},
+      {title:"Personal Choice",items:["Three tachi-waza of choice","One ne-waza of choice — mastery in randori situations"]},
+      {title:"Knowledge",items:["Ne-waza no Kakari (ground attack rules)","Rules for dangerous techniques","Juji-jime — Cross strangulation","Gyaku-jime — Reversed strangulation","Ude-gatame — Arm entrapment","Philosophical principles of Judo","How Judo applies to daily life"]}
+    ]
+  }
+];
+
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+
+let expandedTech  = null;
+let techNotes     = JSON.parse(localStorage.getItem('judo_tech_notes')    || '{}');
+let beltProgress  = JSON.parse(localStorage.getItem('judo_belt_progress') || '{}');
+let weekPlans     = JSON.parse(localStorage.getItem('judo_week_plans')    || '{}');
+let currentWeekOffset = 0;
+let draggingTech  = null;
+
+// modal state
+let modalList     = [];
+let modalIdx      = 0;
+let vmSaveTimer   = null;
+
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
+
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('[data-view="' + name + '"]').forEach(el => el.classList.add('active'));
+  if (name === 'builder') renderWeek();
+}
+
+// ═══════════════════════════════════════
+// TECHNIQUES
+// ═══════════════════════════════════════
+
+function getVideoId(url) {
+  if (!url) return null;
+  const m = url.match(/[?&]v=([^&]+)/);
+  return (m && m[1]) ? m[1] : null;
+}
+
+function safeId(name) { return name.replace(/[^a-z0-9]/gi, '_'); }
+
+function esc(s) { return s.replace(/'/g, "\\'"); }
+
+function filterTechniques() { renderTechGrid(); }
+
+function currentFilter() {
+  const q   = (document.getElementById('tech-search') || {}).value || '';
+  const cat = (document.getElementById('tech-cat')    || {}).value || '';
+  return TECHNIQUES.filter(t => {
+    const mq = !q || t.name.toLowerCase().includes(q.toLowerCase()) || (t.en||'').toLowerCase().includes(q.toLowerCase());
+    let mc = true;
+    if (cat) {
+      if (cat === 'Ground')       mc = t.cat === 'Katame-waza';
+      else if (cat === 'Combination') mc = t.cat === 'Combination' || t.cat === 'Ne-waza';
+      else mc = t.sub === cat || t.cat === cat;
+    }
+    return mq && mc;
+  });
+}
+
+function renderTechGrid() {
+  const filtered = currentFilter();
+  document.getElementById('tech-count').textContent = filtered.length + ' techniques';
+  document.getElementById('tech-grid').innerHTML = filtered.map(t => techCard(t)).join('');
+  // Restore notes
+  filtered.forEach(t => {
+    const ta = document.getElementById('note-' + safeId(t.name));
+    if (ta) {
+      ta.value = techNotes[t.name] || '';
+      ta.addEventListener('input', function() {
+        techNotes[t.name] = this.value;
+        localStorage.setItem('judo_tech_notes', JSON.stringify(techNotes));
+      });
+    }
+  });
+}
+
+function techCard(t) {
+  const vid     = getVideoId(t.url);
+  const isExp   = expandedTech === t.name;
+  const safeName = esc(t.name);
+  const catTag   = t.cat && !['Combination','Ne-waza'].includes(t.cat) ? `<span class="tag cat">${t.cat}</span>` : '';
+  const combTag  = t.cat === 'Combination' ? `<span class="tag cat">Combo</span>` : '';
+  const neTag    = t.cat === 'Ne-waza' ? `<span class="tag sub">${t.sub||'Ne-waza'}</span>` : '';
+  const subTag   = t.sub && t.cat !== 'Ne-waza' ? `<span class="tag sub">${t.sub}</span>` : '';
+  const koTag    = t.ko === 'Yes' ? `<span class="tag ko">Kodokan</span>` : '';
+
+  return `<div class="tech-card${isExp?' expanded':''}" id="tc-${safeId(t.name)}" onclick="toggleTech(event,'${safeName}')">
+  <div class="tech-card-header">
+    <div style="flex:1;min-width:0">
+      <div class="tech-name">${t.name}</div>
+      ${t.en ? `<div class="tech-en">${t.en}</div>` : ''}
+      <div class="tech-tags">${subTag}${catTag}${combTag}${neTag}${koTag}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;margin-left:10px">
+      ${vid ? `<button class="watch-btn" onclick="event.stopPropagation();openModal('${safeName}')">▶ Watch</button>` : `<span style="font-size:11px;color:var(--text-muted)">No video</span>`}
+      <span class="tech-chevron">⌄</span>
+    </div>
+  </div>
+  <div class="tech-body">
+    <label style="font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">My Notes</label>
+    <textarea class="tech-notes-ta" id="note-${safeId(t.name)}" placeholder="Personal cues, things to work on, common mistakes…" onclick="event.stopPropagation()"></textarea>
+    <button class="add-to-plan-btn" onclick="event.stopPropagation();addTechToPlan('${safeName}')">+ Add to this week's plan</button>
+  </div>
+</div>`;
+}
+
+function toggleTech(e, name) {
+  if (['TEXTAREA','BUTTON','INPUT'].includes(e.target.tagName)) return;
+  expandedTech = (expandedTech === name) ? null : name;
+  renderTechGrid();
+  if (expandedTech) {
+    setTimeout(() => {
+      const el = document.getElementById('tc-' + safeId(name));
+      if (el) el.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }, 40);
+  }
+}
+
+function addTechToPlan(name) {
+  const key = weekKey(currentWeekOffset);
+  if (!weekPlans[key]) weekPlans[key] = {Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+  const day = DAYS.reduce((a,b) => (weekPlans[key][a]||[]).length <= (weekPlans[key][b]||[]).length ? a : b);
+  weekPlans[key][day].push({id:Date.now(), text:name, custom:false});
+  saveWeek();
+  showToast('Added "' + name + '" to ' + day);
+  if (document.getElementById('view-builder').classList.contains('active')) renderWeek();
+}
+
+// ═══════════════════════════════════════
+// VIDEO MODAL
+// ═══════════════════════════════════════
+
+function openModal(name) {
+  modalList = currentFilter().filter(t => getVideoId(t.url));
+  modalIdx  = modalList.findIndex(t => t.name === name);
+  if (modalIdx < 0) {
+    // technique not in current filter — expand to all with videos
+    modalList = TECHNIQUES.filter(t => getVideoId(t.url));
+    modalIdx  = modalList.findIndex(t => t.name === name);
+  }
+  if (modalIdx < 0) return;
+  paintModal();
+  document.getElementById('video-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+  flushModalNotes();
+  document.getElementById('vm-player').innerHTML = '';
+  document.getElementById('video-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function onModalBgClick(e) {
+  if (e.target === document.getElementById('video-modal')) closeVideoModal();
+}
+
+function modalNav(dir) {
+  flushModalNotes();
+  modalIdx = Math.max(0, Math.min(modalList.length - 1, modalIdx + dir));
+  paintModal();
+}
+
+function paintModal() {
+  const t   = modalList[modalIdx];
+  const vid = getVideoId(t.url);
+  const n   = modalList.length;
+
+  document.getElementById('vm-title').textContent    = t.name;
+  document.getElementById('vm-subtitle').textContent = t.en || '';
+  document.getElementById('vm-counter').textContent  = (modalIdx + 1) + ' / ' + n;
+  document.getElementById('vm-prev').disabled = modalIdx === 0;
+  document.getElementById('vm-next').disabled = modalIdx === n - 1;
+
+  // Player — full YouTube embed (works via localhost launcher)
+  const player = document.getElementById('vm-player');
+  if (vid) {
+    player.innerHTML = '<iframe src="https://www.youtube.com/embed/' + vid + '?rel=0&autoplay=1" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;border:none;display:block;"></iframe>';
+  } else {
+    player.innerHTML = '<div class="vmodal-novideo"><span>▶</span><span>No video for this technique</span></div>';
+  }
+
+  // Info
+  const subTag = t.sub  ? `<span class="tag sub" style="display:inline-block;margin:2px">${t.sub}</span>` : '';
+  const catTag = t.cat && !['Combination','Ne-waza'].includes(t.cat) ? `<span class="tag cat" style="display:inline-block;margin:2px">${t.cat}</span>` : '';
+  const koTag  = t.ko === 'Yes' ? `<span class="tag ko" style="display:inline-block;margin:2px">Kodokan</span>` : '';
+  document.getElementById('vm-info').innerHTML = `
+    <div style="margin-bottom:8px">${subTag}${catTag}${koTag}</div>
+    ${t.en ? `<p>"${t.en}"</p>` : ''}`;
+
+  // Notes
+  const ta = document.getElementById('vm-notes');
+  ta.value = techNotes[t.name] || '';
+  ta.oninput = () => {
+    clearTimeout(vmSaveTimer);
+    vmSaveTimer = setTimeout(flushModalNotes, 500);
+  };
+}
+
+function flushModalNotes() {
+  const t  = modalList[modalIdx];
+  if (!t) return;
+  const val = document.getElementById('vm-notes').value;
+  techNotes[t.name] = val;
+  localStorage.setItem('judo_tech_notes', JSON.stringify(techNotes));
+  // sync to any open inline card
+  const inline = document.getElementById('note-' + safeId(t.name));
+  if (inline) inline.value = val;
+}
+
+function addCurrentToPlan() {
+  const t = modalList[modalIdx];
+  if (t) addTechToPlan(t.name);
+}
+
+document.addEventListener('keydown', e => {
+  const modal = document.getElementById('video-modal');
+  if (!modal.classList.contains('open')) return;
+  if (e.key === 'Escape')                          { closeVideoModal(); return; }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { flushModalNotes(); modalNav(1);  }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { flushModalNotes(); modalNav(-1); }
+});
+
+// ═══════════════════════════════════════
+// BELT PROGRESSION
+// ═══════════════════════════════════════
+
+function renderBelt() {
+  document.getElementById('belt-body').innerHTML = BELT_DATA.map(beltSection).join('');
+}
+
+function beltSection(b) {
+  const total = b.groups.reduce((s,g) => s + g.items.length, 0);
+  const done  = b.groups.reduce((s,g) => s + g.items.filter(item => beltProgress[b.id + '_' + item]).length, 0);
+  const pct   = total ? Math.round(done / total * 100) : 0;
+  const open  = beltProgress['__open_' + b.id];
+  return `<div class="belt-section${open?' open':''}" id="bs-${b.id}">
+  <div class="belt-header" onclick="toggleBelt('${b.id}')">
+    <div class="belt-dot ${b.fromColor}"></div>
+    <span style="color:var(--text-muted);font-size:18px;margin:0 2px">→</span>
+    <div class="belt-dot ${b.toColor}"></div>
+    <div class="belt-title"><h3>${b.label}</h3><p>${b.duration}</p></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <span class="progress-pct">${pct}%</span>
+    </div>
+    <span class="belt-chevron">⌄</span>
+  </div>
+  <div class="belt-body">${b.groups.map(g => reqGroup(b.id, g)).join('')}</div>
+</div>`;
+}
+
+function reqGroup(beltId, g) {
+  return `<div class="req-group">
+  <div class="req-group-title">${g.title}</div>
+  ${g.items.map(item => reqItem(beltId, item)).join('')}
+</div>`;
+}
+
+function reqItem(beltId, item) {
+  const done = !!beltProgress[beltId + '_' + item];
+  return `<div class="req-item${done?' done':''}" onclick="toggleReq('${beltId}','${esc(item)}')">
+  <div class="req-checkbox"></div>
+  <span class="req-text">${item}</span>
+</div>`;
+}
+
+function toggleBelt(id) {
+  beltProgress['__open_' + id] = !beltProgress['__open_' + id];
+  localStorage.setItem('judo_belt_progress', JSON.stringify(beltProgress));
+  renderBelt();
+}
+
+function toggleReq(beltId, item) {
+  const key = beltId + '_' + item;
+  beltProgress[key] = !beltProgress[key];
+  localStorage.setItem('judo_belt_progress', JSON.stringify(beltProgress));
+  renderBelt();
+}
+
+// ═══════════════════════════════════════
+// TRAINING BUILDER
+// ═══════════════════════════════════════
+
+function weekKey(offset) {
+  const now = new Date();
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - ((now.getDay() + 6) % 7) + offset * 7);
+  return mon.toISOString().slice(0, 10);
+}
+
+function weekLabel(offset) {
+  const now = new Date();
+  const mon = new Date(now);
+  mon.setDate(now.getDate() - ((now.getDay() + 6) % 7) + offset * 7);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const fmt = d => d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
+  const tag = offset === 0 ? ' (This week)' : offset === -1 ? ' (Last week)' : offset === 1 ? ' (Next week)' : '';
+  return fmt(mon) + ' – ' + fmt(sun) + tag;
+}
+
+function saveWeek() { localStorage.setItem('judo_week_plans', JSON.stringify(weekPlans)); }
+
+function prevWeek()  { currentWeekOffset--; renderWeek(); }
+function nextWeek()  { currentWeekOffset++; renderWeek(); }
+function clearWeek() {
+  if (!confirm('Clear all items from this week?')) return;
+  weekPlans[weekKey(currentWeekOffset)] = {Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+  saveWeek(); renderWeek();
+}
+
+function renderWeek() {
+  document.getElementById('week-label').textContent = weekLabel(currentWeekOffset);
+  const key  = weekKey(currentWeekOffset);
+  if (!weekPlans[key]) weekPlans[key] = {Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+  const plan = weekPlans[key];
+
+  document.getElementById('week-grid').innerHTML = DAYS.map(day => {
+    const items = plan[day] || [];
+    const itemsHtml = items.length
+      ? items.map(item => `<div class="day-item${item.custom?' custom-item':''}" draggable="true"
+          ondragstart="onItemDragStart(event,'${day}',${item.id})"
+          ondragend="onDragEnd()">
+          <span style="flex:1;line-height:1.35;word-break:break-word">${item.text}</span>
+          <span class="day-item-remove" onclick="removeItem('${day}',${item.id})">×</span>
+        </div>`).join('')
+      : `<div class="drop-hint">Drop here</div>`;
+
+    return `<div class="day-col" id="day-${day}"
+      ondragover="onDragOver(event,'${day}')"
+      ondragleave="onDragLeave(event,'${day}')"
+      ondrop="onDrop(event,'${day}')">
+      <div class="day-header">
+        <span>${day}</span>
+        <button class="day-clear" onclick="clearDay('${day}')">✕</button>
+      </div>
+      <div class="day-drop-zone" id="dz-${day}">${itemsHtml}</div>
+      <div class="add-custom-row">
+        <input type="text" placeholder="+ custom item…" onkeydown="addCustom(event,'${day}')">
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function clearDay(day) {
+  const key = weekKey(currentWeekOffset);
+  if (weekPlans[key]) { weekPlans[key][day] = []; saveWeek(); renderWeek(); }
+}
+
+function removeItem(day, id) {
+  const key = weekKey(currentWeekOffset);
+  if (weekPlans[key]) {
+    weekPlans[key][day] = (weekPlans[key][day]||[]).filter(i => i.id !== id);
+    saveWeek(); renderWeek();
+  }
+}
+
+function addCustom(e, day) {
+  if (e.key !== 'Enter') return;
+  const val = e.target.value.trim();
+  if (!val) return;
+  const key = weekKey(currentWeekOffset);
+  if (!weekPlans[key]) weekPlans[key] = {Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+  weekPlans[key][day].push({id:Date.now(), text:val, custom:true});
+  saveWeek(); e.target.value = ''; renderWeek();
+}
+
+function onDragStart(e, name) {
+  draggingTech = {type:'lib', name};
+  e.dataTransfer.effectAllowed = 'copy';
+  e.dataTransfer.setData('text/plain', name);
+}
+
+function onItemDragStart(e, fromDay, itemId) {
+  draggingTech = {type:'item', fromDay, itemId};
+  e.dataTransfer.effectAllowed = 'move';
+  e.stopPropagation();
+}
+
+function onDragEnd() {
+  draggingTech = null;
+  document.querySelectorAll('.day-col').forEach(c => c.classList.remove('drag-over'));
+}
+
+function onDragOver(e, day) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = draggingTech && draggingTech.type === 'item' ? 'move' : 'copy';
+  document.getElementById('day-' + day).classList.add('drag-over');
+}
+
+function onDragLeave(e, day) {
+  if (!e.currentTarget.contains(e.relatedTarget)) {
+    document.getElementById('day-' + day).classList.remove('drag-over');
+  }
+}
+
+function onDrop(e, day) {
+  e.preventDefault();
+  document.getElementById('day-' + day).classList.remove('drag-over');
+  const key = weekKey(currentWeekOffset);
+  if (!weekPlans[key]) weekPlans[key] = {Mon:[],Tue:[],Wed:[],Thu:[],Fri:[],Sat:[],Sun:[]};
+
+  if (draggingTech && draggingTech.type === 'lib') {
+    weekPlans[key][day].push({id:Date.now(), text:draggingTech.name, custom:false});
+  } else if (draggingTech && draggingTech.type === 'item') {
+    const {fromDay, itemId} = draggingTech;
+    const src = weekPlans[key][fromDay] || [];
+    const idx = src.findIndex(i => i.id === itemId);
+    if (idx > -1 && fromDay !== day) {
+      const [moved] = src.splice(idx, 1);
+      weekPlans[key][day].push(moved);
+    }
+  } else {
+    const name = e.dataTransfer.getData('text/plain');
+    if (name) weekPlans[key][day].push({id:Date.now(), text:name, custom:false});
+  }
+
+  draggingTech = null;
+  saveWeek(); renderWeek();
+}
+
+function filterBuilderList() { renderBuilderList(); }
+
+function renderBuilderList() {
+  const q = (document.getElementById('builder-search').value || '').toLowerCase();
+  const filtered = TECHNIQUES.filter(t => !q || t.name.toLowerCase().includes(q) || (t.en||'').toLowerCase().includes(q));
+
+  const groups = {};
+  filtered.forEach(t => {
+    const g = t.sub || t.cat || 'Other';
+    if (!groups[g]) groups[g] = [];
+    groups[g].push(t);
+  });
+  document.getElementById('builder-list').innerHTML = Object.entries(groups).map(([g, techs]) => `
+    <div class="lib-group-head">${g}</div>
+    ${techs.map(t => `<div class="draggable-tech" draggable="true" ondragstart="onTechDragStart(event,'${esc(t.name)}')">
+      <span class="drag-handle">&#x2807;</span>
+      <div class="tech-label">
+        <span>${t.name}</span>
+        <small>${t.en||''}</small>
+      </div>
+    </div>`).join('')}
+  `).join('');
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  try { renderTechGrid(); }    catch(e) { console.error('renderTechGrid:', e); }
+  try { renderBelt(); }        catch(e) { console.error('renderBelt:', e); }
+  try { renderBuilderList(); } catch(e) { console.error('renderBuilderList:', e); }
+  try { renderWeek(); }        catch(e) { console.error('renderWeek:', e); }
+});
+</script>
+</body>
+</html>

@@ -1,10 +1,12 @@
+/* home.js v_TEST_2024 */
+
 // ── DAILY THEMES (index = day of week, 0=Sun) ──────
 const DAILY_THEMES = [
   { name: 'Recovery',      tag: 'recovery',     emoji: '🧘', color: '#27ae60' },
   { name: 'Throws',        tag: 'throws',       emoji: '🥋', color: '#e8c84a' },
   { name: 'Grip Fighting', tag: 'grips',        emoji: '✊', color: '#e67e22' },
   { name: 'Ne-waza',       tag: 'newaza',       emoji: '🤼', color: '#2980b9' },
-  { name: 'Conditioning',  tag: 'conditioning', emoji: '💪', color: '#c0392b' },
+  { name: 'Conditioning',  tag: 'conditioning', emoji: '💪', color: '#F05A1A' },
   { name: 'Combinations',  tag: 'combos',       emoji: '🔗', color: '#8e44ad' },
   { name: 'Belt Prep',     tag: 'beltprep',     emoji: '🏅', color: '#c9952f' },
 ];
@@ -46,6 +48,13 @@ const ORANGE_BELT_TECHS = [
 ];
 
 function getTOTD() {
+  // Belt-aware: prioritise first uncompleted technique from active belt
+  const ab = getActiveBeltInfo();
+  if (ab && ab.nextItems && ab.nextItems.length) {
+    const found = TECHNIQUES.find(t => t.name === ab.nextItems[0]);
+    if (found) return found;
+  }
+  // Fallback: day-of-year rotation through orange belt techs
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
   const name = ORANGE_BELT_TECHS[dayOfYear % ORANGE_BELT_TECHS.length];
   return TECHNIQUES.find(t => t.name === name) || TECHNIQUES[0];
@@ -98,6 +107,51 @@ function getStreak() {
   let streak = 0, d = hasDay(today) ? 0 : -1;
   while (hasDay(dateStr(d))) { streak++; d--; }
   return streak;
+}
+
+function getMatHours() {
+  const log = getSessionLog();
+  const totalMins = log.reduce(function(sum, s){ return sum + (parseInt(s.minutes) || 0); }, 0);
+  if (totalMins === 0) return '0h';
+  if (totalMins < 60) return totalMins + 'm';
+  var h = (totalMins / 60);
+  return (h % 1 === 0 ? h : h.toFixed(1)) + 'h';
+}
+
+function getDaysSinceLast() {
+  var log = getSessionLog();
+  if (!log.length) return 0;  // New user — not 'returning', just starting
+  var dates = log.map(function(s){ return _sessionDate(s); }).filter(Boolean).sort();
+  var last = dates[dates.length - 1];
+  var diff = (new Date(todayStr()) - new Date(last)) / 86400000;
+  return Math.max(0, Math.round(diff));
+}
+
+function getAdaptiveTip(activeBelt, streak, totdName) {
+  var days = getDaysSinceLast();
+  if (days >= 5) {
+    return { cls: 'nh-adapt-returning', tag: days + ' days since last session', title: 'Welcome back', body: 'A short session is better than none. Start easy — 8 minutes is enough to rebuild momentum.' };
+  }
+  if (activeBelt && activeBelt.nextItems && activeBelt.nextItems.length) {
+    var remaining = activeBelt.total - activeBelt.done;
+    return { cls: 'nh-adapt-belt', tag: activeBelt.belt.to + ' Belt · ' + activeBelt.pct + '% complete', title: "Today’s focus", body: remaining + ' technique' + (remaining !== 1 ? 's' : '') + ' left for grading. Work on ' + (totdName || activeBelt.nextItems[0]) + ' today.' };
+  }
+  if (streak >= 3) {
+    return { cls: 'nh-adapt-belt', tag: streak + ' day streak 🔥', title: 'Keep the momentum', body: 'Consistency is the foundation of judo. Show up again today.' };
+  }
+  return null;
+}
+
+function getWeekDaysDone() {
+  var log = getSessionLog();
+  var today = new Date();
+  var jsDay = today.getDay();
+  var monOffset = (jsDay === 0) ? -6 : 1 - jsDay;
+  return [0,1,2,3,4,5,6].map(function(i){
+    var offset = monOffset + i;
+    var d = dateStr(offset);
+    return log.some(function(s){ return _sessionDate(s) === d; });
+  });
 }
 
 function getSessionsThisWeek() {
@@ -419,7 +473,7 @@ function loadBuilderPlanAsSession(day, items) {
     themeTag:      'custom',
     themeName:     'Planned Session',
     themeEmoji:    '📅',
-    themeColor:    '#2563eb',
+    themeColor:    '#1B3E8B',
     minutes:       Math.max(1, Math.round(total / 60)),
     location:      selectedLocation,
     blocks: [{
@@ -459,166 +513,364 @@ function getActiveBeltInfo() {
   return { belt: b, done, total, pct, nextItems };
 }
 
-// ── HOME RENDER ────────────────────────────────────
-function renderHome() {
-  const now    = new Date();
-  const dayIdx = now.getDay();
-  const theme  = DAILY_THEMES[dayIdx];
-  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+// ── CONTINUE LEARNING — all incomplete belt techniques with video data ──
+function getContinueLearningItems() {
+  if (typeof BELT_DATA === 'undefined' || typeof TECHNIQUES === 'undefined') return [];
+  var b = (typeof getCurrentTargetBelt === 'function') ? getCurrentTargetBelt() : null;
+  if (!b) return [];
+  var items = [];
+  for (var gi = 0; gi < b.groups.length; gi++) {
+    var g = b.groups[gi];
+    for (var ii = 0; ii < g.items.length; ii++) {
+      var itemName = g.items[ii];
+      var isDone   = !!(beltProgress && beltProgress[b.id + '_' + itemName]);
+      var tech     = TECHNIQUES.find(function(t){ return t.name === itemName; });
+      var rawUrl   = (tech && tech.url) ? tech.url
+                   : (typeof GRADING_VIDEOS !== 'undefined' && GRADING_VIDEOS[itemName]) ? GRADING_VIDEOS[itemName]
+                   : null;
+      var vid      = rawUrl ? getVideoId(rawUrl) : null;
+      items.push({
+        name:   itemName,
+        en:     tech ? (tech.en || tech.english || tech.translation || '') : '',
+        sub:    tech ? (tech.sub || tech.cat || '') : '',
+        vid:    vid,
+        thumb:  vid ? ('https://img.youtube.com/vi/' + vid + '/mqdefault.jpg') : null,
+        done:   isDone,
+        beltId: b.id,
+        key:    b.id + '_' + itemName,
+      });
+    }
+  }
+  return items;
+}
 
-  if (!currentSession) {
-    currentSession = generateSession(selectedMinutes, selectedLocation, theme.tag);
+// ── CONTINUE LEARNING section HTML ──────────────────────────────────
+var _clExpanded = false;
+
+function buildContinueLearning(activeBelt) {
+  var items = getContinueLearningItems();
+  if (!items.length) return '';
+
+  var undone = items.filter(function(i){ return !i.done; });
+  var doneN  = items.length - undone.length;
+  var total  = items.length;
+  var visible = _clExpanded ? items : undone.slice(0, 4);
+  if (!visible.length) return '';
+
+  var rows = visible.map(function(it) {
+    var safeName = it.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    var thumb = it.thumb
+      ? '<img src="' + it.thumb + '" class="cl-thumb" loading="lazy" onerror="this.style.display=\'none\'">'
+      : '<div class="cl-thumb cl-thumb-ph">&#x1F94B;</div>';
+    var doneClass = it.done ? ' cl-item-done' : '';
+    var playBtn = it.vid
+      ? '<button class="cl-play" onclick="event.stopPropagation();openTechDetail(\'' + safeName + '\')">'
+          + '<svg viewBox="0 0 24 24" width="12" height="12" fill="white"><polygon points="5,3 19,12 5,21"/></svg>'
+          + '</button>'
+      : '<div style="width:36px;flex-shrink:0"></div>';
+    return '<div class="cl-item' + doneClass + '" onclick="openTechDetail(\'' + safeName + '\')">'
+      + '<div class="cl-thumb-wrap">' + thumb + '</div>'
+      + '<div class="cl-info">'
+        + '<div class="cl-name">' + (it.done ? '&#10003; ' : '') + it.name + '</div>'
+        + (it.en ? '<div class="cl-sub">' + it.en + '</div>' : '')
+      + '</div>'
+      + playBtn
+      + '</div>';
+  }).join('');
+
+  var moreCount = undone.length > 4 && !_clExpanded ? undone.length - 4 : 0;
+  var pct = total ? Math.round(doneN / total * 100) : 0;
+
+  return '<div class="cl-section">'
+    + '<div class="cl-header-row">'
+      + '<span class="cl-title">Continue Learning</span>'
+      + '<span class="cl-badge">' + doneN + ' / ' + total + '</span>'
+    + '</div>'
+    + '<div class="cl-progress-bar"><div class="cl-progress-fill" style="width:' + pct + '%"></div></div>'
+    + '<div class="cl-list">' + rows + '</div>'
+    + (moreCount > 0
+      ? '<button class="cl-view-all" onclick="_clExpanded=true;renderHome()">+ ' + moreCount + ' more techniques</button>'
+      : '')
+    + '</div>';
+}
+
+
+function renderHome() {
+  try {
+  var activeBelt = getActiveBeltInfo();
+  var profile    = getProfile ? getProfile() : null;
+  var firstName  = (profile && profile.name) ? profile.name.split(' ')[0] : 'Judoka';
+  var streak     = getStreak();
+  var totd       = getTOTD();
+  var matHours   = getMatHours();
+  var pct        = activeBelt ? activeBelt.pct : 0;
+  var beltName   = activeBelt ? activeBelt.belt.from + ' Belt' : 'Judoka';
+  var targetBeltName = activeBelt ? activeBelt.belt.to + ' Belt' : '';
+  var fromHex    = activeBelt ? (BELT_HEX[activeBelt.belt.fromColor] || '#e8e8e8') : '#e8e8e8';
+  var toBeltColor = activeBelt ? (BELT_HEX[activeBelt.belt.toColor] || '#888') : '#888';
+  var toBeltFile  = activeBelt ? (BELT_IMG_MAP[activeBelt.belt.toColor] || 'belt-red.png') : 'belt-red.png';
+
+  // Adaptive tip
+  var tip = getAdaptiveTip(activeBelt, streak, totd ? totd.name : null);
+
+  // Today's technique
+  var totdVid   = totd ? getVideoId(totd.url) : null;
+  var totdThumb = totdVid ? ('https://img.youtube.com/vi/' + totdVid + '/mqdefault.jpg') : null;
+  var techName  = totd ? totd.name : 'Judo Training';
+  var techEn    = totd ? (totd.english || totd.translation || '') : '';
+  var techCat   = totd ? (totd.subcategory || totd.category || '') : '';
+  var techSub   = [techEn, techCat].filter(Boolean).join(' · ');
+
+  // Dynamic CTA
+  var hasActive = (typeof currentSession !== 'undefined' && currentSession &&
+                   typeof timerInterval !== 'undefined' && timerInterval !== null);
+  var donedToday = getSessionLog().some(function(s){ return _sessionDate(s) === todayStr(); });
+
+  // Week streak dots
+  var weekDaysDone = getWeekDaysDone();
+  var today = new Date();
+  var todayDisplayIdx = (today.getDay() + 6) % 7;
+  var dayLetters = ['M','T','W','T','F','S','S'];
+  var streakDots = dayLetters.map(function(d, i){
+    var done = weekDaysDone[i];
+    var isToday = (i === todayDisplayIdx);
+    if (done) return '<div class="nh-sd nh-sd-done">' + d + '</div>';
+    if (isToday) return '<div class="nh-sd nh-sd-today">' + d + '</div>';
+    return '<div class="nh-sd nh-sd-rest">' + d + '</div>';
+  }).join('');
+
+  // Belt tag label
+  var beltTagLabel = targetBeltName
+    ? (targetBeltName + ' &nbsp;·&nbsp; ' + (activeBelt && activeBelt.nextItems && activeBelt.nextItems.length ? 'Required' : 'Recommended'))
+    : 'Recommended';
+
+  // Tip HTML
+  var tipHtml = '';
+  if (tip) {
+    var tipBg    = (tip.cls === 'nh-adapt-returning') ? '#0a1420' : '#0f1a0f';
+    var tipBord  = (tip.cls === 'nh-adapt-returning') ? '#1a3060' : '#1a4a1a';
+    var tipCol   = (tip.cls === 'nh-adapt-returning') ? '#60a5fa' : '#4ade80';
+    var tagBg    = (tip.cls === 'nh-adapt-returning') ? 'rgba(59,130,246,.12)' : 'rgba(74,222,128,.12)';
+    var tagBord  = (tip.cls === 'nh-adapt-returning') ? 'rgba(59,130,246,.25)' : 'rgba(74,222,128,.25)';
+    tipHtml = '<div class="nh-adapt-box" style="background:' + tipBg + ';border-color:' + tipBord + '">' +
+      '<div class="nh-adapt-tag" style="background:' + tagBg + ';border-color:' + tagBord + ';color:' + tipCol + '">' + tip.tag + '</div>' +
+      '<div class="nh-adapt-title" style="color:' + tipCol + '">' + tip.title + '</div>' +
+      '<div class="nh-adapt-body">' + tip.body + '</div>' +
+      '</div>';
   }
 
-  const todayPlan  = getTodayBuilderPlan();
-  const streak     = getStreak();
-  const week       = getSessionsThisWeek();
-  const xp         = getXP();
-  const totd       = getTOTD();
-  const iq         = getTodayIQ();
-  const activeBelt = getActiveBeltInfo();
+  // Thumb HTML
+  var thumbHtml = totdThumb
+    ? '<img src="' + totdThumb + '" class="nh-video-thumb" onerror="this.style.display=\'none\'" alt="Technique demo">'
+    : '';
 
-  document.getElementById('home-body').innerHTML = `
+  // CTA HTML — dominant action
+  var sessionPct = 0;
+  if (hasActive && typeof getTotalItemCount === 'function' && getTotalItemCount() > 0) {
+    sessionPct = Math.min(99, Math.round((getCurrentItemNum() - 1) / getTotalItemCount() * 100));
+  }
+  var ctaHtml;
+  if (hasActive) {
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-continue" onclick="showView(\'train\')">' +
+      '<span class="nh-btn-play">&#9654;</span>' +
+      '<span class="nh-btn-label">CONTINUE SESSION</span>' +
+      '<span class="nh-btn-pct">' + sessionPct + '%</span>' +
+      '</button>' +
+      '<button class="nh-sec-btn" onclick="onStartFocused()">+ Start today&#39;s training instead</button>';
+  } else if (donedToday) {
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-done" onclick="onStartFocused()">' +
+      '<span class="nh-btn-play">&#10003;</span>' +
+      '<span class="nh-btn-label">SESSION DONE · TRAIN AGAIN?</span>' +
+      '</button>';
+  } else {
+    ctaHtml = '<button class="nh-hero-btn nh-hero-btn-start" onclick="onStartFocused()">' +
+      '<span class="nh-btn-play">&#9654;</span>' +
+      '<span class="nh-btn-label">START TODAY\'S TRAINING</span>' +
+      '</button>';
+  }
 
-    <!-- HEADER -->
-    <div class="home-header">
-      <div>
-        <div class="home-day">${days[dayIdx]}</div>
-        <div class="home-theme-pill" style="background:${theme.color}22;border-color:${theme.color}55;color:${theme.color}">
-          ${theme.emoji} ${theme.name} day
-        </div>
-      </div>
-      <div class="home-stats">
-        <div class="home-stat">
-          <span class="home-stat-val">${streak || '–'}</span>
-          <span class="home-stat-lbl">🔥 streak</span>
-        </div>
-        <div class="home-stat">
-          <span class="home-stat-val">${week}</span>
-          <span class="home-stat-lbl">this week</span>
-        </div>
-        <div class="home-stat">
-          <span class="home-stat-val">${xp}</span>
-          <span class="home-stat-lbl">⚡ XP</span>
-        </div>
-      </div>
-    </div>
+  document.getElementById('home-body').innerHTML =
+  '<style>' +
+  /* ── Layout foundation ── */
+  '.hf-wrap{display:flex;flex-direction:column;min-height:100%;padding:0 0 80px;box-sizing:border-box}' +
+  /* ── Header ── */
+  '.hf-header{display:flex;flex-direction:column;gap:2px;padding:8px 14px 6px;flex-shrink:0}' +
+  '' +
+  '.hf-logo{display:flex;align-items:center;gap:9px}' +
+  '.hf-logo-icon{width:32px;height:32px;flex-shrink:0}' +
+  '.hf-logo-text{display:flex;flex-direction:column;gap:0}' +
+  '.hf-logo-name{font-size:16px;font-weight:800;color:#f4f4f8;letter-spacing:-.3px;line-height:1}' +
+  '.hf-logo-sub{font-size:8px;font-weight:700;color:#d97706;letter-spacing:2px;text-transform:uppercase;margin-top:1px}' +
+  '.hf-header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}' +
+  '.hf-name-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 10px 5px 8px;cursor:pointer;font-size:12px;font-weight:600;color:#f4f4f8;-webkit-tap-highlight-color:transparent}' +
+  '.hf-pill-arrow{font-size:9px;color:rgba(255,255,255,.35);margin-left:1px}' +
+  '.hf-envelope-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:7px;cursor:pointer;color:#bbb;display:flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:transparent}' +
+  /* ── Greeting + identity ── */
+  '.hf-greeting{font-size:22px;font-weight:800;color:#f0f0f5;letter-spacing:-.5px;line-height:1.15}' +
+  '.hf-identity-row{display:flex;align-items:center;gap:5px;margin-top:1px}' +
+  '.hf-belt-colordot{display:inline-block;border-radius:50%;flex-shrink:0}' +
+  '.hf-belt-label{font-size:12px;color:#ccc;font-weight:500}' +
+  '.hf-identity-sep{color:#444;font-size:11px}' +
+  '.hf-streak-fire{font-size:12px}' +
+  '.hf-streak-num{font-size:12px;color:#ccc}' +
+  /* ── Adaptive tip ── */
+  '.nh-adapt-box{border-radius:12px;padding:8px 12px;margin:0 14px 8px;border:1px solid}@media(max-height:680px){.nh-adapt-box{display:none!important}}' +
+  '.nh-adapt-tag{display:inline-block;border-radius:5px;border:1px solid;padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px}' +
+  '.nh-adapt-title{font-size:12px;font-weight:700;margin-bottom:2px}' +
+  '.nh-adapt-body{font-size:11px;color:#999;line-height:1.45}' +
+  /* ── Today training card ── */
+  '.nh-today-card{background:#120508;border:1.5px solid rgba(230,57,70,.3);border-radius:16px;padding:14px 14px 12px;margin:0 14px 10px;box-shadow:0 2px 20px rgba(230,57,70,.08)}' +
+  '.nh-belt-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:3px 9px;font-size:9px;font-weight:700;color:#999;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}' +
+  '.nh-belt-dot-sm{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}' +
+  '.nh-tech-name{font-size:21px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:2px;letter-spacing:-.4px}' +
+  '.nh-tech-sub{font-size:11px;color:#666;margin-bottom:6px}' +
+  '.nh-meta-row{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}' +
+  '.nh-meta-chip{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:7px;padding:3px 8px;font-size:10px;font-weight:600;color:#999}' +
+  '.nh-meta-done{color:#4ade80!important;background:rgba(74,222,128,.09)!important;border-color:rgba(74,222,128,.18)!important}' +
+  '.nh-meta-focus{color:#f97316!important;background:rgba(249,115,22,.09)!important;border-color:rgba(249,115,22,.18)!important}' +
+  /* ── Video thumbnail ── */
+  '.nh-video-thumb{width:100%;height:130px;object-fit:cover;object-position:center center;border-radius:10px;margin-top:10px;margin-bottom:0;background:#0d0d12;display:block}' +
+  /* ── CTA buttons ── */
+  '.nh-hero-btn{width:100%;border:none;border-radius:14px;padding:17px 20px;font-size:16px;font-weight:900;cursor:pointer;margin-bottom:8px;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:10px;-webkit-tap-highlight-color:transparent;transition:transform .1s,box-shadow .1s}' +
+  '.nh-hero-btn:active{transform:scale(.98)}' +
+  '.nh-hero-btn-start{background:#e63946;color:#fff;box-shadow:0 4px 20px rgba(230,57,70,.45)}' +
+  '.nh-hero-btn-continue{background:#f59e0b;color:#0d0d12;box-shadow:0 4px 20px rgba(245,158,11,.4)}' +
+  '.nh-hero-btn-done{background:#16a34a;color:#fff;box-shadow:0 4px 20px rgba(22,163,74,.35)}' +
+  '.nh-btn-play{font-size:13px;opacity:.85}' +
+  '.nh-btn-label{flex:1;text-align:center}' +
+  '.nh-btn-pct{font-size:13px;font-weight:700;opacity:.8;background:rgba(0,0,0,.15);padding:2px 8px;border-radius:6px}' +
+  '.nh-sec-btn{width:100%;background:transparent;border:none;color:#e63946;font-size:12px;font-weight:600;padding:6px;cursor:pointer;opacity:.7;-webkit-tap-highlight-color:transparent}' +
+  /* ── Week streak ── */
+  '.nh-streak-section{margin:0 14px 8px;background:#0f0f14;border:1px solid #1e1e28;border-radius:13px;padding:10px 13px}' +
+  '.nh-streak-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}' +
+  '.nh-section-lbl{font-size:9px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.8px}' +
+  '.nh-streak-count{font-size:11px;font-weight:700;color:#f59e0b}' +
+  '.nh-streak-row{display:flex;gap:5px;justify-content:space-between}' +
+  '.nh-sd{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}' +
+  '.nh-sd-done{background:#e63946;color:#fff}' +
+  '.nh-sd-today{background:transparent;border:1.5px dashed #e63946;color:#e63946}' +
+  '.nh-sd-rest{background:rgba(255,255,255,.04);color:#3a3a48}' +
+  /* ── Stats row ── */
+  '.nh-stats-row{display:flex;gap:8px;margin:0 14px 8px}' +
+  '.cl-section{margin:0 14px 10px}' +
+  '.cl-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}' +
+  '.cl-title{font-size:11px;font-weight:800;color:#f0f4ff;letter-spacing:.04em;text-transform:uppercase}' +
+  '.cl-badge{font-size:10px;font-weight:700;color:#6b7280;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:6px}' +
+  '.cl-progress-bar{height:3px;background:rgba(255,255,255,.07);border-radius:3px;margin-bottom:8px;overflow:hidden}' +
+  '.cl-progress-fill{height:100%;background:#e63946;border-radius:3px;transition:width .4s}' +
+  '.cl-list{display:flex;flex-direction:column;gap:2px}' +
+  '.cl-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#13131c;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,.05);-webkit-tap-highlight-color:transparent}' +
+  '.cl-item:active{background:#1a1a26}' +
+  '.cl-item-done{opacity:.45}' +
+  '.cl-thumb-wrap{width:52px;height:36px;border-radius:6px;overflow:hidden;flex-shrink:0;background:#0d0d12}' +
+  '.cl-thumb{width:52px;height:36px;object-fit:cover;display:block}' +
+  '.cl-thumb-ph{display:flex;align-items:center;justify-content:center;font-size:16px;width:52px;height:36px}' +
+  '.cl-info{flex:1;min-width:0}' +
+  '.cl-name{font-size:13px;font-weight:700;color:#f0f4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+  '.cl-sub{font-size:10px;color:#6b7280;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+  '.cl-play{width:28px;height:28px;background:#e63946;border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding-left:2px;-webkit-tap-highlight-color:transparent}' +
+  '.cl-play-empty{width:28px;height:28px;flex-shrink:0}' +
+  '.cl-view-all{width:100%;margin-top:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;color:#9ca3af;font-size:12px;font-weight:600;padding:9px;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
+  '.nh-stat-card{flex:1;background:#0f0f14;border:1px solid #1e1e28;border-radius:13px;padding:11px 8px;text-align:center}' +
+  '.nh-stat-val{font-size:19px;font-weight:800;line-height:1}' +
+  '.nh-stat-lbl{font-size:9px;color:#444;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}' +
+'</style>' +
+  '<div class="hf-wrap">' +
 
-    ${todayPlan && !currentSession.fromBuilder ? `
-    <div class="home-plan-banner">
-      <div class="home-plan-banner-left">
-        <span class="home-plan-banner-icon">📅</span>
-        <div>
-          <div class="home-plan-banner-title">You have a plan for today</div>
-          <div class="home-plan-banner-sub">${todayPlan.items.length} item${todayPlan.items.length !== 1 ? 's' : ''} in Training Builder · ${todayPlan.items.map(i => i.text).slice(0,3).join(', ')}${todayPlan.items.length > 3 ? '…' : ''}</div>
-        </div>
-      </div>
-      <button class="home-plan-banner-btn" onclick="loadBuilderPlanAsSession('${todayPlan.day}', ${JSON.stringify(todayPlan.items).replace(/"/g,'&quot;')})">Use this plan</button>
-    </div>` : ''}
+    '<div class="hf-header">' +
+      '<div class="hf-greeting">Good ' + getTimeOfDay() + ', ' + firstName + '</div>' +
+      '<div class="hf-identity-row">' +
+        '<span class="hf-belt-colordot" style="background:' + fromHex + '"></span>' +
+        '<span class="hf-belt-label">' + beltName + '</span>' +
+        '<span class="hf-identity-sep">&nbsp;·&nbsp;</span>' +
+        '<span class="hf-streak-fire">🔥</span>' +
+        '<span class="hf-streak-num">' + streak + ' day streak</span>' +
+      '</div>' +
+    '</div>' +
 
-    <!-- SESSION CARD -->
-    <div class="home-card home-hero-card">
-      <div class="home-card-label">Today's session</div>
-      <div class="home-session-title" style="color:${currentSession.themeColor}">
-        ${currentSession.themeEmoji} ${currentSession.title}
-      </div>
-      <div class="home-session-meta">${fmtTime(currentSession.totalDuration)} · ${currentSession.location}</div>
+    '<!-- ADAPTIVE TIP -->' +
+    tipHtml +
 
-      <div class="home-session-blocks">
-        ${currentSession.blocks.map(b => `
-          <div class="home-session-block-row">
-            <div class="home-block-dot" style="background:${BLOCK_COLORS[b.type]||'#888'}"></div>
-            <span class="home-block-name">${b.name}</span>
-            <span class="home-block-time">${fmtTime(b.duration)}</span>
-          </div>
-        `).join('')}
-      </div>
+    '<!-- TODAYS TRAINING -->' +
+    '<div class="nh-today-card">' +
+      '<div class="nh-belt-tag">' +
+        '<span class="nh-belt-dot-sm" style="background:' + toBeltColor + '"></span>' +
+        beltTagLabel +
+      '</div>' +
+      '<div class="nh-tech-name">' + techName + '</div>' +
+      '<div class="nh-tech-sub">' + techSub + '</div>' +
+      '<div class="nh-meta-row">' +
+        '<span class="nh-meta-chip"><span>&#9200;</span> 12 min</span>' +
+        (donedToday
+          ? '<span class="nh-meta-chip nh-meta-done">&#10003; Done today</span>'
+          : '<span class="nh-meta-chip nh-meta-focus">&#128293; Today&#39;s focus</span>') +
+      '</div>' +
+      ctaHtml +
+      (totdThumb ? '<div style="margin-top:10px">' + thumbHtml + '</div>' : '') +
+    '</div>' +
 
-      <button class="home-start-now-btn" onclick="startSession()">▶ Start now</button>
-      <div class="home-just-start" onclick="onJustStart()">Not feeling it? → Just 60 seconds</div>
+    '<!-- CONTINUE LEARNING -->' +
+    buildContinueLearning(activeBelt) +
 
-      <div class="home-pickers">
-        <div class="home-pill-row" id="time-pills">
-          ${[5,10,20,45].map(m => `
-            <button class="home-pill${m === selectedMinutes ? ' active' : ''}" onclick="selectTime(${m})">${m} min</button>
-          `).join('')}
-        </div>
-        <div class="home-pill-row" id="location-pills">
-          ${[['solo','Solo'],['home','Home'],['dojo','Dojo']].map(([v,l]) => `
-            <button class="home-pill${v === selectedLocation ? ' active' : ''}" onclick="selectLocation('${v}')">${l}</button>
-          `).join('')}
-        </div>
-      </div>
-    </div>
+    '<!-- WEEK STREAK -->' +
+    '<div class="nh-streak-section">' +
+      '<div class="nh-streak-top">' +
+        '<span class="nh-section-lbl">THIS WEEK</span>' +
+        '<span class="nh-streak-count">&#128293; ' + streak + ' day streak</span>' +
+      '</div>' +
+      '<div class="nh-streak-row">' + streakDots + '</div>' +
+    '</div>' +
 
-    <!-- QUICK ACTIONS -->
-    <div class="home-quick-row">
-      <div class="home-quick-card" onclick="startBeforeClassSession()">
-        <span class="home-quick-icon">🥊</span>
-        <div class="home-quick-body">
-          <div class="home-quick-title">Class Prep</div>
-          <div class="home-quick-sub">2-min warm-up</div>
-        </div>
-        <span class="home-quick-arr">→</span>
-      </div>
-      <div class="home-quick-card" onclick="openCapture()">
-        <span class="home-quick-icon">📝</span>
-        <div class="home-quick-body">
-          <div class="home-quick-title">Log Training</div>
-          <div class="home-quick-sub">After class notes</div>
-        </div>
-        <span class="home-quick-arr">→</span>
-      </div>
-    </div>
+    '<!-- QUICK STATS -->' +
+    '<div class="nh-stats-row">' +
+      '<div class="nh-stat-card">' +
+        '<div class="nh-stat-val" style="color:#f59e0b">' + matHours + '</div>' +
+        '<div class="nh-stat-lbl">Mat hours</div>' +
+      '</div>' +
+      '<div class="nh-stat-card">' +
+        '<div class="nh-stat-val" style="color:#4ade80">' + pct + '%</div>' +
+        '<div class="nh-stat-lbl">Belt done</div>' +
+      '</div>' +
+      '<div class="nh-stat-card">' +
+        '<div class="nh-stat-val" style="color:#818cf8">' + (typeof getXP === 'function' ? getXP() : 0) + '</div>' +
+        '<div class="nh-stat-lbl">XP earned</div>' +
+      '</div>' +
+    '</div>' +
 
-    <!-- BELT PROGRESS -->
-    ${activeBelt ? `
-    <div class="home-card">
-      <div class="home-card-label">Belt progress</div>
-      <div class="home-belt-prog-row">
-        <div class="belt-dot ${activeBelt.belt.fromColor}"></div>
-        <span style="color:var(--text-muted);font-size:15px;margin:0 4px">→</span>
-        <div class="belt-dot ${activeBelt.belt.toColor}"></div>
-        <span class="home-belt-prog-label">${activeBelt.belt.label}</span>
-        <div style="flex:1"></div>
-        <span class="home-belt-prog-pct">${activeBelt.pct}%</span>
-      </div>
-      <div class="progress-bar" style="margin:8px 0 10px"><div class="progress-fill" style="width:${activeBelt.pct}%"></div></div>
-      <div class="home-belt-next">
-        ${activeBelt.nextItems.map(i => `<div class="home-belt-next-item">◦ ${i}</div>`).join('')}
-      </div>
-      <div class="home-belt-actions">
-        <button class="home-belt-view-btn" onclick="showView('belt')">Checklist &#8594;</button>
-        <button class="home-belt-readiness-btn" onclick="openGradingReadiness()">&#127885; Readiness</button>
-        <button class="home-belt-pass-btn" onclick="openGradingPassModal('${activeBelt.belt.id}')">&#127881; I Passed!</button>
-      </div>
-    </div>` : `
-    <div class="home-card" style="display:flex;align-items:center;gap:12px">
-      <div style="flex:1">
-        <div class="home-card-label">Belt progression</div>
-        <div style="font-size:13px;color:var(--text-muted)">All grading requirements complete 🏆</div>
-      </div>
-      <button class="home-belt-view-btn" onclick="showView('belt')">Belt System →</button>
-    </div>`}
-
-    <!-- TECHNIQUE OF DAY + JUDO IQ -->
-    <div class="home-two-col">
-      <div class="home-card">
-        <div class="home-card-label">Technique of the day</div>
-        <div class="totd-name">${totd.name}</div>
-        ${totd.en ? `<div class="totd-en">${totd.en}</div>` : ''}
-        ${getVideoId(totd.url) ? `<button class="watch-btn" style="margin-top:10px" onclick="openModal('${esc(totd.name)}')">▶ Watch</button>` : ''}
-      </div>
-      <div class="home-card home-iq-card">
-        <div class="home-card-label">🧠 Judo IQ</div>
-        <div class="iq-question">${iq.q}</div>
-        <div class="iq-answer" id="iq-answer" style="display:none">${iq.a}</div>
-        <button class="iq-reveal-btn" id="iq-btn" onclick="revealIQ()">Reveal answer</button>
-      </div>
-    </div>
-
-  `;
+  '</div>';
+  } catch(e) {
+    var el=document.getElementById('home-body');
+    if(el) el.innerHTML='<div style="padding:20px;color:#e63946;font-size:12px;background:#14090a;margin:14px;border-radius:12px;border:1px solid #3d1015"><b>JS Error:</b><br>'+e.message+'<br><small style="color:#888">'+e.stack+'</small></div>';
+  }
 }
+
+
+function revealIQCard() {
+  const sub = document.getElementById('hf-iq-sub');
+  const tap = document.getElementById('hf-iq-tap');
+  if (sub && tap) {
+    sub.style.display = 'block';
+    tap.style.display = 'none';
+  }
+}
+
+// Time-of-day greeting
+function getTimeOfDay() {
+  const h = new Date().getHours();
+  if (h < 12) return 'morning';
+  if (h < 17) return 'afternoon';
+  return 'evening';
+}
+
+// Start focused session from home CTA
+function onStartFocused() {
+  const theme = DAILY_THEMES[new Date().getDay()];
+  currentSession = generateSession(selectedMinutes || 15, selectedLocation || 'home', theme.tag);
+  showView('train');
+  if (typeof switchTrainTab === 'function') switchTrainTab('training');
+}
+
+
 
 function selectTime(m) {
   selectedMinutes = m;
@@ -779,9 +1031,10 @@ function startSession() {
   if (!currentSession || !currentSession.blocks.length) return;
   timerBlockIdx = 0;
   timerItemIdx  = 0;
-  timerPaused   = false;
   timerMode     = 'item';
   timerSecsLeft = currentSession.blocks[0].items[0].duration;
+  // Auto-pause at start of technique blocks so user can preview the move
+  timerPaused   = (currentSession.blocks[0].type === 'technique');
   document.getElementById('session-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   paintTimer();
@@ -803,6 +1056,8 @@ function advanceTimer() {
     const restBlock = currentSession.blocks[timerBlockIdx];
     if (!restBlock || !restBlock.items || !restBlock.items[timerItemIdx]) { finishSession(); return; }
     timerSecsLeft = restBlock.items[timerItemIdx].duration;
+    // Auto-pause at new technique block so user can preview the move
+    if (restBlock.type === 'technique') timerPaused = true;
     paintTimer();
     return;
   }
@@ -820,6 +1075,8 @@ function advanceTimer() {
     return;
   }
   timerSecsLeft = session.blocks[timerBlockIdx].items[timerItemIdx].duration;
+  // Auto-pause on each new technique item so user can preview the move
+  if (block.type === 'technique') timerPaused = true;
   paintTimer();
 }
 
@@ -857,8 +1114,20 @@ function paintTimer() {
   if (block.type === 'iq') cueLine = `<div class="timer-cue">🧠 ${block.card.q}<br><br><strong>${block.card.a}</strong></div>`;
 
   const techMatch = TECHNIQUES.find(t => t.name === item.name);
-  const watchBtn  = (techMatch && getVideoId(techMatch.url))
-    ? `<button class="timer-watch-btn" onclick="openModal('${esc(item.name)}')">&#9654; Watch ${item.name}</button>`
+  const videoId   = techMatch ? getVideoId(techMatch.url) : null;
+
+  // Prominent video thumbnail — shown above the ring so users see the move
+  const videoSection = videoId
+    ? `<div class="timer-video-preview" onclick="timerPaused=true; paintTimer(); openTechDetail('${esc(item.name)}')">
+         <img class="timer-video-thumb"
+              src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg"
+              alt="${esc(item.name)}"
+              onerror="this.parentElement.style.display='none'"/>
+         <div class="timer-video-overlay">
+           <div class="timer-video-play-btn">&#9654;</div>
+           <div class="timer-video-label">Watch ${item.name}</div>
+         </div>
+       </div>`
     : '';
 
   const dots = session.blocks.map((b, i) =>
@@ -875,7 +1144,8 @@ function paintTimer() {
     <div class="timer-block-name" style="color:${col}">${block.name}</div>
     <div class="timer-exercise">${item.name}</div>
     ${item.note ? `<div class="timer-item-note">${item.note}</div>` : ''}
-    <div class="timer-ring-wrap">
+    ${videoSection}
+    <div class="timer-ring-wrap${videoSection ? ' timer-ring-sm' : ''}">
       <svg class="timer-ring" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
         <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
         <circle cx="60" cy="60" r="54" fill="none" stroke="${col}" stroke-width="8"
@@ -887,12 +1157,11 @@ function paintTimer() {
       <div class="timer-countdown-inner" style="color:${col}">${timeStr}</div>
     </div>
     ${cueLine}
-    ${watchBtn}
     ${nextLabel ? `<div class="timer-next">Up next: ${nextLabel}</div>` : ''}
     <div class="timer-controls">
       <button class="timer-btn" onclick="timerSkip()">Skip &#8594;</button>
       <button class="timer-btn timer-btn-primary" onclick="timerTogglePause()">
-        ${timerPaused ? '&#9654; Resume' : '&#9646;&#9646; Pause'}
+        ${timerPaused ? '&#9654; Start' : '&#9646;&#9646; Pause'}
       </button>
     </div>
   `;
@@ -971,23 +1240,365 @@ function closeSession() {
 
 function closeSessionAndCapture() {
   clearInterval(timerInterval);
-  timerInterval = null;
-  document.getElementById('session-overlay').classList.remove('open');
+nt.getElementById('session-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  renderHome();
-  setTimeout(() => openCapture(), 80);
+  const overlay = document.getElementById('capture-overlay');
+  if (!overlay) { renderHome(); return; }
+  const techs = currentSession.blocks.filter(b => b.type === 'technique').map(b => b.name);
+  overlay.innerHTML = `
+    <div class="cap-inner">
+      <div class="cap-title">Log this session?</div>
+      <div class="cap-list" id="cap-list">
+        ${techs.map((t,i) => `
+          <label class="cap-item">
+            <input type="checkbox" checked data-tech="${t}">
+            <span>${t}</span>
+          </label>`).join('')}
+      </div>
+      <textarea class="cap-notes" id="cap-notes" placeholder="Notes on today's session (optional)…"></textarea>
+      <div class="cap-actions">
+        <button class="cap-save" onclick="saveCapture()">Save session log</button>
+        <button class="cap-skip" onclick="closeCapture()">Skip</button>
+      </div>
+    </div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
+function closeCapture() {
+  document.getElementById('capture-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  renderHome();
+}
 
-document.addEventListener('keydown', e => {
-  const modal = document.getElementById('video-modal');
-  if (modal && modal.classList.contains('open')) {
-    if (e.key === 'Escape')                              { closeVideoModal(); return; }
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { flushModalNotes(); modalNav(1);  }
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { flushModalNotes(); modalNav(-1); }
+function saveCapture() {
+  const boxes = document.querySelectorAll('#cap-list input[type=checkbox]');
+  const logged = Array.from(boxes).filter(b => b.checked).map(b => b.dataset.tech);
+  const notes  = (document.getElementById('cap-notes') || {}).value || '';
+
+  const entry = {
+    date:       new Date().toISOString().slice(0,10),
+    sessionId:  currentSession ? currentSession.id : null,
+    title:      currentSession ? (currentSession.title || currentSession.themeName || 'Training') : 'Training',
+    minutes:    currentSession ? currentSession.minutes : 0,
+    techniques: logged,
+    notes:      notes,
+  };
+
+  const log = JSON.parse(localStorage.getItem('judo_session_log') || '[]');
+  log.push(entry);
+  localStorage.setItem('judo_session_log', JSON.stringify(log));
+
+  closeCapture();
+  showToast('Session logged ✓');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// HOME SECTION BUILDERS
+// ══════════════════════════════════════════════════════════════════
+
+// ── ② QUICK STATS ─────────────────────────────────────────────────
+function getOverallProgress() {
+  if (typeof BELT_DATA === 'undefined') return 0;
+  const total = BELT_DATA.reduce((s, b) => s + b.groups.reduce((gs, g) => gs + g.items.length, 0), 0);
+  const done  = BELT_DATA.reduce((s, b) => s + b.groups.reduce((gs, g) =>
+    gs + g.items.filter(i => !!beltProgress[b.id + '_' + i]).length, 0), 0);
+  return total ? Math.round(done / total * 100) : 0;
+}
+
+function buildQuickStats(streak, xp) {
+  const overall = getOverallProgress();
+  // SVG donut: r=28, circumference ≈ 175.9
+  const r = 28, circ = +(2 * Math.PI * r).toFixed(1);
+  const offset = +(circ * (1 - overall / 100)).toFixed(1);
+  return `
+  <div class="qs-section">
+    <div class="qs-title">Quick Stats</div>
+    <div class="qs-card">
+      <div class="qs-half qs-left">
+        <div class="qs-streak-row">
+          <span class="qs-big">${streak || 0}</span>
+          <span class="qs-fire">🔥</span>
+        </div>
+        <div class="qs-label">Day Streak</div>
+      </div>
+      <div class="qs-divider"></div>
+      <div class="qs-half qs-right">
+        <div class="qs-donut-row">
+          <div>
+            <div class="qs-big">${overall}%</div>
+            <div class="qs-label">Overall Progress</div>
+          </div>
+          <svg class="qs-donut" viewBox="0 0 72 72" width="56" height="56">
+            <circle cx="36" cy="36" r="${r}" fill="none" stroke="#333" stroke-width="7"/>
+            <circle cx="36" cy="36" r="${r}" fill="none" stroke="#F5C542" stroke-width="7"
+              stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+              stroke-linecap="round"
+              transform="rotate(-90 36 36)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── ③ COACHING TIP ────────────────────────────────────────────────
+const COACHING_TIPS = [
+  { title: 'Focus on Kuzushi',      body: 'Every throw starts with balance breaking. Master kuzushi and the throw will follow.',                      img: 'tech-o-goshi.png' },
+  { title: 'Control Your Grip',     body: 'Secure the sleeve before the lapel. A dominant grip wins half the battle before the throw begins.',         img: 'tech-tsuri-komi-goshi.png' },
+  { title: 'Perfect Your Ukemi',    body: 'Good falling is good judo. Train your ukemi daily — it builds confidence and protects your body.',           img: 'tech-o-soto-gari.png' },
+  { title: 'Use Combinations',      body: 'Set up your big throw with a smaller attack first. Two-attack combinations catch opponents off guard.',       img: 'tech-tai-otoshi.png' },
+  { title: 'Ne-Waza Wins Contests', body: 'Ground work decides matches. Even 3 seconds of osaekomi-waza can turn a contest around.',                    img: 'tech-ne-waza-hold.png' },
+  { title: 'Drive Through the Throw',body: 'Commit fully to every entry. Half-hearted attempts give your opponent the chance to counter.',              img: 'tech-harai-goshi.png' },
+  { title: 'Randori Mindset',       body: 'In randori, experiment freely. In shiai, execute only what you know. Train both modes separately.',          img: 'tech-uchi-mata.png' },
+];
+
+function buildCoachingTip() {
+  const tip = COACHING_TIPS[new Date().getDay() % COACHING_TIPS.length];
+  return `
+  <div class="ct-card">
+    <div class="ct-header-row">
+      <div class="ct-icon-wrap">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <path d="M12 2a7 7 0 0 1 4 12.9V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.1A7 7 0 0 1 12 2z" stroke="#3b82f6" stroke-width="1.8" fill="none"/>
+          <path d="M9 21h6M10 18v1M14 18v1" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="ct-label">Coaching Tip</span>
+    </div>
+    <div class="ct-body-wrap">
+      <div class="ct-text-col">
+        <div class="ct-title">${tip.title}</div>
+        <div class="ct-body">${tip.body}</div>
+      </div>
+      <div class="ct-illo">
+        ${tip.img ? `<img src="images/${tip.img}" class="ct-illo-img" alt="${tip.title}">` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── ④ QUICK REVISION ──────────────────────────────────────────────
+function buildQuickRevision() {
+  const timerSvg = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6M12 2v3"/>
+  </svg>`;
+  return `
+  <div class="qr-card">
+    <div class="qr-title">Quick Revision</div>
+    <div class="qr-sub">Short on time? Try a quick revision session.</div>
+    <button class="qr-btn" onclick="startQuickRevision(5)">
+      <span class="qr-btn-icon">${timerSvg}</span>
+      <span class="qr-btn-label">5 Min Session</span>
+    </button>
+    <button class="qr-btn" onclick="startQuickRevision(10)">
+      <span class="qr-btn-icon">${timerSvg}</span>
+      <span class="qr-btn-label">10 Min Session</span>
+    </button>
+    <button class="qr-btn" onclick="startQuickRevision(0)">
+      <span class="qr-btn-icon">${timerSvg}</span>
+      <span class="qr-btn-label">Custom Quiz</span>
+    </button>
+  </div>`;
+}
+
+// ── COACHING TIP AUTO-ROTATE ────────────────────────────────────
+let _ctIndex = new Date().getDay() % COACHING_TIPS.length;
+let _ctInterval = null;
+
+function startCoachingTipRotation(intervalMinutes) {
+  if (_ctInterval) clearInterval(_ctInterval);
+  _ctInterval = setInterval(() => {
+    _ctIndex = (_ctIndex + 1) % COACHING_TIPS.length;
+    const card = document.querySelector('.ct-card');
+    if (!card) return;
+    card.classList.add('ct-fade-out');
+    setTimeout(() => {
+      const tip = COACHING_TIPS[_ctIndex];
+      card.querySelector('.ct-title').textContent = tip.title;
+      card.querySelector('.ct-body').textContent  = tip.body;
+      const img = card.querySelector('.ct-illo-img');
+      if (img) {
+        img.src = tip.img ? 'images/' + tip.img : '';
+        img.style.display = tip.img ? '' : 'none';
+      }
+      card.classList.remove('ct-fade-out');
+      card.classList.add('ct-fade-in');
+      setTimeout(() => card.classList.remove('ct-fade-in'), 400);
+    }, 300);
+  }, intervalMinutes * 60 * 1000);
+}
+
+// ── QUICK REVISION QUIZ ENGINE ───────────────────────────────────
+let _quizState = null;
+
+function startQuickRevision(minutes) {
+  const activeBelt = getActiveBeltInfo();
+  // Build question pool from TECHNIQUES — prefer belt techniques, pad with others
+  let pool = [];
+  if (activeBelt) {
+    const b = activeBelt.belt;
+    for (const g of b.groups) {
+      for (const name of g.items) {
+        const t = (typeof TECHNIQUES !== 'undefined') ? TECHNIQUES.find(t => t.name === name) : null;
+        if (t && t.en) pool.push(t);
+      }
+    }
   }
-  if (e.key === 'Escape') {
-    const cap = document.getElementById('capture-overlay');
-    if (cap && cap.classList.contains('open')) closeCapture();
+  // Pad with random techniques if needed
+  if (typeof TECHNIQUES !== 'undefined') {
+    const extras = TECHNIQUES.filter(t => t.en && !pool.find(p => p.name === t.name));
+    extras.sort(() => Math.random() - .5);
+    pool = pool.concat(extras);
   }
-});
+  pool.sort(() => Math.random() - .5);
+
+  const qCount = minutes === 5 ? 8 : minutes === 10 ? 15 : 10;
+  const questions = pool.slice(0, Math.min(qCount, pool.length)).map(t => {
+    // Wrong answers: 3 random English names
+    const wrong = TECHNIQUES
+      .filter(x => x.en && x.en !== t.en)
+      .sort(() => Math.random() - .5)
+      .slice(0, 3)
+      .map(x => x.en);
+    const choices = [t.en, ...wrong].sort(() => Math.random() - .5);
+    return { q: t.name, a: t.en, choices, img: getTechImg(t.name) };
+  });
+
+  _quizState = { questions, current: 0, score: 0, minutes };
+  renderQuizModal();
+}
+
+function renderQuizModal() {
+  const existing = document.getElementById('quiz-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'quiz-modal';
+
+  if (!_quizState || _quizState.current >= _quizState.questions.length) {
+    // Results screen
+    const total = _quizState ? _quizState.questions.length : 0;
+    const score = _quizState ? _quizState.score : 0;
+    const pct   = total ? Math.round(score / total * 100) : 0;
+    const emoji = pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '💪';
+    modal.innerHTML = `
+      <div class="qm-overlay" onclick="closeQuizModal()"></div>
+      <div class="qm-sheet">
+        <div class="qm-result-emoji">${emoji}</div>
+        <div class="qm-result-score">${score} / ${total}</div>
+        <div class="qm-result-pct">${pct}% correct</div>
+        <div class="qm-result-msg">${pct >= 80 ? 'Excellent work, Judoka!' : pct >= 50 ? 'Good effort - keep training!' : 'Keep practising - you will get there!'}</div>
+        <button class="qm-close-btn" onclick="startQuickRevision(${_quizState ? _quizState.minutes : 5})">Try Again</button>
+        <button class="qm-close-btn qm-close-secondary" onclick="closeQuizModal()">Done</button>
+      </div>`;
+  } else {
+    const q   = _quizState.questions[_quizState.current];
+    const num = _quizState.current + 1;
+    const tot = _quizState.questions.length;
+    const pct = Math.round((_quizState.current / tot) * 100);
+    modal.innerHTML = `
+      <div class="qm-overlay" onclick="closeQuizModal()"></div>
+      <div class="qm-sheet">
+        <div class="qm-top-bar">
+          <button class="qm-x" onclick="closeQuizModal()">✕</button>
+          <div class="qm-progress-track"><div class="qm-progress-fill" style="width:${pct}%"></div></div>
+          <span class="qm-counter">${num}/${tot}</span>
+        </div>
+        ${q.img ? `<img src="${q.img}" class="qm-tech-img" alt="${q.q}">` : '<div class="qm-tech-img-placeholder"></div>'}
+        <div class="qm-question">What does <strong>${q.q}</strong> mean?</div>
+        <div class="qm-choices">
+          ${q.choices.map(c => `
+            <button class="qm-choice" onclick="answerQuiz('${c.replace(/'/g,"\'")}', '${q.a.replace(/'/g,"\'")}', this)">${c}</button>
+          `).join('')}
+        </div>
+      </div>`;
+  }
+
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.querySelector('.qm-sheet').classList.add('qm-sheet-open'));
+}
+
+function answerQuiz(chosen, correct, btn) {
+  const choices = document.querySelectorAll('.qm-choice');
+  choices.forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('qm-correct');
+    _quizState.score++;
+  } else {
+    btn.classList.add('qm-wrong');
+    choices.forEach(b => { if (b.textContent === correct) b.classList.add('qm-correct'); });
+  }
+  setTimeout(() => {
+    _quizState.current++;
+    renderQuizModal();
+  }, 900);
+}
+
+function closeQuizModal() {
+  const m = document.getElementById('quiz-modal');
+  if (m) {
+    m.querySelector('.qm-sheet').classList.remove('qm-sheet-open');
+    setTimeout(() => m.remove(), 300);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// TECHNIQUE ILLUSTRATION MAP
+// Keys normalised to match TECHNIQUES array name field (lowercase)
+// ══════════════════════════════════════════════════════════════════
+const TECH_IMG = {
+  'de-ashi-barai':           'tech-de-ashi-barai.png',
+  'de-ashi-harai':           'tech-de-ashi-barai.png',
+  'hiza-guruma':             'tech-hiza-guruma.png',
+  'sasae-tsuri-komi-ashi':   'tech-sasae-tsuri-komi-ashi.png',
+  'o-goshi':                 'tech-o-goshi.png',
+  'o-soto-gari':             'tech-o-soto-gari.png',
+  'uki-goshi':               'tech-uki-goshi.png',
+  'o-uchi-gari':             'tech-o-uchi-gari.png',
+  'seoi-nage':               'tech-seoi-nage.png',
+  'ippon-seoi-nage':         'tech-seoi-nage.png',
+  'morote-seoi-nage':        'tech-seoi-nage.png',
+  'eri-seoi-nage':           'tech-seoi-nage.png',
+  'ko-soto-gari':            'tech-ko-soto-gari.png',
+  'ko-uchi-gari':            'tech-ko-uchi-gari.png',
+  'koshi-guruma':            'tech-koshi-guruma.png',
+  'tsuri-komi-goshi':        'tech-tsuri-komi-goshi.png',
+  'okuri-ashi-barai':        'tech-okuri-ashi-barai.png',
+  'okuri-ashi-harai':        'tech-okuri-ashi-barai.png',
+  'tai-otoshi':              'tech-tai-otoshi.png',
+  'harai-goshi':             'tech-harai-goshi.png',
+  'uchi-mata':               'tech-uchi-mata.png',
+  'ko-soto-gake':            'tech-ko-soto-gake.png',
+  'tsuri-goshi':             'tech-tsuri-goshi.png',
+  'yoko-otoshi':             'tech-yoko-otoshi.png',
+  'ashi-guruma':             'tech-ashi-guruma.png',
+  'hane-goshi':              'tech-hane-goshi.png',
+  'harai-tsuri-komi-ashi':   'tech-harai-tsuri-komi-ashi.png',
+  'sumi-gaeshi':             'tech-sumi-gaeshi.png',
+  'tani-otoshi':             'tech-tani-otoshi.png',
+  'hane-maki-komi':          'tech-hane-maki-komi.png',
+  'sukui-nage':              'tech-sukui-nage.png',
+  'utsuri-goshi':            'tech-utsuri-goshi.png',
+  'o-guruma':                'tech-o-guruma.png',
+  'soto-maki-komi':          'tech-soto-maki-komi.png',
+  'uki-otoshi':              'tech-uki-otoshi.png',
+  'o-soto-guruma':           'tech-o-soto-guruma.png',
+  'uki-waza':                'tech-uki-waza.png',
+  'yoko-wakare':             'tech-yoko-wakare.png',
+  'yoko-guruma':             'tech-yoko-guruma.png',
+  'ushiro-goshi':            'tech-ushiro-goshi.png',
+  'ura-nage':                'tech-ura-nage.png',
+  'sumi-otoshi':             'tech-sumi-otoshi.png',
+  'yoko-gake':               'tech-yoko-gake.png',
+};
+
+/**
+ * Get illustration path for a technique name.
+ * Returns null if no illustration exists.
+ */
+function getTechImg(techName) {
+  if (!techName) return null;
+  const key = techName.toLowerCase().trim();
+  return TECH_IMG[key] ? 'images/' + TECH_IMG[key] : null;
+}

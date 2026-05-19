@@ -1,4 +1,4 @@
-const CACHE = 'judohub-v1';
+const CACHE = 'judohub-v2';
 
 const APP_SHELL = [
   './',
@@ -24,6 +24,8 @@ const APP_SHELL = [
   './images/icon-192.png',
   './images/icon-512.png',
   './images/apple-touch-icon.png',
+  './images/logo.png',
+  './images/logo-header.png',
 ];
 
 // Install: cache the app shell

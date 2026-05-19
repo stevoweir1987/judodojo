@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.0b90b47b.css",
-    "main.js": "/static/js/main.61a77f06.js",
+    "main.css": "/static/css/main.0bd23bc1.css",
+    "main.js": "/static/js/main.15db8b29.js",
+    "static/media/final_cleaned_judo_techniques.csv": "/static/media/final_cleaned_judo_techniques.331c46718e8063323cb4.csv",
     "index.html": "/index.html",
-    "main.0b90b47b.css.map": "/static/css/main.0b90b47b.css.map",
-    "main.61a77f06.js.map": "/static/js/main.61a77f06.js.map"
+    "main.0bd23bc1.css.map": "/static/css/main.0bd23bc1.css.map",
+    "main.15db8b29.js.map": "/static/js/main.15db8b29.js.map"
   },
   "entrypoints": [
-    "static/css/main.0b90b47b.css",
-    "static/js/main.61a77f06.js"
+    "static/css/main.0bd23bc1.css",
+    "static/js/main.15db8b29.js"
   ]
 }

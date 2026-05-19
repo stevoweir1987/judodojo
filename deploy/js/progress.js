@@ -1,10 +1,22 @@
 // ── PROGRESS TRACKER v2 ─────────────────────────────────────
 
 let progTab = 'overview';
+let progGradeSubTab = 'current';
 let progExpandedSession = null;
 
 // ── DATA HELPERS ─────────────────────────────────────────────
-function getSessionLog()  { return JSON.parse(localStorage.getItem('judo_session_log')    || '[]'); }
+function getSessionLog() {
+  var log1 = JSON.parse(localStorage.getItem('judo_session_log') || '[]');
+  var log2 = JSON.parse(localStorage.getItem('judohub_sessions_log') || '[]').map(function(s) {
+    return { date: s.date, category: s.cat || 'Training', minutes: s.duration || 20, id: s.date + '_' + (s.cat||'') };
+  });
+  // Merge, deduplicate by date+category
+  var seen = new Set(log1.map(function(s){ return s.date+'_'+(s.category||''); }));
+  var merged = log1.slice();
+  log2.forEach(function(s){ if (!seen.has(s.date+'_'+s.category)) merged.push(s); });
+  merged.sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+  return merged;
+}
 function getRandoriLog()  { return JSON.parse(localStorage.getItem('judo_randori_log')    || '[]'); }
 function getBeltTimeline(){ return JSON.parse(localStorage.getItem('judo_belt_timeline')  || '[]'); }
 function getWeeklyGoal()  { return JSON.parse(localStorage.getItem('judo_weekly_goal')    || '{"sessions":4,"minutes":60}'); }
@@ -25,169 +37,361 @@ function todayStr() { return new Date().toISOString().slice(0,10); }
 
 // ── MAIN RENDER ──────────────────────────────────────────────
 function renderProgress() {
-  document.getElementById('progress-body').innerHTML = `
-    <div class="prog-wrap">
-      <div class="prog-tabs">
-        <button class="prog-tab active" onclick="setProgTab('overview')">Overview</button>
-        <button class="prog-tab"        onclick="setProgTab('sessions')">Session Log</button>
-        <button class="prog-tab"        onclick="setProgTab('randori')">Randori</button>
-        <button class="prog-tab"        onclick="setProgTab('belt')">Belt Journey</button>
-        <button class="prog-tab"        onclick="setProgTab('goals')">Goals</button>
-      </div>
-      <div id="prog-tab-body"></div>
-    </div>`;
+  const el = document.getElementById('progress-body');
+  if (!el) return;
+  el.innerHTML = '<div style="padding:14px 14px 0;background:#09090e">'
+    + '<div style="color:#f0f4ff;font-size:20px;font-weight:800;margin-bottom:12px">Progress</div>'
+    + '<div style="display:flex;background:#13131c;border-radius:10px;padding:3px;gap:2px">'
+    + '<button class="prog-seg-btn active" id="psb-overview" onclick="setProgTab(\'overview\')">Overview</button>'
+    + '<button class="prog-seg-btn" id="psb-grades" onclick="setProgTab(\'grades\')">Grades</button>'
+    + '<button class="prog-seg-btn" id="psb-goals" onclick="setProgTab(\'goals\')">Goals</button>'
+    + '</div></div>'
+    + '<div id="prog-tab-body" style="padding:12px 14px 80px;background:#09090e"></div>';
   progTab = 'overview';
   renderProgTab();
 }
 
 function setProgTab(tab) {
   progTab = tab;
-  document.querySelectorAll('.prog-tab').forEach((b, i) => {
-    const tabs = ['overview','sessions','randori','belt','goals'];
-    b.classList.toggle('active', tabs[i] === tab);
+  ['overview','grades','goals'].forEach(function(id) {
+    var btn = document.getElementById('psb-' + id);
+    if (btn) { btn.className = id === tab ? 'prog-seg-btn active' : 'prog-seg-btn'; }
   });
   renderProgTab();
 }
 
 function renderProgTab() {
-  const el = document.getElementById('prog-tab-body');
+  var el = document.getElementById('prog-tab-body');
   if (!el) return;
-  switch (progTab) {
-    case 'overview': el.innerHTML = buildOverview();  break;
-    case 'sessions': el.innerHTML = buildSessions();  afterSessions(); break;
-    case 'randori':  el.innerHTML = buildRandori();   afterRandori();  break;
-    case 'belt':     el.innerHTML = buildBeltJourney();afterBelt();    break;
-    case 'goals':    el.innerHTML = buildGoals();     afterGoals();    break;
-  }
+  if (progTab === 'overview') { el.innerHTML = buildOverview(); }
+  else if (progTab === 'grades') { el.innerHTML = buildGrades(); setPGradeSubTab('current'); }
+  else if (progTab === 'goals')  { el.innerHTML = buildGoals(); }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ── TAB 1: OVERVIEW ────────────────────────────────────────────
-// ═══════════════════════════════════════════════════════════════
 function buildOverview() {
-  const log       = getSessionLog();
-  const streak    = getStreak();
-  const xp        = getXP();
-  const goal      = getWeeklyGoal();
-  const weekSes   = getSessionsThisWeek();
-  const totalMins = log.reduce((s,l) => s + (l.minutes||0), 0);
-  const randori   = getRandoriLog();
+  var log       = getSessionLog();
+  var streak    = getStreak();
+  var goal      = getWeeklyGoal();
+  var weekSes   = getSessionsThisWeek();
+  var totalMins = log.reduce(function(s,l){ return s+(l.minutes||0); }, 0);
+  var matHours  = totalMins >= 60 ? (totalMins/60).toFixed(1)+'h' : totalMins+'m';
 
-  const milestones    = [0,50,150,300,500,750,1000];
-  const nextMs        = milestones.find(m => m > xp) || (Math.ceil(xp/250)+1)*250;
-  const prevMs        = [...milestones].reverse().find(m => m <= xp) || 0;
-  const xpPct         = nextMs > prevMs ? Math.round((xp-prevMs)/(nextMs-prevMs)*100) : 100;
+  // Profile
+  var p = (typeof getProfile === 'function') ? getProfile() : null;
+  var userBeltKey = (p && p.belt) ? p.belt : 'white';
 
-  const weekGoalPct   = Math.min(100, Math.round(weekSes / goal.sessions * 100));
-  const weekMinsDone  = log.filter(l => {
-    const d = new Date(); const mon = new Date(d);
-    mon.setDate(d.getDate()-((d.getDay()+6)%7)); mon.setHours(0,0,0,0);
-    return l.date && new Date(l.date) >= mon;
-  }).reduce((s,l) => s+(l.minutes||0),0);
-  const weekMinsPct   = Math.min(100, Math.round(weekMinsDone / goal.minutes * 100));
+  // ── Overall mastery (all belt requirements combined) ──────
+  var totalItems = 0, doneItems = 0;
+  if (typeof BELT_DATA !== 'undefined') {
+    BELT_DATA.forEach(function(b) {
+      b.groups.forEach(function(g) {
+        g.items.forEach(function(item) {
+          totalItems++;
+          if (beltProgress && beltProgress[b.id+'_'+item]) doneItems++;
+        });
+      });
+    });
+  }
+  var masteryPct = totalItems ? Math.round(doneItems/totalItems*100) : 0;
 
-  // Active belt
-  const activeBelt = getActiveBelt();
-  const beltTotal  = activeBelt ? activeBelt.groups.reduce((s,g)=>s+g.items.length,0) : 1;
-  const beltDone   = activeBelt ? activeBelt.groups.reduce((s,g)=>s+g.items.filter(i=>beltProgress[activeBelt.id+'_'+i]).length,0) : 0;
-  const beltPct    = beltTotal ? Math.round(beltDone/beltTotal*100) : 0;
+  // Mastery donut ring
+  var ringR = 52; var ringC = 2*Math.PI*ringR;
+  var ringDone   = ringC * (masteryPct/100);
+  var ringRemain = ringC - ringDone;
 
-  const recent = [...log].reverse().slice(0,3);
-  const lastRandori = [...randori].reverse()[0];
-  const totalMatches = randori.reduce((s,r)=>s+(r.won||0)+(r.lost||0)+(r.drew||0),0);
-  const totalWins    = randori.reduce((s,r)=>s+(r.won||0),0);
-  const winRate = totalMatches ? Math.round(totalWins/totalMatches*100) : null;
+  // ── Weekly consistency bars ───────────────────────────────
+  var today = new Date();
+  var dow = (today.getDay()+6)%7;
+  var dayLabels = ['M','T','W','T','F','S','S'];
+  var weekDates = [];
+  for (var d=0; d<7; d++) {
+    var dd = new Date(today); dd.setDate(today.getDate()-dow+d);
+    weekDates.push(dd.toISOString().slice(0,10));
+  }
+  var todayStr2 = today.toISOString().slice(0,10);
+  var minutesByDay = {};
+  weekDates.forEach(function(dt){ minutesByDay[dt] = 0; });
+  log.forEach(function(s){ if (minutesByDay.hasOwnProperty(s.date)) minutesByDay[s.date] += (s.minutes||20); });
+  var maxMins = Math.max(60, Math.max.apply(null, weekDates.map(function(d){ return minutesByDay[d]; })));
+  var weekMinsDone = weekDates.reduce(function(s,d){ return s+(minutesByDay[d]||0); }, 0);
+  var weekPct  = goal.minutes ? Math.min(100, Math.round(weekMinsDone/(goal.minutes*goal.sessions||240)*100)) : 0;
+  var weekMatH = weekMinsDone >= 60 ? (weekMinsDone/60).toFixed(1)+'h' : weekMinsDone+'m';
 
-  return `
-    <div class="prog-overview">
-      <div class="prog-stats-row">
-        ${statCard('🔥', streak||0,           'Day Streak',   streak>=3?'var(--accent)':null)}
-        ${statCard('⚡', xp,                  'Total XP',     'var(--blue)')}
-        ${statCard('⏱', totalMins+'m',        'Total Trained',null)}
-        ${statCard('🥋', log.length,           'Sessions',     null)}
-      </div>
+  // ── Belt roadmap ──────────────────────────────────────────
+  var beltColorMap = {red:'#dc2626',yellow:'#f5c542',orange:'#f97316',green:'#22c55e',blue:'#3b82f6',brown:'#92400e',black:'#2a2a2a'};
+  var activeBelt = (typeof getActiveBelt === 'function') ? getActiveBelt() : null;
+  var roadmapHtml = '';
+  if (typeof BELT_DATA !== 'undefined') {
+    BELT_DATA.forEach(function(b) {
+      var allItems = b.groups.reduce(function(a,g){ return a.concat(g.items); }, []);
+      var bDone  = allItems.filter(function(i){ return beltProgress && !!beltProgress[b.id+'_'+i]; }).length;
+      var bTotal = allItems.length;
+      var bPct   = bTotal ? Math.round(bDone/bTotal*100) : 0;
+      var bColor = beltColorMap[(b.to||'').toLowerCase()] || '#888';
+      var isActive = activeBelt && activeBelt.id === b.id;
+      roadmapHtml +=
+        '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;'+(isActive?'':'opacity:.75')+'">' +
+          '<div style="width:10px;height:10px;border-radius:50%;background:'+bColor+';flex-shrink:0'+(isActive?';box-shadow:0 0 6px '+bColor:'')+'"></div>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">' +
+              '<div style="font-size:11px;font-weight:'+(isActive?'700':'600')+';color:'+(isActive?'#f0f4ff':'#888')+'">'+b.to+' Belt</div>' +
+              '<div style="font-size:11px;font-weight:700;color:'+bColor+'">'+bPct+'%</div>' +
+            '</div>' +
+            '<div style="height:4px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden">' +
+              '<div style="height:100%;width:'+bPct+'%;background:'+bColor+';border-radius:3px;transition:width .4s"></div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    });
+  }
 
-      <div class="prog-grid">
-        <!-- BELT -->
-        <div class="prog-card">
-          <div class="prog-card-label">Belt Advancement ${activeBelt ? '— '+activeBelt.label : ''}</div>
-          <div style="display:flex;align-items:center;gap:10px;margin:8px 0">
-            <div class="prog-bar-track" style="flex:1">
-              <div class="prog-bar-fill" style="width:${beltPct}%;background:linear-gradient(90deg,var(--accent),#ff6b6b)"></div>
-            </div>
-            <span class="prog-pct-badge" style="color:${beltPct>=100?'#16a34a':'var(--accent)'}">${beltPct}%</span>
-          </div>
-          ${beltPct>=100
-            ? `<div style="color:#16a34a;font-size:13px">🎉 All requirements complete!</div>`
-            : `<div style="color:var(--text-muted);font-size:12px">${beltTotal-beltDone} requirement${beltTotal-beltDone!==1?'s':''} remaining</div>`}
-          <button class="prog-action-btn" onclick="showView('belt')" style="margin-top:10px">Open Belt Progression →</button>
-        </div>
+  // ── Consistency bars HTML ─────────────────────────────────
+  var barsHtml = '<div style="display:flex;align-items:flex-end;gap:5px;height:52px">';
+  weekDates.forEach(function(dt, di) {
+    var mins    = minutesByDay[dt] || 0;
+    var pct     = Math.round((mins/maxMins)*100);
+    var isToday = dt === todayStr2;
+    var isFuture = dt > todayStr2;
+    var barColor = mins > 0 ? '#e63946' : (isToday ? 'rgba(230,57,70,.2)' : 'rgba(255,255,255,.06)');
+    var border   = isToday ? '1px solid rgba(230,57,70,.4)' : 'none';
+    barsHtml +=
+      '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">' +
+        '<div style="width:100%;border-radius:3px 3px 0 0;background:'+barColor+';height:'+(mins>0?Math.max(6,Math.round(pct*0.48)):4)+'px;border:'+border+';transition:height .3s;align-self:flex-end"></div>' +
+        '<div style="font-size:9px;color:'+(isToday?'#d97706':'#444')+';font-weight:'+(isToday?'700':'400')+'">'+dayLabels[di]+'</div>' +
+      '</div>';
+  });
+  barsHtml += '</div>';
 
-        <!-- WEEKLY GOAL -->
-        <div class="prog-card">
-          <div class="prog-card-label">This Week</div>
-          <div class="prog-goal-row">
-            <div>
-              <span class="prog-goal-done">${weekSes}</span><span class="prog-goal-sep">/</span><span class="prog-goal-total">${goal.sessions}</span>
-              <span style="font-size:11px;color:var(--text-muted);margin-left:4px">sessions</span>
-            </div>
-            <div style="margin-top:6px">
-              <span class="prog-goal-done" style="font-size:18px">${weekMinsDone}</span><span class="prog-goal-sep">/</span><span class="prog-goal-total" style="font-size:18px">${goal.minutes}</span>
-              <span style="font-size:11px;color:var(--text-muted);margin-left:4px">min</span>
-            </div>
-          </div>
-          <div class="prog-bar-track" style="margin-top:8px">
-            <div class="prog-bar-fill" style="width:${weekGoalPct}%;background:linear-gradient(90deg,#16a34a,#4ade80)"></div>
-          </div>
-          <div class="prog-mini-days">${buildWeekDots(log)}</div>
-        </div>
+  // ── Stats row ─────────────────────────────────────────────
+  var statsHtml =
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;margin-bottom:14px">' +
+    _pStat(weekMatH,   'Mat hours',  '#f0f4ff', true) +
+    _pStat(weekSes+'', 'Sessions',   '#f0f4ff', false) +
+    _pStat(log.length+'','All time',  '#f0f4ff', false) +
+    _pStat(weekPct+'%','This week',  '#e63946', false) +
+    '</div>';
 
-        <!-- XP -->
-        <div class="prog-card">
-          <div class="prog-card-label">XP</div>
-          <div class="prog-xp-display"><span class="prog-xp-val">${xp}</span><span class="prog-xp-label">XP</span></div>
-          <div class="prog-xp-sub">Next milestone: <strong>${nextMs} XP</strong></div>
-          <div class="prog-bar-track" style="margin:8px 0">
-            <div class="prog-bar-fill" style="width:${xpPct}%;background:linear-gradient(90deg,var(--blue),#60a5fa)"></div>
-          </div>
-          <div class="prog-xp-range"><span>${prevMs}</span><span>${nextMs}</span></div>
-        </div>
+  return (
+    // ── Mastery ring ─────────────────────────────────────
+    '<div class="p-card" style="text-align:center;padding:20px 16px 16px">' +
+      '<div style="font-size:9px;font-weight:700;color:#444;letter-spacing:.9px;text-transform:uppercase;margin-bottom:14px">Mastery Overall</div>' +
+      '<div style="position:relative;display:inline-block">' +
+        '<svg width="128" height="128" viewBox="0 0 128 128">' +
+          '<circle cx="64" cy="64" r="52" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="10"/>' +
+          '<circle cx="64" cy="64" r="52" fill="none" stroke="#e63946" stroke-width="10"' +
+            ' stroke-dasharray="'+ringDone.toFixed(1)+' '+ringRemain.toFixed(1)+'"' +
+            ' stroke-linecap="round" transform="rotate(-90 64 64)"/>' +
+        '</svg>' +
+        '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">' +
+          '<div style="font-size:34px;font-weight:900;color:#f0f4ff;line-height:1">'+masteryPct+'%</div>' +
+          '<div style="font-size:10px;color:#555;margin-top:2px">'+doneItems+' / '+totalItems+'</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;justify-content:center;gap:16px;margin-top:12px">' +
+        '<div style="display:flex;align-items:center;gap:5px"><div style="width:8px;height:8px;border-radius:2px;background:#e63946"></div><span style="font-size:10px;color:#666">Mastered</span></div>' +
+        '<div style="display:flex;align-items:center;gap:5px"><div style="width:8px;height:8px;border-radius:2px;background:rgba(255,255,255,.08)"></div><span style="font-size:10px;color:#666">Remaining</span></div>' +
+      '</div>' +
+    '</div>' +
 
-        <!-- RANDORI -->
-        <div class="prog-card">
-          <div class="prog-card-label">Randori Stats</div>
-          ${totalMatches===0
-            ? `<div class="prog-empty" style="font-size:13px">No randori logged yet.<br><button class="prog-action-btn" onclick="setProgTab('randori')" style="margin-top:8px">Log randori →</button></div>`
-            : `<div style="display:flex;gap:16px;margin:8px 0">
-                ${randoriStatPill(totalWins,'Wins','#16a34a')}
-                ${randoriStatPill(totalMatches-totalWins-(randori.reduce((s,r)=>s+(r.drew||0),0)),'Losses','var(--accent)')}
-                ${randoriStatPill(randori.reduce((s,r)=>s+(r.drew||0),0),'Draws','var(--blue)')}
-               </div>
-               <div style="font-size:13px;color:var(--text-muted)">Win rate: <strong style="color:${winRate>=50?'#16a34a':'var(--text)'}">${winRate}%</strong> from ${totalMatches} matches</div>
-               ${lastRandori?`<div style="font-size:11px;color:var(--text-muted);margin-top:6px">Last: ${fmtDateShort(lastRandori.date)}</div>`:''}
-               <button class="prog-action-btn" onclick="setProgTab('randori')" style="margin-top:10px">View all →</button>`}
-        </div>
-      </div>
+    // ── Stats row ─────────────────────────────────────────
+    statsHtml +
 
-      <!-- RECENT SESSIONS -->
-      <div class="prog-card prog-card-full">
-        <div class="prog-card-label" style="display:flex;justify-content:space-between;align-items:center">
-          <span>Recent Sessions</span>
-          ${log.length>3?`<button class="prog-action-btn" onclick="setProgTab('sessions')">See all ${log.length} →</button>`:''}
-        </div>
-        ${recent.length===0
-          ? `<div class="prog-empty">No sessions yet — complete a training session to see history here.</div>`
-          : recent.map(s => sessionRow(s, false)).join('')}
-      </div>
-    </div>`;
+    // ── Weekly consistency ────────────────────────────────
+    '<div class="p-card" style="padding:14px 14px 12px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+        '<div style="font-size:11px;font-weight:700;color:#f0f4ff">Weekly Consistency</div>' +
+        '<div style="font-size:10px;color:#555">'+weekSes+' / '+goal.sessions+' sessions</div>' +
+      '</div>' +
+      barsHtml +
+    '</div>' +
+
+    // ── Belt roadmap ──────────────────────────────────────
+    '<div class="p-card">' +
+      '<div style="font-size:11px;font-weight:700;color:#f0f4ff;margin-bottom:10px">Belt Roadmap</div>' +
+      roadmapHtml +
+      '<div style="margin-top:10px">' +
+        '<button class="p-cta" onclick="setProgTab(\'grades\')">View Full Requirements →</button>' +
+      '</div>' +
+    '</div>' +
+
+    // ── Streak footer ─────────────────────────────────────
+    '<div style="display:flex;justify-content:center;align-items:center;gap:6px;padding:4px 0 8px;color:#555;font-size:12px">' +
+      '<span style="color:#e63946">🔥</span>' +
+      '<span style="font-weight:700;color:#f0f4ff">'+streak+'</span>' +
+      '<span>day streak</span>' +
+    '</div>'
+  );
+}
+
+function _pStat(val, lbl, col, hasBorder) {
+  return '<div style="padding:12px 6px;text-align:center'+(hasBorder?'':';border-left:1px solid rgba(255,255,255,.07)')+'">' +
+    '<div style="font-size:19px;font-weight:800;color:'+col+';line-height:1">'+val+'</div>' +
+    '<div style="font-size:9px;color:#444;text-transform:uppercase;letter-spacing:.5px;margin-top:3px">'+lbl+'</div>' +
+  '</div>';
+}
+
+
+function buildGrades() {
+  return '<div style="display:flex;background:#13131c;border-radius:10px;padding:3px;gap:2px;margin-bottom:12px" id="pgrades-subtabs">'
+    + '<button class="prog-sub-btn active" id="pgsb-current" onclick="setPGradeSubTab(\'current\')">Current Grade</button>'
+    + '<button class="prog-sub-btn" id="pgsb-path" onclick="setPGradeSubTab(\'path\')">Grade Path</button>'
+    + '</div>'
+    + '<div id="pgrades-body"></div>';
+}
+
+function setPGradeSubTab(sub) {
+  progGradeSubTab = sub;
+  ['current','path'].forEach(function(id) {
+    var btn = document.getElementById('pgsb-' + id);
+    if (btn) btn.className = id === sub ? 'prog-sub-btn active' : 'prog-sub-btn';
+  });
+  var el = document.getElementById('pgrades-body');
+  if (!el) return;
+  if (sub === 'current') el.innerHTML = buildGradesCurrent();
+  else el.innerHTML = buildGradesPath();
+}
+
+function buildGradesCurrent() {
+  var p = (typeof getProfile === 'function') ? getProfile() : null;
+  var userBeltKey = (p && p.belt) ? p.belt : 'white';
+  var beltColorMap = {white:'#e5e5e5',red:'#dc2626',yellow:'#f5c542',orange:'#f97316',green:'#22c55e',blue:'#3b82f6',brown:'#92400e'};
+  var beltLabelMap = {white:'White Belt',red:'Red Belt',yellow:'Yellow Belt',orange:'Orange Belt',green:'Green Belt',blue:'Blue Belt',brown:'Brown Belt'};
+  var beltColor = beltColorMap[userBeltKey] || '#e5e5e5';
+  var beltLabel = beltLabelMap[userBeltKey] || 'White Belt';
+
+  var activeBelt = (typeof getActiveBelt === 'function') ? getActiveBelt() : null;
+  var beltTotal = activeBelt ? activeBelt.groups.reduce(function(s,g){ return s+g.items.length; },0) : 1;
+  var beltDone  = activeBelt ? activeBelt.groups.reduce(function(s,g){ return s+g.items.filter(function(i){ return !!beltProgress[activeBelt.id+'_'+i]; }).length; },0) : 0;
+  var beltPct   = beltTotal ? Math.round(beltDone/beltTotal*100) : 0;
+  var beltRem   = beltTotal - beltDone;
+
+  // Build requirement rows (first 6 items across groups)
+  var allItems = [];
+  if (activeBelt) {
+    activeBelt.groups.forEach(function(g) {
+      g.items.forEach(function(item) {
+        allItems.push({ name: item, group: g.name, done: !!beltProgress[activeBelt.id+'_'+item] });
+      });
+    });
+  }
+  var shown = allItems.slice(0,6);
+
+  var beltIdForReq = activeBelt ? activeBelt.id : '';
+  var reqRowsHtml = shown.map(function(item) {
+    var ringHtml = item.done
+      ? '<div style="width:26px;height:26px;border-radius:50%;background:#e53935;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>'
+      : '<div style="width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.15);flex-shrink:0"></div>';
+    var escapedName = item.name.replace(/'/g,"\\'");
+    var escapedBeltId = beltIdForReq.replace(/'/g,"\\'");
+    return '<div class="p-req-row" style="cursor:pointer" onclick="toggleBeltReqFromProgress(\'' + escapedBeltId + '\',\'' + escapedName + '\');">'
+      + '<div style="width:40px;height:40px;border-radius:8px;background:#1e2030;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🥋</div>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div style="color:#f0f4ff;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'
+      + '<div style="color:#555;font-size:10px">'+item.group+'</div>'
+      + '</div>'
+      + ringHtml
+      + '</div>';
+  }).join('');
+
+  return '<div class="p-card" style="display:flex;align-items:flex-start;gap:12px">'
+    + '<div style="flex:1">'
+    + '<div style="color:#f0f4ff;font-size:22px;font-weight:800">'+beltLabel+'</div>'
+    + '<div style="color:#e53935;font-size:12px;font-weight:700;margin:4px 0 8px">'+beltPct+'% Complete</div>'
+    + '<div class="p-pbar-bg"><div class="p-pbar-fill" style="width:'+beltPct+'%;background:#e53935"></div></div>'
+    + '<div style="color:#666;font-size:11px;margin-top:6px">'+beltRem+' requirements remaining</div>'
+    + '<div style="color:#555;font-size:10px;margin-top:2px;margin-bottom:10px">Keep training!</div>'
+    + '<button class="p-cta-ghost" onclick="showView(\'belt\')">View All Requirements →</button>'
+    + '</div>'
+    + '<div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px">'
+    + '<img src="images/belt-'+userBeltKey+'.png" style="width:64px;height:64px;object-fit:contain" onerror="this.style.opacity=.3">'
+    + '<div style="font-size:9px;font-weight:700;color:'+beltColor+'">'+beltDone+'/'+beltTotal+'</div>'
+    + '</div></div>'
+    + '<div class="p-card">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    + '<div style="color:#f0f4ff;font-size:13px;font-weight:700">Requirements</div>'
+    + '<div style="display:flex;align-items:center;gap:6px">'
+    + '<div style="background:#1e1808;border:0.5px solid #d97706;border-radius:20px;padding:3px 8px;font-size:9px;color:#d97706;font-weight:700">'+beltDone+'/'+beltTotal+'</div>'
+    + '<div style="color:#e53935;font-size:11px;font-weight:600;cursor:pointer" onclick="showView(\'belt\')">View All →</div>'
+    + '</div></div>'
+    + reqRowsHtml
+    + (allItems.length>6?'<button class="p-cta-ghost" onclick="showView(\'belt\')" style="margin-top:6px">View All Requirements →</button>':'')
+    + '</div>';
+}
+
+function buildGradesPath() {
+  var belts = [
+    {key:'white', label:'White', color:'#e5e5e5'},
+    {key:'yellow',label:'Yellow',color:'#f5c542'},
+    {key:'orange',label:'Orange',color:'#f97316'},
+    {key:'green', label:'Green', color:'#22c55e'},
+    {key:'blue',  label:'Blue',  color:'#3b82f6'},
+    {key:'brown', label:'Brown', color:'#92400e'},
+  ];
+  var p = (typeof getProfile === 'function') ? getProfile() : null;
+  var userBelt = (p && p.belt) ? p.belt : 'white';
+  var pathHtml = '<div style="display:flex;align-items:center">';
+  belts.forEach(function(b, i) {
+    var isCurrent = b.key === userBelt;
+    var isPast = belts.indexOf(belts.find(function(x){return x.key===userBelt;})) > i;
+    var circleStyle = isCurrent
+      ? 'width:34px;height:34px;border-radius:50%;background:'+b.color+'22;border:2.5px solid '+b.color+';display:flex;align-items:center;justify-content:center;font-size:13px'
+      : (isPast ? 'width:34px;height:34px;border-radius:50%;background:'+b.color+'33;border:2.5px solid '+b.color+'88;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:.6'
+               : 'width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:13px;opacity:.4');
+    pathHtml += '<div style="display:flex;flex-direction:column;align-items:center;flex:1">'
+      + '<div style="'+circleStyle+'">🥋</div>'
+      + '<div style="font-size:9px;margin-top:4px;font-weight:'+(isCurrent?'700':'500')+';color:'+(isCurrent?b.color:'#444')+'">'+b.label+'</div>'
+      + '</div>';
+    if (i < belts.length-1) {
+      pathHtml += '<div style="height:2px;flex:0 0 14px;background:'+(isPast?belts[i].color+'44':'rgba(255,255,255,.07)')+';margin-bottom:14px"></div>';
+    }
+  });
+  pathHtml += '</div>';
+  return '<div class="p-card">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">'
+    + '<div style="color:#f0f4ff;font-size:13px;font-weight:700">Grade Path</div>'
+    + '<div style="color:#e53935;font-size:11px;font-weight:600;cursor:pointer" onclick="showView(\'belt\')">View full path →</div>'
+    + '</div>'
+    + pathHtml
+    + '</div>';
+}
+
+function buildGoals() {
+  return '<div class="p-card" style="text-align:center;padding:32px 16px">'
+    + '<div style="font-size:40px;margin-bottom:12px">🎯</div>'
+    + '<div style="color:#f0f4ff;font-size:16px;font-weight:700;margin-bottom:6px">Set Your Goals</div>'
+    + '<div style="color:#555;font-size:12px;line-height:1.6;margin-bottom:16px">Track weekly session targets, technique milestones and grading timelines</div>'
+    + '<button class="p-cta">Add First Goal →</button>'
+    + '</div>';
+}
+
+function toggleBeltReqFromProgress(beltId, item) {
+  var key = beltId + '_' + item;
+  beltProgress[key] = !beltProgress[key];
+  localStorage.setItem('judo_belt_progress', JSON.stringify(beltProgress));
+  // Re-render current grades sub-tab so ring updates
+  setPGradeSubTab('current');
+  // Refresh overview if showing
+  if (progTab === 'overview') { var el = document.getElementById('prog-tab-body'); if (el) el.innerHTML = buildOverview(); }
+  // Sync belt tab if open
+  if (typeof renderBelt === 'function') {
+    var bv = document.getElementById('view-belt');
+    if (bv && bv.classList.contains('active')) setTimeout(function(){ renderBelt(); }, 50);
+  }
 }
 
 function getActiveBelt() {
   if (typeof BELT_DATA === 'undefined') return null;
-  // find first belt not 100% complete
-  for (const b of BELT_DATA) {
-    const tot = b.groups.reduce((s,g)=>s+g.items.length,0);
-    const don = b.groups.reduce((s,g)=>s+g.items.filter(i=>beltProgress[b.id+'_'+i]).length,0);
+  // Use the same belt as belt.js (respects judo_current_belt_id set by user/grading pass)
+  var savedId = localStorage.getItem('judo_current_belt_id');
+  if (savedId) {
+    var found = BELT_DATA.find(function(b){ return b.id === savedId; });
+    if (found) return found;
+  }
+  // Fallback: first incomplete belt
+  for (var i = 0; i < BELT_DATA.length; i++) {
+    var b = BELT_DATA[i];
+    var tot = b.groups.reduce(function(s,g){ return s+g.items.length; }, 0);
+    var don = b.groups.reduce(function(s,g){ return s+g.items.filter(function(i){ return !!beltProgress[b.id+'_'+i]; }).length; }, 0);
     if (don < tot) return b;
   }
   return BELT_DATA[BELT_DATA.length-1];
@@ -525,96 +729,6 @@ function calcAvgSessionsPerWeek(log) {
   const cutoff = new Date(now); cutoff.setDate(now.getDate()-56); // 8 weeks
   const recent = log.filter(l => l.date && new Date(l.date) >= cutoff);
   return recent.length / 8;
-}
-
-// ═══════════════════════════════════════════════════════════════
-// ── TAB 5: GOALS ───────────────────────────────────────────────
-// ═══════════════════════════════════════════════════════════════
-function buildGoals() {
-  const goal   = getWeeklyGoal();
-  const log    = getSessionLog();
-
-  // Build last 8 weeks performance
-  const weeks = [];
-  const now   = new Date();
-  for (let w = 0; w < 8; w++) {
-    const mon = new Date(now);
-    mon.setDate(now.getDate() - ((now.getDay()+6)%7) - w*7);
-    mon.setHours(0,0,0,0);
-    const sun = new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59);
-    const sessions = log.filter(l => {
-      const d = new Date(l.date||0);
-      return d >= mon && d <= sun;
-    });
-    const mins = sessions.reduce((s,l)=>s+(l.minutes||0),0);
-    weeks.push({ label: fmtDateShort(mon.toISOString()), sessions:sessions.length, mins });
-  }
-  weeks.reverse();
-
-  const maxSess = Math.max(...weeks.map(w=>w.sessions), goal.sessions);
-  const barH    = 60;
-
-  return `
-    <div class="prog-goals">
-      <div class="prog-card">
-        <div class="prog-card-label">Weekly Goals</div>
-        <div class="goals-form">
-          <div class="goals-form-row">
-            <label>Sessions per week</label>
-            <div class="goals-counter">
-              <button onclick="adjustGoal('sessions',-1)">−</button>
-              <span id="goal-sess-val">${goal.sessions}</span>
-              <button onclick="adjustGoal('sessions',1)">+</button>
-            </div>
-          </div>
-          <div class="goals-form-row">
-            <label>Minutes per week</label>
-            <div class="goals-counter">
-              <button onclick="adjustGoal('minutes',-10)">−</button>
-              <span id="goal-mins-val">${goal.minutes}</span>
-              <button onclick="adjustGoal('minutes',10)">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="prog-card prog-card-full">
-        <div class="prog-card-label">8-Week Performance</div>
-        <div class="goals-chart">
-          ${weeks.map(w => {
-            const pct   = maxSess > 0 ? Math.round(w.sessions/maxSess*100) : 0;
-            const hit   = w.sessions >= goal.sessions;
-            return `<div class="goals-bar-col">
-              <div class="goals-bar-wrap" style="height:${barH}px">
-                <div class="goals-bar" style="height:${pct}%;background:${hit?'#16a34a':'var(--accent)'}">
-                  <span class="goals-bar-val">${w.sessions||''}</span>
-                </div>
-                <div class="goals-goal-line" style="bottom:${Math.round(goal.sessions/maxSess*100)}%"></div>
-              </div>
-              <div class="goals-bar-label">${w.label}</div>
-              <div class="goals-bar-mins">${w.mins>0?w.mins+'m':''}</div>
-            </div>`;
-          }).join('')}
-        </div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:8px">
-          <span style="display:inline-block;width:10px;height:10px;background:#16a34a;border-radius:2px;margin-right:4px"></span>Goal met &nbsp;
-          <span style="display:inline-block;width:10px;height:10px;background:var(--accent);border-radius:2px;margin-right:4px"></span>Below goal
-        </div>
-      </div>
-    </div>`;
-}
-
-function afterGoals() {}
-
-function adjustGoal(key, delta) {
-  const goal = getWeeklyGoal();
-  goal[key] = Math.max(key==='sessions'?1:10, goal[key]+delta);
-  saveWeeklyGoal(goal);
-  const el = document.getElementById('goal-' + (key==='sessions'?'sess':'mins') + '-val');
-  if (el) el.textContent = goal[key];
-  showToast('Goal updated');
-  // Re-render chart
-  renderProgTab();
 }
 
 // ═══════════════════════════════════════════════════════════════

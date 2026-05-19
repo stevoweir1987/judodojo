@@ -205,17 +205,32 @@ const TECHNIQUES = [
 
 const BELT_DATA = [
   {
+    id:"toRed",label:"Novice → 6th Kyu",from:"White",to:"Red",
+    fromColor:"belt-color-white",toColor:"belt-color-red",duration:"Typically 2–4 months",
+    groups:[
+      {title:"Fundamental — Ukemi",items:["Ushiro Ukemi","Yoko Ukemi","Mae Mawari Ukemi (3 Versions)"]},
+      {title:"Fundamental — Tachi-waza",items:["Osoto-otoshi","Deashi-barai","Uki-goshi"]},
+      {title:"Fundamental — Osaekomi-waza",items:["Kesa-gatame","Mune-gatame","Kuzure-kesa-gatame"]},
+      {title:"Performance — Transitions into Ne-waza",items:["Osoto-otoshi into Kesa-gatame","Deashi-barai into Mune-gatame","Uki-goshi into Kuzure-kesa-gatame"]},
+      {title:"Performance — Ne-waza",items:["Escape from Kesa-gatame by trapping Uke's leg","Escape from Mune-gatame using a bridge and roll action","Escape from Kuzure-kesa-gatame using sit up and push"]},
+      {title:"Personal Choice",items:["One additional tachi-waza of choice","One additional ne-waza of choice"]},
+      {title:"Knowledge — Terminology",items:["Dojo","Judogi","Zori","Hajime","Mate","Osae-komi","Rei","Randori","Toketa","Tori","Uke"]},
+      {title:"Knowledge — Judo Basics",items:["Correct wearing of judogi and tying of belt","Correct procedure for standing and kneeling bows","In which country was Judo devised?","Who was the founder of modern Judo?","What is the Judo Moral Code?"]}
+    ]
+  },
+  {
     id:"toYellow",label:"6th Kyu → 5th Kyu",from:"Red",to:"Yellow",
     fromColor:"belt-color-red",toColor:"belt-color-yellow",duration:"Typically 3–6 months",
     groups:[
-      {title:"Fundamental — Ukemi",items:["Mae Ukemi (Front Breakfall)"]},
+      {title:"Fundamental — Ukemi",items:["Mae-ukemi"]},
       {title:"Fundamental — Tachi-waza",items:["Tai-otoshi","Ippon-seoi-nage","Ouchi-gari"]},
       {title:"Fundamental — Osaekomi-waza",items:["Yoko-shiho-gatame","Tate-shiho-gatame","Kami-shiho-gatame"]},
       {title:"Performance — Transitions",items:["Tai-otoshi → Yoko-shiho-gatame","Ippon-seoi-nage → Kami-shiho-gatame","Ouchi-gari → Tate-shiho-gatame"]},
       {title:"Performance — Ne-waza",items:["Escape from Kami-shiho-gatame (action & reaction)","Escape from Tate-shiho-gatame (clamp & roll)","Escape from Yoko-shiho-gatame (trap, bridge & roll)","Turnover into Kesa-gatame (uke all fours)","Turnover into Mune-gatame (uke all fours)","Turnover into Yoko-shiho-gatame (uke face-down)"]},
-      {title:"Performance — Kumi-kata",items:["Right & left standard grips","Right vs left, double lapel, high collar grips"]},
-      {title:"Performance — Nage-komi & Randori",items:["Nage-komi in light randori (~2 min)","Alternating throws both sides with partner"]},
+      {title:"Performance — Kumi-kata",items:["Standard grips — right and left","Right vs left, double lapel, high collar grips"]},
+      {title:"Performance — Nage-komi & Randori",items:["Nage-komi in light randori"]},
       {title:"Personal Choice",items:["One additional tachi-waza of choice","One additional ne-waza of choice"]},
+      {title:"Knowledge — Terminology",items:["Ippon-seoi-nage — One Arm Shoulder Throw","Kami-shiho-gatame — Upper Four Quarters Hold","Kumi-kata — Engagement Position","Mae Ukemi — Front Breakfall","Mune-gatame — Chest Hold","Nage-komi — Repetitive Throwing","Ouchi-gari — Major Inner Reaping Throw","Randori — Free Practice","Tai-otoshi — Body Drop Throw","Tate-shiho-gatame — Lengthwise Four Quarters Hold","Yoko-shiho-gatame — Side Four Quarters Hold"]},
       {title:"Knowledge — Contest Rules",items:["Give two examples of actions against the contest rules"]},
       {title:"Moral Code",items:["Courtesy","Courage","Honesty","Honour","Modesty","Respect","Self-control","Friendship"]}
     ]
@@ -225,57 +240,55 @@ const BELT_DATA = [
     fromColor:"belt-color-yellow",toColor:"belt-color-orange",duration:"Typically 6–12 months",
     groups:[
       {title:"Fundamental — Tachi-waza",items:["Tsurikomi-goshi","O-goshi","Seoi-otoshi","Morote-seoi-nage","Ko-uchi-gari","Ko-soto-gake","Ko-soto-gari","O-soto-gari"]},
-      {title:"Performance — Combinations",items:["Ouchi-gari → Ko-uchi-gari","Ko-uchi-gari → O-soto-gari","Ko-uchi-gari → Morote-seoi-nage","Ippon-seoi-nage → Ko-uchi-gari","Any technique combined with Seoi-otoshi or Ko-uchi-gari"]},
-      {title:"Performance — Counters",items:["Ouchi-gari countered by Tsurikomi-goshi","Tai-otoshi countered by Ko-soto-gari"]},
+      {title:"Performance — Combinations",items:["Ouchi-gari → Ko-uchi-gari","Ko-uchi-gari → O-soto-gari or O-soto-gake","Ko-uchi-gari → Morote-seoi-nage","Ippon-seoi-nage → Ko-uchi-gari","Any technique combined with Seoi-otoshi or Ko-uchi-gari"]},
+      {title:"Performance — Counters",items:["Ouchi-gari countered by Tsurikomi-goshi","Tai-otoshi countered by Ko-soto-gari or Ko-soto-gake"]},
       {title:"Performance — Ne-waza",items:["Escape from Kesa-gatame (bridge & roll)","Move into Kesa-gatame from between uke's legs","Move into Yoko-shiho-gatame from between uke's legs","Arm roll — uke approaching from front","Arm roll — uke approaching from behind","Turnover from underneath into Tate-shiho-gatame"]},
-      {title:"Performance — Randori",items:["Randori demonstration (~3 min)","Variety of techniques & kumi-kata","Throws to both sides where possible"]},
-      {title:"Personal Choice",items:["Two tachi-waza of choice","One ne-waza of choice","Show as combination, counter, and ne-waza transition"]},
-      {title:"Knowledge — Terminology",items:["Ko-soto-gake — Minor Outer Hook","Ko-soto-gari — Minor Outer Reap","Ko-uchi-gari — Minor Inner Reap","Morote-seoi-nage — Two-Handed Shoulder Throw","O-goshi — Major Hip Throw","O-soto-gari — Major Outer Reap","Seoi-otoshi — Shoulder Drop","Tsurikomi-goshi — Drawing Hip Throw","Shido — Official warning","Hansoku-make — Disqualification"]},
-      {title:"Knowledge — Referee Signals",items:["Mate","Osaekomi","Toketa","Adjusting the judogi"]}
+      {title:"Performance — Randori",items:["Randori demonstration"]},
+      {title:"Personal Choice",items:["Two tachi-waza of choice","One ne-waza of choice"]},
+      {title:"Knowledge — Terminology",items:["Ko-soto-gake — Minor Outer Hook Throw","Ko-soto-gari — Minor Outer Reaping Throw","Ko-uchi-gari — Minor Inner Reaping Throw","Morote-seoi-nage — Two-Handed Shoulder Throw","O-goshi — Major Hip Throw","O-soto-gari — Major Outer Reaping Throw","Seoi-otoshi — Shoulder Drop Throw","Tai-otoshi — Body Drop Throw","Tsurikomi-goshi — Drawing Hip Throw","Yoko-shiho-gatame — Side Four Quarters Hold","Shido — Official Warning","Hansoku-make — Disqualification"]},
+      {title:"Knowledge — Referee Signals",items:["Mate","Osaekomi","Toketa","Adjusting the judogi"]},
+      {title:"Knowledge — Moral Code",items:["Name three items from the Judo Moral Code"]},
+      {title:"Knowledge — Contest Rules",items:["Give two examples of actions (not grips) against the contest rules for negative or safety reasons","Demonstrate the proper procedures for coming onto and leaving the mat for a contest"]}
     ]
   },
   {
     id:"toGreen",label:"4th Kyu → 3rd Kyu",from:"Orange",to:"Green",
     fromColor:"belt-color-orange",toColor:"belt-color-green",duration:"Typically 12–18 months",
     groups:[
-      {title:"Fundamental — Tachi-waza",items:["Kata-guruma","Sumi-otoshi","Uki-otoshi","Kibisu-gaeshi","Sukui-nage"]},
-      {title:"Fundamental — Ne-waza",items:["Kesa-gatame","Yoko-tate-shiho-gatame","Kata-gatame"]},
-      {title:"Performance — Combinations",items:["O-goshi → Kesa-gatame","Tai-otoshi → Kesa-gatame","Ko-soto-gari → Yoko-shiho-gatame"]},
-      {title:"Performance — Counters",items:["Ko-uchi-gari countered by Hane-goshi","Ouchi-gari countered by Uchi-mata"]},
-      {title:"Performance — Ne-waza",items:["Escape from Kesa-gatame (shifting weight)","Escape from Kata-gatame (bridge & roll)","Sweep from Kesa-gatame to uke's back position"]},
-      {title:"Performance — Randori",items:["Randori demonstration (~4 min)","Variety of standing & ground techniques","Show awareness of scoring opportunities"]},
-      {title:"Personal Choice",items:["One tachi-waza of choice","One ne-waza of choice — correct timing & situation"]},
-      {title:"Knowledge — Scoring",items:["Ippon — Full point","Waza-ari — Half point","Yuko — Minor point"]},
-      {title:"Knowledge — Moral Code",items:["Explain: Jita Kyoei (Mutual Welfare & Benefit)","Explain: Seiryoku Zenyo (Maximum Efficiency)"]},
-      {title:"Knowledge — Referee Signals",items:["Ippon","Waza-ari","Yuko","Shido","Mate","Hajime","Sono-mama","Toketa"]}
+      {title:"Fundamental — Tachi-waza",items:["Harai-goshi","Uchi-mata","Hiza-guruma","Sasae-tsuri-komi-ashi","Hane-goshi","Okuri-ashi-barai","Morote-eri-seoi-nage"]},
+      {title:"Fundamental — Kansetsu-waza",items:["Ude-gatame","Waki-gatame","Hiza-gatame","Juji-gatame"]},
+      {title:"Performance — Juji-gatame entries",items:["Juji-gatame — sit-back entry","Juji-gatame — rollover entry","Juji-gatame — over-the-shoulder entry","Juji-gatame — entry from beneath"]},
+      {title:"Performance — Randori",items:["Randori demonstration"]},
+      {title:"Personal Choice",items:["Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions"]},
+      {title:"Knowledge — Terminology",items:["Hane-goshi — Spring Hip","Harai-goshi — Sweeping Hip","Hiza-gatame — Armlock applied with the knee","Hiza-guruma — Knee Wheel","Juji-gatame — Cross Armlock","Kansetsu-waza — Joint Techniques","Morote-eri-seoi-nage — Two-Handed Lapel Shoulder","Okuri-ashi-barai — Foot Sweep","Renraku-waza — Combination techniques (opposite direction)","Renzoku-waza — Combination techniques (same direction)","Sasae-tsuri-komi-ashi — Propping Drawing Ankle","Uchi-mata — Inner Thigh","Ude-gatame — Straight Armlock","Waki-gatame — Armlock applied with the armpit"]}
     ]
   },
   {
     id:"toBlue",label:"3rd Kyu → 2nd Kyu",from:"Green",to:"Blue",
     fromColor:"belt-color-green",toColor:"belt-color-blue",duration:"Typically 18–24 months",
     groups:[
-      {title:"Fundamental — Tachi-waza",items:["Uchi-mata","Harai-goshi","Hane-goshi","Ushiro-goshi","O-soto-guruma","Ashi-guruma"]},
-      {title:"Fundamental — Ne-waza",items:["Held down for 25 seconds in any hold"]},
-      {title:"Performance — Combinations",items:["Uchi-mata → O-goshi","O-goshi → Kesa-gatame","Ko-soto-gari → Uchi-mata"]},
-      {title:"Performance — Counters",items:["Uchi-mata countered by Sode-tsurikomi-goshi","Ouchi-gari countered by Uki-goshi"]},
-      {title:"Performance — Ne-waza",items:["Transition from Kesa-gatame to Kata-gatame","Sweep from guard to uke's back","Apply Shime-waza from back control"]},
-      {title:"Performance — Randori",items:["Randori demonstration (~5 min)","At least one scoring technique","Show control & tactical awareness"]},
-      {title:"Personal Choice",items:["Two tachi-waza of choice","One ne-waza of choice — realistic contest situation"]},
-      {title:"Knowledge",items:["Explain Golden Score (Overtime)","Describe prohibited acts in competition","Explain role of referee & judges","Tori — person executing","Uke — person receiving","Shime-waza — strangulation","Kansetsu-waza — joint lock"]}
+      {title:"Fundamental — Tachi-waza",items:["Soto-maki-komi","Tani-otoshi","Yoko-guruma","Tomoe-nage","Yoko-tomoe-nage","Uki-waza"]},
+      {title:"Fundamental — Shime-waza",items:["Okuri-eri-jime","Nami-juji-jime","Gyaku-juji-jime","Kata-juji-jime","Koshi-jime","Kata-te-jime"]},
+      {title:"Fundamental — Kansetsu-waza",items:["Ude-garami"]},
+      {title:"Performance — Combination",items:["Ude-garami from Kuzure-kesa-gatame"]},
+      {title:"Performance — Ne-waza",items:["Koshi-jime — Uke attempts Seoi-otoshi","Kata-te-jime — Uke in all fours position","Nami-juji-jime — Uke underneath (between Tori's legs)","Gyaku-juji-jime — Uke on top (between Tori's legs)","Okuri-eri-jime — Uke makes Seoi-otoshi"]},
+      {title:"Performance — Randori",items:["Randori demonstration"]},
+      {title:"Personal Choice",items:["Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions"]},
+      {title:"Knowledge — Terminology",items:["Gyaku-juji-jime — Reverse Cross Strangle","Kaeshi-waza — Counter Techniques","Kata-te-jime — Strangle with One Hand","Kata-juji-jime — Half Cross Handed Strangle","Koshi-jime — Strangle using the hip","Kuzure-kesa-gatame — Broken scarf hold","Nami-juji-jime — Normal Cross Strangle","Okuri-eri-jime — Sliding Collar Strangle","Seoi-otoshi — Shoulder drop","Shime-waza — Strangle Techniques","Soto-maki-komi — Outside Winding","Tani-otoshi — Valley Drop Throw","Tomoe-nage — Circle Throw","Ude-garami — Entangled Armlock","Uki-waza — Floating Throw","Yoko-guruma — Side Wheel Throw","Yoko-tomoe-nage — Side Circle Throw"]}
     ]
   },
   {
     id:"toBrown",label:"2nd Kyu → 1st Kyu",from:"Blue",to:"Brown",
     fromColor:"belt-color-blue",toColor:"belt-color-brown",duration:"Typically 24–36 months",
     groups:[
-      {title:"Fundamental — Tachi-waza",items:["Tani-otoshi","Yoko-gake","Yoko-guruma","Tomoe-nage","Ura-nage","Sumi-gaeshi"]},
-      {title:"Fundamental — Ne-waza",items:["Apply Kansetsu-waza (arm lock) safely","Multiple transitions between holds","Hold uke for 30 seconds in any ne-waza technique"]},
-      {title:"Performance — Combinations",items:["Tai-otoshi → Uchi-mata","O-goshi → Ura-nage","Ouchi-gari → Tani-otoshi"]},
-      {title:"Performance — Counters",items:["Tai-otoshi countered by Harai-goshi","O-goshi countered by Sukui-nage"]},
-      {title:"Performance — Ne-waza",items:["Complete ne-waza sequence both sides","Transition from pin to strangulation","Apply joint lock from various positions"]},
-      {title:"Performance — Randori",items:["Randori demonstration (~6 min)","Multiple scoring opportunities","Advanced tactical awareness & strategy"]},
-      {title:"Personal Choice",items:["Three tachi-waza of choice","One ne-waza of choice — mastery in randori situations"]},
-      {title:"Knowledge",items:["Ne-waza no Kakari (ground attack rules)","Rules for dangerous techniques","Juji-jime — Cross strangulation","Gyaku-jime — Reversed strangulation","Ude-gatame — Arm entrapment","Philosophical principles of Judo","How Judo applies to daily life"]}
+      {title:"Fundamental — Tachi-waza",items:["Sode-tsuri-komi-goshi","Sumi-gaeshi","Yoko-gake","Ko-uchi-gake-maki-komi","Ushiro-goshi","Ura-nage","Uki-otoshi","Koshi-guruma"]},
+      {title:"Fundamental — Shime-waza",items:["Kata-ha-jime","Hadaka-jime","San-gaku-jime","San-gaku-gatame","San-gaku-osae-gatame"]},
+      {title:"Performance — Tachi-waza",items:["Sumi-gaeshi — two variations","Ushiro-goshi as counter to Harai-goshi","Sumi-gaeshi as combination with Uchi-mata","Counter Koshi-guruma with Ura-nage"]},
+      {title:"Performance — Ne-waza",items:["San-gaku-jime — complex entry","San-gaku-gatame — complex entry","San-gaku-osae-gatame — turnover and hold","Hadaka-jime — Uke prone position","Kata-ha-jime — Uke all fours position"]},
+      {title:"Performance — Randori",items:["Randori demonstration"]},
+      {title:"Personal Choice",items:["Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions","OR: One set of Nage-no-kata or Katame-no-kata"]},
+      {title:"Knowledge — Terminology",items:["Hadaka-jime — Naked Strangle","Kata — Forms","Kata-ha-jime — Single Collar Strangle","Katame-no-kata — Grappling Forms","Koshi-guruma — Hip Wheel Throw","Ko-uchi-gake-maki-komi — Minor Inner Hook Thigh Winding","Nage-no-kata — Throwing Forms","San-gaku-gatame — Triangular Hold Down","San-gaku-jime — Triangular Strangle","San-gaku-osae-gatame — Triangular Strangle and Hold Down","Sode-tsuri-komi-goshi — Sleeve Lift Pull Hip Throw","Sumi-gaeshi — Corner Throw","Uki-otoshi — Floating Drop","Ura-nage — Rear Throw","Ushiro-goshi — Rear Hip Throw","Yoko-gake — Side Hook Throw"]},
+      {title:"Knowledge — Contest Rules",items:["Give three examples of penalties in competition rules"]}
     ]
   }
 ];
@@ -340,6 +353,527 @@ const EXERCISES = [
   { name: 'Combination Randori',     cat: 'Randori',      note: 'Every attack must be part of a 2-throw combo. First attack creates the reaction — commit to the second.' },
   { name: 'Positional Drilling',     cat: 'Randori',      note: 'Attacker tries to hold for 10s, defender escapes. Switch roles each round. Sharp ne-waza builder.' },
   { name: '1-Minute Blasts',         cat: 'Randori',      note: 'Maximum effort randori for 60s, full recovery, repeat × 5. Builds the randori-specific gas tank.' },
-  { name: 'Shadow Randori',          cat: 'Randori',      note: 'Solo: visualise an opponent, move and attack. Work your best combinations. 3–5 min.' },
+  { name: 'Shadow Randori',          cat: 'Randori',      note: 'Solo: visualise an opponent, move and attack. Work your best combinations. 3â5 min.' },
   { name: 'Situational Randori',     cat: 'Randori',      note: 'Start from a specific grip or position each time. Drill the entry from that exact situation.' },
 ];
+
+// ── TERMINOLOGY ENGLISH MEANINGS ────────────────────────────────
+const TERMS_EN = {
+  // White → Red
+  'Dojo':                   'Judo Hall',
+  'Judogi':                 'Judo Uniform',
+  'Zori':                   'Judo Footwear / Sandals',
+  'Hajime':                 'Begin',
+  'Mate':                   'Wait / Stop',
+  'Osae-komi':              'Hold Down',
+  'Rei':                    'Standing Bow',
+  'Randori':                'Free Practice',
+  'Toketa':                 'Hold Broken',
+  'Tori':                   'The Attacking Judoka',
+  'Uke':                    'The Defending Judoka',
+  // Red → Yellow (6th Kyu → 5th Kyu)
+  'Ippon-seoi-nage':        'One Arm Shoulder Throw',
+  'Kami-shiho-gatame':      'Upper Four Quarters Hold',
+  'Kumi-kata':              'Engagement Position',
+  'Mae Ukemi':              'Front Breakfall',
+  'Mune-gatame':            'Chest Hold',
+  'Nage-komi':              'Repetitive Throwing',
+  'Ouchi-gari':             'Major Inner Reaping Throw',
+  'Tai-otoshi':             'Body Drop Throw',
+  'Tate-shiho-gatame':      'Lengthwise Four Quarters Hold',
+  'Yoko-shiho-gatame':      'Side Four Quarters Hold',
+  // Yellow → Orange
+  'Ippon':                  'Full Point — immediate win',
+  'Waza-ari':               'Half Point',
+  'Shido':                  'Minor Penalty',
+  // Orange → Green (kansetsu-waza)
+  'Hane-goshi':             'Spring Hip',
+  'Harai-goshi':            'Sweeping Hip',
+  'Hiza-gatame':            'Armlock applied with the knee',
+  'Hiza-guruma':            'Knee Wheel',
+  'Juji-gatame':            'Cross Armlock',
+  'Kansetsu-waza':          'Joint Techniques',
+  'Morote-eri-seoi-nage':   'Two-Handed Lapel Shoulder',
+  'Okuri-ashi-barai':       'Foot Sweep',
+  'Renraku-waza':           'Combination techniques (opposite direction)',
+  'Renzoku-waza':           'Combination techniques (same direction)',
+  'Sasae-tsuri-komi-ashi':  'Propping Drawing Ankle',
+  'Uchi-mata':              'Inner Thigh',
+  'Ude-gatame':             'Straight Armlock',
+  'Waki-gatame':            'Armlock applied with the armpit',
+  // Green → Blue (shime-waza)
+  'Gyaku-juji-jime':        'Reverse Cross Strangle',
+  'Kaeshi-waza':            'Counter Techniques',
+  'Kata-te-jime':           'Strangle with One Hand',
+  'Kata-juji-jime':         'Half Cross Handed Strangle',
+  'Koshi-jime':             'Strangle using the hip',
+  'Kuzure-kesa-gatame':     'Broken scarf hold',
+  'Nami-juji-jime':         'Normal Cross Strangle',
+  'Okuri-eri-jime':         'Sliding Collar Strangle',
+  'Seoi-otoshi':            'Shoulder drop',
+  'Shime-waza':             'Strangle Techniques',
+  'Soto-maki-komi':         'Outside Winding',
+  'Tani-otoshi':            'Valley Drop Throw',
+  'Tomoe-nage':             'Circle Throw',
+  'Ude-garami':             'Entangled Armlock',
+  'Uki-waza':               'Floating Throw',
+  'Yoko-guruma':            'Side Wheel Throw',
+  'Yoko-tomoe-nage':        'Side Circle Throw',
+  // Blue → Brown
+  'Hadaka-jime':            'Naked Strangle',
+  'Kata':                   'Forms',
+  'Kata-ha-jime':           'Single Collar Strangle',
+  'Katame-no-kata':         'Grappling Forms',
+  'Koshi-guruma':           'Hip Wheel Throw',
+  'Ko-uchi-gake-maki-komi': 'Minor Inner Hook Thigh Winding',
+  'Nage-no-kata':           'Throwing Forms',
+  'San-gaku-gatame':        'Triangular Hold Down',
+  'San-gaku-jime':          'Triangular Strangle',
+  'San-gaku-osae-gatame':   'Triangular Strangle and Hold Down',
+  'Sode-tsuri-komi-goshi':  'Sleeve Lift Pull Hip Throw',
+  'Sumi-gaeshi':            'Corner Throw',
+  'Uki-otoshi':             'Floating Drop',
+  'Ura-nage':               'Rear Throw',
+  'Ushiro-goshi':           'Rear Hip Throw',
+  'Yoko-gake':              'Side Hook Throw',
+};
+
+
+// ── BELT KNOWLEDGE ANSWERS ─────────────────────────────────────────
+// Maps checklist item strings → example answers/hints shown in the checklist
+const BELT_KNOWLEDGE_ANSWERS = {
+
+  // ══ NOVICE → 6TH KYU (White → Red) ══════════════════════════════
+
+  'Mae Mawari Ukemi (3 Versions)': [
+    'Version 1: From standing — step forward, tuck chin, roll diagonally across the shoulder',
+    'Version 2: From kneeling — same rolling action at lower height',
+    'Version 3: From a throw — performed as a breakfall when thrown forward'
+  ],
+  'Osoto-otoshi into Kesa-gatame': [
+    'Drive Uke backward with Osoto-otoshi, land alongside them as they hit the mat',
+    'Immediately slide your hips close to Uke\'s head and establish Kesa-gatame',
+    'Control: arm under their neck, near arm gripped close to your body, your weight low'
+  ],
+  'Deashi-barai into Mune-gatame': [
+    'Sweep Uke\'s lead foot as weight transfers onto it, breaking them sideways',
+    'Follow Uke to the ground and move quickly to chest-to-chest position',
+    'Mune-gatame: chest on chest, both arms controlling, hips low and spread wide'
+  ],
+  'Uki-goshi into Kuzure-kesa-gatame': [
+    'Break Uke\'s balance forward, wheel them over your hip with Uki-goshi',
+    'As Uke lands, maintain grip and slide into Kuzure-kesa-gatame',
+    'Kuzure-kesa-gatame: arm goes under Uke\'s arm (not neck), control their body tightly'
+  ],
+  'Escape from Kesa-gatame by trapping Uke\'s leg': [
+    'Trap Uke\'s near knee with your far hand to stop them moving away',
+    'Bridge explosively upward and turn into Uke to break their weight off you',
+    'Use the momentum to roll Uke over and come out on top or to the side'
+  ],
+  'Escape from Mune-gatame using a bridge and roll action': [
+    'Feet flat on the mat, hips high — bridge sharply toward Uke\'s head',
+    'As Uke reacts to stabilise, roll hard into them in the direction of the bridge',
+    'Aim to end up in a controlling position on top of Uke'
+  ],
+  'Escape from Kuzure-kesa-gatame using sit up and push': [
+    'Post your inside elbow on the mat for base, then sit up sharply',
+    'Push Uke\'s hip or head away with your free arm as you sit',
+    'Create enough space to bring your legs in and establish a guard or come to knees'
+  ],
+  'In which country was Judo devised?': ['Japan'],
+  'Who was the founder of modern Judo?': [
+    'Professor Jigoro Kano — founded Judo in 1882 at the Kodokan, Tokyo'
+  ],
+  'What is the Judo Moral Code?': [
+    'Courtesy · Courage · Honesty · Honour · Modesty · Respect · Self-control · Friendship'
+  ],
+  'Correct wearing of judogi and tying of belt': [
+    'Left lapel over right (right side goes on first)',
+    'Belt: wrap around twice, tie a flat reef knot at the front, equal ends'
+  ],
+  'Correct procedure for standing and kneeling bows': [
+    'Ritsurei (standing bow): feet together, bow from the waist approximately 30°',
+    'Zarei (kneeling bow): kneel left knee first, hands flat on mat in front, bow forward'
+  ],
+
+  // ══ 6TH KYU → 5TH KYU (Red → Yellow) ═══════════════════════════
+
+  'Tai-otoshi → Yoko-shiho-gatame': [
+    'Attack with Tai-otoshi — as Uke lands, pivot to their side',
+    'Lay across Uke\'s body chest-to-chest and establish Yoko-shiho-gatame',
+    'Pin both shoulders and hips — keep your weight central and low'
+  ],
+  'Ippon-seoi-nage → Kami-shiho-gatame': [
+    'Throw with Ippon-seoi-nage — maintain grip through the throw',
+    'Step around to Uke\'s head as they land, lie flat and reach under both armpits',
+    'Kami-shiho-gatame: chest on Uke\'s chest, both arms controlling, legs spread for base'
+  ],
+  'Ouchi-gari → Tate-shiho-gatame': [
+    'Reap Uke\'s leg with Ouchi-gari to bring them straight down',
+    'Land directly between their legs and establish Tate-shiho-gatame (straddle)',
+    'Control both shoulders with your chest, hook their legs with your feet'
+  ],
+  'Escape from Kami-shiho-gatame (action & reaction)': [
+    'Uke adjusts to your first movement — use that reaction to escape the other way',
+    'e.g. push Uke\'s hip to the left → as Uke resists pushing back right → roll right to escape',
+    'Bridge and turn into any gap Uke creates when correcting their position'
+  ],
+  'Escape from Tate-shiho-gatame (clamp & roll)': [
+    'Clamp one of Uke\'s legs to your body with both arms',
+    'Bridge and roll hard toward the clamped-leg side — Uke cannot post that leg',
+    'Follow through to come on top of Uke or to your knees'
+  ],
+  'Escape from Yoko-shiho-gatame (trap, bridge & roll)': [
+    'Trap Uke\'s near arm against their body with your near arm',
+    'Bridge up sharply and roll into Uke (toward their head) to break the hold',
+    'Use your legs to help push and create momentum into the roll'
+  ],
+  'Turnover into Kesa-gatame (uke all fours)': [
+    'Approach from the side — reach one arm under Uke\'s chest, other over their back',
+    'Pull Uke\'s near arm out while pushing their shoulder down to collapse them',
+    'Roll them onto their back and settle into Kesa-gatame immediately'
+  ],
+  'Turnover into Mune-gatame (uke all fours)': [
+    'Approach from the side, drive your chest down onto Uke\'s back',
+    'Thread one arm under their near arm, push their far shoulder down',
+    'As they collapse, swing into position for Mune-gatame across their chest'
+  ],
+  'Turnover into Yoko-shiho-gatame (uke face-down)': [
+    'Approach from the side — reach under Uke\'s near hip and near shoulder',
+    'Rock Uke up and over onto their back with a scooping motion',
+    'Immediately settle into Yoko-shiho-gatame — pin both their shoulders and hips'
+  ],
+  'Standard grips — right and left': [
+    'Right grip: right hand grips Uke\'s left lapel at chest height, left hand grips their right sleeve at elbow',
+    'Left grip (mirror): left hand on Uke\'s right lapel, right hand on their left sleeve',
+    'Elbows slightly bent, grips firm but not tense — posture upright'
+  ],
+  'Right vs left, double lapel, high collar grips': [
+    'Right vs Left: orthodox vs southpaw — adjust footwork and entry angle accordingly',
+    'Double lapel: both hands on lapels — useful for forward throws like Morote-seoi-nage',
+    'High collar: grip near the back of Uke\'s collar — control their posture for forward throws'
+  ],
+  'Nage-komi in light randori': [
+    'Both players alternate attacking — one throws, then the other throws',
+    'Show a variety of techniques, not just your favourite',
+    'Aim to attempt throws on both right and left sides where possible'
+  ],
+  'Alternating throws both sides with partner': [
+    'e.g. throw Ouchi-gari to the right, then try the same on the left',
+    'Assessor looks for balance between right and left side attacks',
+    'Full commitment on each throw — no half-entries'
+  ],
+  'Give two examples of actions against the contest rules': [
+    'Intentional avoidance of gripping the opponent (passivity)',
+    'Executing a false attack with no real commitment to throw'
+  ],
+
+  // ══ 5TH KYU → 4TH KYU (Yellow → Orange) ════════════════════════
+
+  'Ouchi-gari → Ko-uchi-gari': [
+    'Attack Ouchi-gari to Uke\'s right leg — Uke steps back with that leg to avoid',
+    'Immediately switch attack to Uke\'s left leg with Ko-uchi-gari',
+    'Same direction combo (renzoku-waza) — second attack exploits the evasion'
+  ],
+  'Ko-uchi-gari → O-soto-gari or O-soto-gake': [
+    'Attack Ko-uchi-gari inside Uke\'s leg — Uke pushes back or steps out wide',
+    'Instantly pivot and drive into O-soto-gari/gake on the outside of Uke\'s leg',
+    'Renraku-waza (opposite direction) — Ko-uchi pulls Uke forward, O-soto attacks from behind'
+  ],
+  'Ko-uchi-gari → Morote-seoi-nage': [
+    'Threaten Ko-uchi-gari at Uke\'s foot to pull their weight forward',
+    'As Uke steps back to evade, step in under them for Morote-seoi-nage',
+    'Their forward lean loads perfectly onto your back — commit fully to the entry'
+  ],
+  'Ippon-seoi-nage → Ko-uchi-gari': [
+    'Attack Ippon-seoi-nage — Uke defends by stepping back and pushing down on you',
+    'As Uke pushes their hips back, immediately attack the near foot with Ko-uchi-gari',
+    'Uke\'s defensive posture (bent forward, weight on heels) makes them vulnerable to the reap'
+  ],
+  'Any technique combined with Seoi-otoshi or Ko-uchi-gari': [
+    'e.g. Tai-otoshi → Ko-uchi-gari (if Uke steps back to avoid the drop)',
+    'e.g. Ko-uchi-gari → Seoi-otoshi (reap to load forward, then drop entry)',
+    'The second technique exploits the reaction to the first attack'
+  ],
+  'Ouchi-gari countered by Tsurikomi-goshi': [
+    'Uke attacks Ouchi-gari — their body comes close to yours as they reap',
+    'Use their forward momentum — pivot and load them onto your hip for Tsurikomi-goshi',
+    'Pull up on the lapel (tsuri) and drive your hip back and around to execute the throw'
+  ],
+  'Tai-otoshi countered by Ko-soto-gari or Ko-soto-gake': [
+    'Uke attempts Tai-otoshi — step your front foot back over their blocking leg',
+    'As you step out, attack Uke\'s near outside leg with Ko-soto-gari or Ko-soto-gake',
+    'Their extended attack position leaves their supporting leg exposed'
+  ],
+  'Escape from Kesa-gatame (bridge & roll)': [
+    'Shoot your far arm under Uke\'s near arm to create leverage',
+    'Bridge explosively upward, pulling Uke\'s arm toward your body as you roll',
+    'Roll into Uke — their arm grip pulls them with you and breaks the hold'
+  ],
+  'Move into Kesa-gatame from between uke\'s legs': [
+    'From between Uke\'s legs (guard position) — push one knee down to the mat',
+    'Slide out to the side, maintaining chest contact, and reach for the neck position',
+    'Settle your weight low next to Uke\'s head and establish Kesa-gatame'
+  ],
+  'Move into Yoko-shiho-gatame from between uke\'s legs': [
+    'From guard — post one hand on the mat for base, pass to the side',
+    'Drive past Uke\'s knee and swing your hips to lie across their body',
+    'Pin with Yoko-shiho-gatame — one arm under the neck, one under the hip'
+  ],
+  'Arm roll — uke approaching from front': [
+    'Uke is on all fours approaching you — grip their near wrist and the back of their elbow',
+    'Rotate their arm palm-up and roll it across their own body',
+    'Their shoulder collapses and they roll onto their back — follow immediately to control'
+  ],
+  'Arm roll — uke approaching from behind': [
+    'Uke behind you on all fours — reach back, grip their wrist and collar',
+    'Pull their arm through and forward while driving their shoulder down',
+    'Roll them over to your side and take a hold-down position'
+  ],
+  'Turnover from underneath into Tate-shiho-gatame': [
+    'You are underneath Uke (turtle position on you) — one arm around their waist',
+    'Bridge and roll sideways, pulling Uke over you with the waist grip',
+    'As they land on their back, ride on top and establish Tate-shiho-gatame'
+  ],
+  'Randori demonstration': [
+    'Show attacking intent — attempt techniques, don\'t just grip and push',
+    'Demonstrate kumi-kata (gripping), footwork, and entry attempts',
+    'Respond to Uke\'s attacks with avoidance or counter-attacks'
+  ],
+  'Variety of techniques & kumi-kata': [
+    'e.g. mix hip throws (O-goshi), leg trips (Ko-uchi-gari) and foot sweeps (Ko-soto-gari)',
+    'Show gripping variations — standard, high collar, double lapel',
+    'Avoid repeating the same single technique — assessors look for range'
+  ],
+  'Throws to both sides where possible': [
+    'e.g. attempt Ko-uchi-gari on right side, then try Ouchi-gari on the left',
+    'Even a single attempt to the weaker side demonstrates awareness',
+    'Shows you are not one-dimensional and can adapt your grip'
+  ],
+  'Two tachi-waza of choice': [
+    'Pick techniques you can demonstrate with good kuzushi, entry, and execution',
+    'Show them first individually then as a combination AND as a counter',
+    'e.g. Morote-seoi-nage + Ko-uchi-gari — demonstrate as a combo and as a counter to Ouchi-gari'
+  ],
+  'One ne-waza of choice': [
+    'Pick a hold-down or turnover you can demonstrate cleanly',
+    'Show it in a realistic situation — from a throw follow-up or from guard',
+    'e.g. demonstrate Tate-shiho-gatame following a Ko-uchi-gari trip'
+  ],
+  'Show as combination, counter, and ne-waza transition': [
+    'Combination: your chosen throw flows into a second attack',
+    'Counter: use your chosen throw to beat Uke\'s attack',
+    'Ne-waza transition: the throw leads directly into a hold-down without breaking'
+  ],
+  'Name three items from the Judo Moral Code': [
+    'Any three of: Courtesy, Courage, Honesty, Honour, Modesty, Respect, Self-control, Friendship'
+  ],
+  'Give two examples of actions (not grips) against the contest rules for negative or safety reasons': [
+    'Stepping out of the contest area to avoid being thrown',
+    'Performing a diving or head-first drop throw (dangerous technique)'
+  ],
+  'Demonstrate the proper procedures for coming onto and leaving the mat for a contest': [
+    'Remove footwear before stepping onto the mat edge',
+    'Bow (Ritsurei) when stepping on — and again when stepping off — the mat',
+    'Bow to opponent at the start and end of the contest'
+  ],
+  "Demonstrate the Referee\'s signals for: Mate Osaekomi Toketa Adjusting the judogi": [
+    'Mate — one arm raised vertically, palm forward (stop)',
+    'Osaekomi — arm extended downward, pointing toward athletes (hold is on)',
+    'Toketa — both hands waved horizontally in front of body (hold broken)',
+    'Adjusting judogi — both hands mime straightening a lapel at chest height'
+  ],
+
+  // ══ 4TH KYU → 3RD KYU (Orange → Green) ════════════════════════
+
+  'Juji-gatame — sit-back entry': [
+    'Control Uke\'s arm with both hands, place your hip across their shoulder',
+    'Sit back pulling their arm with you — bring your legs across their body',
+    'Legs pinch the arm at the shoulder — extend hips upward to apply lock'
+  ],
+  'Juji-gatame — rollover entry': [
+    'Start with Uke on their back, you at their side controlling one arm',
+    'Step over their head, then roll backward pulling their arm as you go',
+    'End in standard Juji-gatame position — arm straight, wrist toward ceiling'
+  ],
+  'Juji-gatame — over-the-shoulder entry': [
+    'Uke attempts Seoi-nage — as they pull you forward, grip their far arm',
+    'Step over their shoulder and roll back to apply Juji-gatame',
+    'Used to counter shoulder throws — exploits Uke\'s bent-over position'
+  ],
+  'Juji-gatame — entry from beneath': [
+    'You are on your back with Uke between your legs (guard position)',
+    'Control one arm, swing your body 90°, place leg across their face/neck',
+    'Use both legs and hip extension to apply the cross armlock from underneath'
+  ],
+  'Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions': [
+    'Choose 4 techniques you are confident performing in both attack and defence',
+    '2 combinations: e.g. Harai-goshi → Ouchi-gari, Uchi-mata → Ko-uchi-gari',
+    '2 counters: e.g. counter Ouchi-gari with Uchi-mata, counter Harai-goshi with Ko-soto-gari',
+    '2 ne-waza transitions: each tachi-waza throw flows directly into a hold without breaking'
+  ],
+
+  // ══ 3RD KYU → 2ND KYU (Green → Blue) ══════════════════════════
+
+  'Ude-garami from Kuzure-kesa-gatame': [
+    'From Kuzure-kesa-gatame, thread your arm under Uke\'s near arm',
+    'Grip your own wrist (figure-4 lock) and rotate Uke\'s elbow upward',
+    'Apply slowly and with control — this is a submission technique, tap immediately'
+  ],
+  'Koshi-jime — Uke attempts Seoi-otoshi': [
+    'Uke drops for Seoi-otoshi — as they bend forward, step over their back',
+    'Sit across their back and apply Koshi-jime using your hip against their neck',
+    'Strangle applied with the hip bone against the carotid — control carefully'
+  ],
+  'Kata-te-jime — Uke in all fours position': [
+    'Uke is on hands and knees — approach from behind or the side',
+    'Reach one hand under their chin, grip their collar, apply single-hand strangle',
+    'Use your body weight and the collar to create pressure across the neck'
+  ],
+  'Nami-juji-jime — Uke underneath (between Tori\'s legs)': [
+    'You are on top of Uke in guard — Uke\'s legs around your waist',
+    'Reach across and grip both lapels with palms facing upward (normal cross)',
+    'Drive your knuckles into the sides of Uke\'s neck and extend forward'
+  ],
+  'Gyaku-juji-jime — Uke on top (between Tori\'s legs)': [
+    'You are on your back with Uke in your guard — grip both lapels palms facing down (reverse cross)',
+    'Pull Uke\'s lapels apart across their own neck applying the strangle',
+    'Cross your wrists as you pull — the X shape creates the choking pressure'
+  ],
+  'Okuri-eri-jime — Uke makes Seoi-otoshi': [
+    'Uke drops for Seoi-otoshi — thread your arm over their shoulder from behind',
+    'Grip deep on the collar with your choke arm, other hand pulls for control',
+    'Their bent-forward posture stretches their collar — apply the sliding strangle'
+  ],
+
+  // ══ 2ND KYU → 1ST KYU (Blue → Brown) ══════════════════════════
+
+  'Sumi-gaeshi — two variations': [
+    'Variation 1: Classic — pull Uke forward and over you with a sacrifice backwards',
+    'Variation 2: From a grip fight — use when Uke is pulling you into them, redirect their energy'
+  ],
+  'Ushiro-goshi as counter to Harai-goshi': [
+    'Uke attacks Harai-goshi — let them begin their sweep but lower your hips beneath them',
+    'Grip around Uke\'s waist as they come up, straighten your legs and lift',
+    'Drive Uke backward and down behind you — rear hip throw as counter'
+  ],
+  'Sumi-gaeshi as combination with Uchi-mata': [
+    'Attack Uchi-mata — Uke defends by stepping back and spreading their legs',
+    'Their wide, low stance is perfect for Sumi-gaeshi — drop, hook the leg and roll back',
+    'The combination works because Uchi-mata defence creates the exact opening for Sumi-gaeshi'
+  ],
+  'Counter Koshi-guruma with Ura-nage': [
+    'Uke attacks Koshi-guruma — they pull you over their hip from the front',
+    'Reach around Uke\'s waist from behind as they turn in, straighten and arch back',
+    'Ura-nage throws Uke backward over your head — use landing mat, prioritise safety'
+  ],
+  'San-gaku-jime — complex entry': [
+    'e.g. Entry from guard — one arm controlled, leg swings over their neck',
+    'e.g. Entry from turtle — roll Uke onto their back and lock triangle mid-roll',
+    'Complex entry = not a static setup — must show dynamic transition into the triangle'
+  ],
+  'San-gaku-gatame — complex entry': [
+    'Triangle hold (not strangle) — trap Uke\'s arm and head with your legs',
+    'Entry: from side control, swing legs up and lock around Uke\'s head and near arm',
+    'Hold them down in the triangle position — no submission, just control for 25 seconds'
+  ],
+  'San-gaku-osae-gatame — turnover and hold': [
+    'Uke is on all fours or their side — apply triangle around neck and one arm',
+    'Roll Uke onto their back while maintaining the triangle lock',
+    'Hold down = San-gaku-osae-gatame — the triangle acts as both strangle and pin'
+  ],
+  'Hadaka-jime — Uke prone position': [
+    'Uke is face-down — straddle or lie across their back',
+    'Reach under Uke\'s chin with your forearm, other hand grips your own bicep (sleeper position)',
+    'Drive your forearm into the front of the neck — apply slow and with control'
+  ],
+  'Kata-ha-jime — Uke all fours position': [
+    'Uke is on all fours — approach from behind',
+    'Thread one arm under their armpit and over their shoulder (arm bar), other arm goes across neck gripping collar',
+    'Squeeze the two arm actions together — Uke\'s own shoulder assists the choke'
+  ],
+  'Give three examples of penalties in competition rules': [
+    'Shido — minor penalty for passivity, false attacks, or minor rule infringement',
+    'Accumulation of two Shido = Hansoku-make (disqualification)',
+    'Direct Hansoku-make for serious, dangerous, or intentional forbidden techniques'
+  ],
+  'OR: One set of Nage-no-kata or Katame-no-kata': [
+    'Nage-no-kata: 15 throws in 5 groups (Te-waza, Koshi-waza, Ashi-waza, Ma-sutemi, Yoko-sutemi)',
+    'Katame-no-kata: 15 techniques in 3 groups (Osaekomi, Shime-waza, Kansetsu-waza)',
+    'Must include formal opening and closing bowing procedures (Ritsurei and Zarei)'
+  ],
+};
+
+// ── GRADING VIDEOS ──────────────────────────────────────
+// Maps grading checklist item names -> video URLs
+// Used as fallback in buildAdultRequirements for items not in TECHNIQUES
+const GRADING_VIDEOS = {
+  // ── White → Red belt ──────────────────────────────
+  'Ushiro Ukemi':                                        'https://www.youtube.com/watch?v=_g7rvsxTkz8',
+  'Yoko Ukemi':                                          'https://www.youtube.com/watch?v=JCwK1Ia4jsc',
+  'Mae Mawari Ukemi (3 Versions)':                       'https://www.youtube.com/watch?v=kbiLot6laks',
+  'Osoto-otoshi':                                        'https://www.youtube.com/watch?v=2DsVvDw7b8g',
+  'Deashi-barai':                                        'https://www.youtube.com/watch?v=gW9LEvVmG2o',
+  'Uki-goshi':                                           'https://www.youtube.com/watch?v=bPKwtB4lyOQ',
+  'Kesa-gatame':                                         'https://www.youtube.com/watch?v=NDaQuJOFBYk',
+  'Mune-gatame':                                         'https://www.youtube.com/watch?v=lIt5vywPBF0',
+  'Kuzure-kesa-gatame':                                  'https://www.youtube.com/watch?v=Q2fb9jaoUFQ',
+  'Osoto-otoshi into Kesa-gatame':                       'https://www.youtube.com/watch?v=aLpqnPTHpRk',
+  'Deashi-barai into Mune-gatame':                       'https://www.youtube.com/watch?v=4dNBRCUGXQQ',
+  'Uki-goshi into Kuzure-kesa-gatame':                   'https://www.youtube.com/watch?v=BaxDK6pljFU',
+  "Escape from Kesa-gatame by trapping Uke's leg":       'https://youtu.be/5_TS0YHdxcQ?t=38',
+  'Escape from Mune-gatame using a bridge and roll action': 'https://www.youtube.com/watch?v=yOHj5FQCCQM',
+  'Escape from Kuzure-kesa-gatame using sit up and push':'https://youtu.be/-zFQ6h4yKT4?t=38',
+  // ── Orange → Green belt ───────────────────────────
+  // Orange belt — combinations
+  'Ouchi-gari → Ko-uchi-gari':                           'https://www.youtube.com/watch?v=pJdSJRWI0oE',
+  'Ko-uchi-gari → O-soto-gari or O-soto-gake':          'https://www.youtube.com/watch?v=Ti7tOtj5IwU',
+  'Ko-uchi-gari → Morote-seoi-nage':                    'https://www.youtube.com/watch?v=glO4xOKWrq8',
+  'Ippon-seoi-nage → Ko-uchi-gari':                     'https://www.youtube.com/watch?v=r1zGVN_S0IU',
+  'Any technique combined with Seoi-otoshi or Ko-uchi-gari': 'https://www.youtube.com/watch?v=b0yLt7UHGZQ',
+  // Orange belt — counters
+  'Ouchi-gari countered by Tsurikomi-goshi':               'https://www.youtube.com/watch?v=EeEiF6rnoQs',
+  'Tai-otoshi countered by Ko-soto-gari or Ko-soto-gake':  'https://www.youtube.com/watch?v=DAVeI6trzy4',
+  // Orange belt — ne-waza
+  'Escape from Kesa-gatame (bridge & roll)':               'https://www.youtube.com/watch?v=FuMecdRPD_0',
+  'Move into Kesa-gatame from between uke\'s legs':        'https://www.youtube.com/watch?v=jo8GzB1PXaw',
+  'Move into Yoko-shiho-gatame from between uke\'s legs':  'https://www.youtube.com/watch?v=XdGZ3-z-pPo',
+  'Arm roll — uke approaching from front':              'https://youtu.be/D7cx9Dp_Ssk?t=216',
+  'Arm roll — uke approaching from behind':             'https://youtu.be/D7cx9Dp_Ssk?t=246',
+  'Turnover from underneath into Tate-shiho-gatame':       'https://youtu.be/D7cx9Dp_Ssk?t=269',
+  // ── Orange → Green belt ───────────────────────────
+  'Sasae-tsuri-komi-ashi':                               'https://www.youtube.com/watch?v=699i--pvYmE',
+  'Okuri-ashi-barai':                                    'https://www.youtube.com/watch?v=nw1ZdRjrdRI',
+  'Ude-gatame':                                          'https://www.youtube.com/watch?v=BnTsCwHEO_w',
+  'Juji-gatame — sit-back entry':                        'https://youtu.be/pyuLU_zyZyk?t=233',
+  'Juji-gatame — rollover entry':                        'https://youtu.be/pyuLU_zyZyk?t=281',
+  'Juji-gatame — over-the-shoulder entry':               'https://youtu.be/pyuLU_zyZyk?t=310',
+  'Juji-gatame — entry from beneath':                    'https://youtu.be/pyuLU_zyZyk?t=333',
+  'Four techniques — 2 combinations, 2 counters, 2 ne-waza transitions': 'https://youtu.be/pyuLU_zyZyk?t=381',
+  // ── Green → Blue belt ─────────────────────────────
+  'Soto-maki-komi':                                      'https://www.youtube.com/watch?v=bWG9O1BVKtQ',
+  'Koshi-jime':                                          'https://www.youtube.com/shorts/heeAEfp4MNQ',
+  'Kata-te-jime':                                        'https://www.youtube.com/watch?v=cHeIs-fSqwE',
+  'Ude-garami from Kuzure-kesa-gatame':                  'https://www.youtube.com/watch?v=0Ux5wWA3WZg',
+  'Koshi-jime — Uke attempts Seoi-otoshi':         'https://youtu.be/Ttf_uj2m1TY?t=324',
+  'Kata-te-jime — Uke in all fours position':      'https://youtu.be/Ttf_uj2m1TY?t=390',
+  "Nami-juji-jime — Uke underneath (between Tori\'s legs)": 'https://www.youtube.com/watch?v=k2cHry9HByQ',
+  "Gyaku-juji-jime — Uke on top (between Tori\'s legs)":   'https://www.youtube.com/watch?v=t3tQriIPdlI',
+  'Okuri-eri-jime — Uke makes Seoi-otoshi':        'https://youtu.be/Ttf_uj2m1TY?t=444',
+  // ── Blue → Brown belt ─────────────────────────────
+  'Sode-tsuri-komi-goshi':                               'https://www.youtube.com/watch?v=QsmAxpmYLOI',
+  'Ko-uchi-gake-maki-komi':                              'https://www.youtube.com/watch?v=_1eygIXLD_w',
+  'San-gaku-jime':                                       'https://www.youtube.com/watch?v=lq1CUBRAm7s',
+  'San-gaku-gatame':                                     'https://www.youtube.com/watch?v=zQg6zaL09aI',
+  'San-gaku-osae-gatame':                                'https://www.youtube.com/watch?v=JIulw4NgRvo&t=2s',
+  'Sumi-gaeshi — two variations':                  'https://www.youtube.com/watch?v=y_73gsi1V00',
+  'Ushiro-goshi as counter to Harai-goshi':              'https://www.youtube.com/watch?v=8XGiwPodgls',
+  'Sumi-gaeshi as combination with Uchi-mata':           'https://www.youtube.com/watch?v=Xx6HJ4Mfvfk',
+  'Counter Koshi-guruma with Ura-nage':                  'https://youtu.be/2qdE8x2CwDo?t=375',
+  'San-gaku-jime — complex entry':                 'https://youtu.be/2qdE8x2CwDo?t=522',
+  'San-gaku-gatame — complex entry':               'https://www.youtube.com/shorts/q3RpzHYhFX4',
+  'San-gaku-osae-gatame — turnover and hold':      'https://www.youtube.com/watch?v=JIulw4NgRvo',
+  'Hadaka-jime — Uke prone position':              'https://www.youtube.com/shorts/OdCMntXQH7Q',
+  'Kata-ha-jime — Uke all fours position':         'https://www.youtube.com/watch?v=BXa5NFIuCyk',
+
+};
