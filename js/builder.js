@@ -218,12 +218,4 @@ function renderBuilderList() {
 
   document.getElementById('builder-list').innerHTML = Object.entries(groups).map(([g, techs]) => `
     <div class="lib-group-head">${g}</div>
-    ${techs.map(t => `<div class="draggable-tech" draggable="true" ondragstart="onTechDragStart(event,'${esc(t.name)}')">
-      <span class="drag-handle">⠿</span>
-      <div class="tech-label">
-        <span>${t.name}</span>
-        <small>${t.en||''}</small>
-      </div>
-    </div>`).join('')}
-  `).join('');
-}
+    ${techs.map(t => `<div class="draggable-tech" draggable="true" ondragstart="onTechDragStart

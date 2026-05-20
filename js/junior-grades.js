@@ -334,11 +334,4 @@ function toggleJuniorReq(monId, req, el) {
 
 // ── LEGACY HELPERS (used by other views) ─────────────────────────
 function getCurrentJuniorBeltColor() {
-  return (BELT_DISPLAY[monGradeToBelt(getCurrentMonGrade())] || BELT_DISPLAY.white).color;
-}
-function getCurrentJuniorBeltBorder() {
-  return (BELT_DISPLAY[monGradeToBelt(getCurrentMonGrade())] || BELT_DISPLAY.white).border;
-}
-function getCurrentJuniorBeltLabel() {
-  return (BELT_DISPLAY[monGradeToBelt(getCurrentMonGrade())] || BELT_DISPLAY.white).label;
-}
+  return (BELT_DISPLAY[
