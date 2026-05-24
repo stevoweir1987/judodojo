@@ -137,8 +137,14 @@ const JHState = (() => {
 
   function getVideoId(id) {
     if (typeof GRADING_VIDEOS === 'undefined') return null;
-    const entry = GRADING_VIDEOS.find(v => v.technique === id || v.technique === id.replace(/ /g,'-'));
-    return entry ? entry.videoId : null;
+    // GRADING_VIDEOS is { 'Technique Name': 'https://youtube.com/...' }
+    const norm = s => s.toLowerCase().replace(/[-_]/g, ' ').trim();
+    const target = norm(id);
+    const key = Object.keys(GRADING_VIDEOS).find(k => norm(k) === target);
+    if (!key) return null;
+    const url = GRADING_VIDEOS[key];
+    const m = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
   }
 
   function getThumbUrl(id) {
