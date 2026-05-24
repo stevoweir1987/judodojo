@@ -19,7 +19,7 @@ const JHGrade = (() => {
         <button onclick="JHGrade.selectBelt('${b.id}')"
           class="flex flex-col items-center gap-1 shrink-0 px-4 py-2 rounded-2xl active-scale"
           style="background:${active ? col + '22' : '#1c1b1b'};border:1.5px solid ${active ? col : 'rgba(255,255,255,0.07)'}">
-          <div class="w-5 h-5 rounded-full" style="background:${col}"></div>
+          <img src="${JHState.getBeltIcon(b.id)}" style="height:18px;width:auto;object-fit:contain" alt="${b.id}"/>
           <span class="font-jakarta font-bold" style="font-size:10px;color:${active ? col : 'rgba(229,226,225,0.4)'};text-transform:capitalize">${b.id}</span>
           <span class="font-jakarta font-bold" style="font-size:9px;color:${active ? col + 'cc' : 'rgba(229,226,225,0.25)'}">${pct}%</span>
         </button>`;
@@ -61,18 +61,34 @@ const JHGrade = (() => {
 
     // Groups
     for (const group of belt.groups) {
+      const isKnowledge = /Knowledge|Moral Code/i.test(group.title);
       const doneInGroup = group.items.filter(item => JHState.isDone(belt.id + '::' + item)).length;
       html += `
         <div class="mb-2">
           <div class="flex items-center justify-between px-1 mb-2">
-            <p class="font-jakarta font-extrabold tracking-widest" style="font-size:10px;color:${col};letter-spacing:0.12em;text-transform:uppercase">${group.title}</p>
-            <p style="font-size:11px;color:rgba(229,226,225,0.35)">${doneInGroup}/${group.items.length}</p>
+            <p class="font-jakarta font-extrabold" style="font-size:10px;color:${col};letter-spacing:0.10em;text-transform:uppercase;line-height:1.3">${group.title}</p>
+            <p style="font-size:11px;color:rgba(229,226,225,0.35);white-space:nowrap;margin-left:8px">${doneInGroup}/${group.items.length}</p>
           </div>
           <div class="space-y-1.5">` +
           group.items.map(item => {
             const key  = belt.id + '::' + item;
             const done = JHState.isDone(key);
             const en   = JHState.getEnglish(item);
+            if (isKnowledge) {
+              // Knowledge items — tick only, no hub navigation
+              return `
+                <div class="flex items-center gap-3 p-3 rounded-xl"
+                  style="background:${done ? col + '10' : '#1c1b1b'};border:1px solid ${done ? col + '30' : 'rgba(255,255,255,0.05)'}">
+                  <button onclick="JHGrade.toggleDone('${key}','${item}','${belt.id}')"
+                    class="w-6 h-6 rounded-full shrink-0 flex items-center justify-center active-scale"
+                    style="background:${done ? col : 'rgba(255,255,255,0.08)'}">
+                    ${done ? '<span class="ms ms-fill" style="font-size:14px;color:#fff">check</span>' : ''}
+                  </button>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-jakarta font-bold" style="font-size:12px;line-height:1.3">${item}</p>
+                  </div>
+                </div>`;
+            }
             return `
               <div class="flex items-center gap-3 p-3 rounded-xl active-scale" onclick="JHHub.open('${item}','${belt.id}')"
                 style="background:${done ? col + '10' : '#1c1b1b'};border:1px solid ${done ? col + '30' : 'rgba(255,255,255,0.05)'};cursor:pointer">

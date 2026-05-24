@@ -333,10 +333,10 @@ const JHHub = (() => {
       </button>
       <div style="position:absolute;bottom:32px;left:20px;right:20px">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
-          <span style="padding:4px 12px;border-radius:99px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:10px;background:${col};color:#fff;text-transform:uppercase;letter-spacing:0.08em">${_beltId} Belt</span>
+          <img src="${JHState.getBeltIcon(_beltId)}" style="height:20px;width:auto;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.6))" alt="belt"/>
           ${_group ? '<span style="padding:4px 12px;border-radius:99px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:10px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7)">' + _group + '</span>' : ''}
         </div>
-        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:clamp(28px,7vw,40px);color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">${_tech}</h1>
+        <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:900;font-size:clamp(20px,5vw,28px);color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px">${_tech}</h1>
         <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:rgba(255,255,255,0.5);font-style:italic">${en}</p>
       </div>`;
   }
@@ -416,7 +416,7 @@ const JHHub = (() => {
     const track = document.getElementById('swipe-track');
     if (!track) return;
     track.innerHTML = _cards.map((c, i) => `
-      <div style="min-width:100vw;width:100vw;height:100%;background:${c.bg};position:relative;overflow:hidden">
+      <div style="min-width:100%;width:100%;height:100%;background:${c.bg};position:relative;overflow-y:auto;overflow-x:hidden;flex-shrink:0">
         ${c.content}
         <!-- Bottom nav hint -->
         <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 28px calc(env(safe-area-inset-bottom,0px) + 20px);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent)">
@@ -426,7 +426,7 @@ const JHHub = (() => {
         </div>
       </div>`).join('');
     track.style.transition = 'none';
-    track.style.transform = 'translateX(-' + (_idx * 100) + 'vw)';
+    track.style.transform = 'translateX(-' + (_idx * 100) + '%)';
   }
 
   function _updateDots() {
@@ -445,7 +445,7 @@ const JHHub = (() => {
     const track = document.getElementById('swipe-track');
     if (track) {
       track.style.transition = 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)';
-      track.style.transform  = 'translateX(-' + (_idx * 100) + 'vw)';
+      track.style.transform  = 'translateX(-' + (_idx * 100) + '%)';
     }
     _updateDots();
   }

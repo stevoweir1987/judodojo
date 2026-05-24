@@ -154,7 +154,20 @@ const JHState = (() => {
 
   function getBeltColor(beltId) {
     const MAP = { red:'#dc2626', yellow:'#eab308', orange:'#f97316', green:'#16a34a', blue:'#2563eb', brown:'#92400e', black:'#111827' };
-    return MAP[beltId] || '#6b7280';
+    // beltId may be 'toRed', 'toYellow' etc — extract color key
+    const key = (beltId || '').replace(/^to/, '').toLowerCase();
+    return MAP[key] || MAP[beltId] || '#6b7280';
+  }
+
+  function getBeltLabel(beltId) {
+    if (typeof BELT_DATA === 'undefined') return beltId;
+    const belt = BELT_DATA.find(b => b.id === beltId);
+    return belt ? belt.to : beltId.replace(/^to/, '');
+  }
+
+  function getBeltIcon(beltId) {
+    const key = (beltId || '').replace(/^to/, '').toLowerCase();
+    return 'images/belt-' + key + '.png';
   }
 
   function init() { /* placeholder for future init logic */ }
@@ -166,6 +179,6 @@ const JHState = (() => {
     isPinned, togglePin, getPinned,
     getProgress, markSeen, markDone, isDone, getMastery, beltProgress,
     getStreak, getSessions,
-    findTechnique, getEnglish, getVideoId, getThumbUrl, getBeltColor,
+    findTechnique, getEnglish, getVideoId, getThumbUrl, getBeltColor, getBeltLabel, getBeltIcon,
   };
 })();

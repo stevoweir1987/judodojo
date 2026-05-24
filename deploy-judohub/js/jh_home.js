@@ -61,7 +61,7 @@ const JHHome = (() => {
             <div>
               <p class="font-jakarta font-extrabold tracking-widest mb-1" style="font-size:9px;color:#f2ca50;letter-spacing:0.18em">CONTINUE LEARNING</p>
               <h3 class="font-jakarta font-bold" style="font-size:20px;color:#fff">${tech}</h3>
-              <p style="font-size:12px;color:rgba(255,255,255,0.55)">${en}</p>
+              ${en.toLowerCase() !== tech.toLowerCase() ? `<p style="font-size:12px;color:rgba(255,255,255,0.55)">${en}</p>` : ''}
             </div>
             <div class="relative shrink-0" style="width:56px;height:56px">
               <svg viewBox="0 0 64 64" style="width:56px;height:56px;transform:rotate(-90deg)">
@@ -75,7 +75,7 @@ const JHHome = (() => {
         </div>
         <div class="p-4 flex items-center justify-between" style="border-top:1px solid rgba(255,255,255,0.05)">
           <p style="font-size:12px;color:rgba(229,226,225,0.4)">Tap to continue →</p>
-          <span class="px-2 py-0.5 rounded-full font-jakarta font-bold" style="font-size:9px;background:${col}33;color:${col};text-transform:uppercase">${beltId} belt</span>
+          <img src="${JHState.getBeltIcon(beltId)}" style="height:18px;width:auto;object-fit:contain;opacity:0.9" alt="belt"/>
         </div>
       </div>`;
   }
@@ -134,7 +134,7 @@ const JHHome = (() => {
         <div class="flex items-start justify-between gap-3">
           <div>
             <h4 class="font-jakarta font-bold mb-1" style="font-size:18px">${focusTech}</h4>
-            <p style="font-size:13px;color:rgba(229,226,225,0.5);margin-bottom:12px">${en}</p>
+            ${en.toLowerCase() !== focusTech.toLowerCase() ? '<p style="font-size:13px;color:rgba(229,226,225,0.5);margin-bottom:12px">' + en + '</p>' : ''}
             <div class="flex items-center gap-2 px-3 py-1.5 rounded-full w-fit font-jakarta font-bold" style="background:#f2ca50;color:#1a1000;font-size:12px">
               <span class="ms" style="font-size:14px">play_arrow</span> Start Session
             </div>
@@ -160,11 +160,11 @@ const JHHome = (() => {
         <div class="min-w-[160px] glass rounded-2xl overflow-hidden active-scale" onclick="JHHub.open('${r.id}')" style="cursor:pointer">
           <div class="relative" style="aspect-ratio:4/3;background:#1a1a1a">
             ${thumb ? `<img src="${thumb}" alt="${r.id}" class="w-full h-full object-cover opacity-65"/>` : `<div class="w-full h-full flex items-center justify-center" style="background:${col}15"><span class="ms" style="font-size:28px;color:${col}40">sports_martial_arts</span></div>`}
-            <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full font-jakarta font-bold" style="font-size:9px;background:rgba(0,0,0,0.7);color:${col};border:1px solid ${col}40;text-transform:uppercase">${r.beltId}</span>
+            <img src="${JHState.getBeltIcon(r.beltId)}" style="position:absolute;top:6px;left:6px;height:16px;width:auto;object-fit:contain;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.8))" alt="belt"/>
           </div>
           <div class="p-3">
             <p class="font-jakarta font-bold" style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.id}</p>
-            <p style="font-size:11px;color:rgba(229,226,225,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${en}</p>
+            ${en.toLowerCase() !== r.id.toLowerCase() ? `<p style="font-size:11px;color:rgba(229,226,225,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${en}</p>` : ''}
           </div>
         </div>`;
     }).join('');
@@ -174,7 +174,7 @@ const JHHome = (() => {
         <h3 class="font-jakarta font-bold" style="font-size:16px">Recently Viewed</h3>
         <button onclick="JHRouter.go('browse')" style="font-size:12px;color:rgba(229,226,225,0.4);font-family:'Plus Jakarta Sans'">See all</button>
       </div>
-      <div class="flex gap-3 overflow-x-auto hide-scroll -mx-5 px-5 pb-2">${cards}</div>`;
+      <div class="flex gap-3 h-scroll hide-scroll -mx-5 px-5 pb-2">${cards}</div>`;
   }
 
   function openRandom() {
