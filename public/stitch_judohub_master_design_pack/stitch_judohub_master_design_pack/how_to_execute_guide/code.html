@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>JUDOHUB - How to Execute Tai Otoshi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#474746",
+                    "primary-fixed-dim": "#e9c349",
+                    "inverse-primary": "#735c00",
+                    "on-surface": "#e5e2e1",
+                    "surface-tint": "#e9c349",
+                    "background": "#131313",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "surface-container-highest": "#353534",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-bright": "#3a3939",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed": "#1b1b1d",
+                    "surface-container": "#201f1f",
+                    "primary": "#f2ca50",
+                    "secondary-fixed": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "primary-container": "#d4af37",
+                    "on-primary-fixed": "#241a00",
+                    "tertiary-fixed-dim": "#c8c6c8",
+                    "on-surface-variant": "#d0c5af",
+                    "on-primary": "#3c2f00",
+                    "on-secondary": "#313030",
+                    "secondary-container": "#474746",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary-fixed-variant": "#474649",
+                    "error": "#ffb4ab",
+                    "tertiary": "#d0cdd0",
+                    "on-tertiary": "#303032",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary": "#c8c6c5",
+                    "surface-dim": "#131313",
+                    "tertiary-container": "#b4b2b4",
+                    "tertiary-fixed": "#e4e2e4",
+                    "on-tertiary-container": "#454547",
+                    "outline-variant": "#4d4635",
+                    "surface-variant": "#353534",
+                    "surface": "#131313",
+                    "outline": "#99907c",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "inverse-on-surface": "#313030",
+                    "primary-fixed": "#ffe088",
+                    "surface-container-low": "#1c1b1b",
+                    "on-background": "#e5e2e1",
+                    "on-primary-container": "#554300",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-container": "#b7b5b4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "max-width-desktop": "1200px",
+                    "touch-target-min": "48px",
+                    "gutter": "16px",
+                    "unit": "8px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-effect {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .step-active {
+            border-left: 3px solid #f2ca50;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-primary tracking-tighter">HOW TO EXECUTE</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-on-surface">share</span>
+</button>
+</div>
+</header>
+<main class="pt-16 pb-32 max-w-max-width-desktop mx-auto">
+<!-- Main Video Player Section -->
+<section class="relative w-full aspect-video md:rounded-xl overflow-hidden mb-6 bg-surface-container-lowest">
+<img alt="Tai Otoshi Demonstration" class="w-full h-full object-cover opacity-80" data-alt="A cinematic, high-speed action shot of a professional judoka executing a powerful Tai Otoshi throw in a traditional Japanese dojo. The athlete is caught mid-motion with his leg extended across his opponent's shins, creating a dynamic diagonal line. The lighting is dramatic, high-contrast chiaroscuro, highlighting the tension in the gi and the technical precision of the grip. The background is a blurred wooden floor and white walls, maintaining a focused, prestigious martial arts aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo9pwqj0-yiWMZiA8j7C6oRM_jxC3UK3F2sQnbWCPsTlr6sFl_CbsQiRHpmZgqRFGIT8nPZwV4GiDUqWunLFsJBJWSmTXMEmRXLKTWtwYBluZCFf_DcHCzmGp8i21Cod9R6KeNksSWHVp03CBOQn5KM-nOG4Lx8poEX39TGAO_mqS51emt8-WixrjAo7AYb2s3iVezspLOwyXAnK_5Lw1lo0kiNaWwHIt-mpj5dwOy2VfF8DL7y6Yd3MyFsANTOCJ7zAkelfKyjtzI"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="w-16 h-16 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<!-- Video Overlay Info -->
+<div class="absolute bottom-0 left-0 right-0 p-container-padding bg-gradient-to-t from-background to-transparent">
+<h2 class="font-headline-xl text-headline-xl text-white mb-1">Tai Otoshi</h2>
+<div class="flex items-center gap-3">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-label-sm font-label-sm text-secondary">Green Belt (3rd Kyu)</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span> 2:45
+                    </span>
+</div>
+</div>
+</section>
+<!-- Key Mechanics Header -->
+<section class="px-container-padding mb-8">
+<h3 class="font-headline-lg text-headline-lg mb-2 text-primary">Key Mechanics</h3>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+                Tai Otoshi is a combination of strong off-balancing (kuzushi), turning (tsukuri) and reaping (kake) the outside leg. It is a hand technique (te-waza) that requires precise timing and leverage.
+            </p>
+</section>
+<!-- Step-by-Step Breakdown -->
+<section class="px-container-padding space-y-4">
+<h4 class="font-label-md text-label-md tracking-widest text-on-surface-variant uppercase mb-4">Step Breakdown</h4>
+<!-- Step 1 -->
+<div class="glass-effect rounded-xl p-4 flex gap-4 items-center group cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-lg text-primary">
+                    1
+                </div>
+<div class="flex-grow">
+<h5 class="font-headline-lg-mobile text-headline-lg-mobile mb-1">Kuzushi</h5>
+<p class="text-label-md font-label-md text-on-surface-variant">Pull forward and off-balance</p>
+</div>
+<div class="w-24 h-16 rounded-lg overflow-hidden bg-black/40 border border-white/10 relative">
+<img alt="Step 1 Thumbnail" class="w-full h-full object-cover opacity-60" data-alt="A close-up, focused shot of a judo grip demonstrating Kuzushi. Hands are firmly grabbing a blue judo gi, pulling the fabric upward and outward to force the opponent onto their toes. The lighting is sharp and technical, emphasizing the grip strength and the subtle shift in balance. The aesthetic is clean and instructional, with deep charcoal tones and golden highlights on the pulling action." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADc-b_IUnOj8LNfzYpxz73RB4RIbrv4a85hFd8OybirQ3n_EFIMpsQ0kFjKEVZrVbMrJdr4c7Pmr81fDa612I05uAutC0sov0bKhOwjuTI9WBGDBaQPWxbrKRMtqOXXhl0lO6-nsbyyw93hDEi5M_qK2DBIIqQvjVHBvHWcJQqcQU0ADeBOO2tqzhYj_BgmuDceo1fYCZuDUMNBCqG6jsjHXXVL4rI-lS7aZNTnvaApH12C2j5PeD6FgE6DVHoz5AjZf-llHZmniVf"/>
+<span class="absolute inset-0 flex items-center justify-center material-symbols-outlined text-white/50">play_circle</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="glass-effect rounded-xl p-4 flex gap-4 items-center group cursor-pointer hover:bg-surface-container-high transition-colors step-active">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-lg">
+                    2
+                </div>
+<div class="flex-grow">
+<h5 class="font-headline-lg-mobile text-headline-lg-mobile mb-1 text-primary">Tsukuri</h5>
+<p class="text-label-md font-label-md text-on-surface-variant">Turn in and align your hips</p>
+</div>
+<div class="w-24 h-16 rounded-lg overflow-hidden bg-black/40 border border-white/10 relative border-primary/30">
+<img alt="Step 2 Thumbnail" class="w-full h-full object-cover" data-alt="Mid-shot of a judoka's lower body and hips during the Tsukuri phase of a throw. The practitioner is pivoting on the ball of their foot, with hips squared and body aligned for maximum leverage. The movement is fluid and controlled. The floor is dark polished wood, reflecting the focused lighting of a professional training environment. The style is minimalist and cinematic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG1JmOinznIKwy2MDqPJglI7YONVGxnNCLnjmFNecJBOSliBNJi_Gn_zQMSuz0BjUnDfkoPnPKseHW_mS0_kt06tL0UhAGvXr1R_WbT7PdgHvQj0dvxK8UxSy6ZUlP6uhigsKaEpka1hyjN3vX1PoaOwvTGWgAMVzY4PcY0vvM9u--R-GeqOHSexyHpYAHLTQy2xZKzlCEH3H_Ty3vd8gQfo7rHXWS6N0S765apOpr6op30UMQT6cFaxg8WrX2NSOGLWkz3ze6dd-6"/>
+<span class="absolute inset-0 flex items-center justify-center material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="glass-effect rounded-xl p-4 flex gap-4 items-center group cursor-pointer hover:bg-surface-container-high transition-colors">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center font-headline-lg text-primary">
+                    3
+                </div>
+<div class="flex-grow">
+<h5 class="font-headline-lg-mobile text-headline-lg-mobile mb-1">Kake</h5>
+<p class="text-label-md font-label-md text-on-surface-variant">Reap the outside leg</p>
+</div>
+<div class="w-24 h-16 rounded-lg overflow-hidden bg-black/40 border border-white/10 relative">
+<img alt="Step 3 Thumbnail" class="w-full h-full object-cover opacity-60" data-alt="Wide-angle shot showing the final Kake execution of a judo throw. One athlete is being launched over the other's extended leg, showing peak kinetic energy and follow-through. The silhouettes are crisp against a dark, atmospheric background. The lighting is evocative, capturing the dust particles in the air of the dojo. Premium dark aesthetic with gold and charcoal tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAghKf9cTBQGUI3tYwas8dgddAWP5lkwJi2sxNWvEB2c7BEutDfkR4NEUPGfxXM2KPy4AlXBy5-IheuzXHSk_gIOFtxL5NoIBlJARShfQf5mv-6AKq2Pn2OvxX3ERoI79GnQ-VlEN91pG0qPcGIEdO8tAucshFYHgI7ThrujTFKnCvqXo3JUBa5d6ZyXR5G3IbwS0fwYsHseCuC9KCgQpygkz5EDGsyV3m47wse17rXvwypfhKtAZYk_pyl_-5nLGnQsAc4zY_sCzeI"/>
+<span class="absolute inset-0 flex items-center justify-center material-symbols-outlined text-white/50">play_circle</span>
+</div>
+</div>
+</section>
+<!-- Training Tips -->
+<section class="px-container-padding mt-10">
+<div class="bg-surface-container-low rounded-2xl p-6 border border-white/5">
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+                    Sensei's Tips
+                </h4>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary flex-shrink-0">check_circle</span>
+<p class="text-body-md font-body-md text-on-surface">Keep your sleeve pulling hand high and strong throughout the rotation.</p>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary flex-shrink-0">check_circle</span>
+<p class="text-body-md font-body-md text-on-surface">Ensure your blocking leg is straight and firmly planted to create the trip.</p>
+</li>
+</ul>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (from JSON) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for steps
+        document.querySelectorAll('.glass-effect').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.glass-effect').forEach(s => {
+                    s.classList.remove('step-active');
+                    s.querySelector('h5').classList.remove('text-primary');
+                    s.querySelector('span.material-symbols-outlined:last-child').style.fontVariationSettings = "'FILL' 0";
+                    s.querySelector('span.material-symbols-outlined:last-child').classList.add('text-white/50');
+                    s.querySelector('span.material-symbols-outlined:last-child').classList.remove('text-primary');
+                });
+                step.classList.add('step-active');
+                step.querySelector('h5').classList.add('text-primary');
+                const playIcon = step.querySelector('span.material-symbols-outlined:last-child');
+                playIcon.style.fontVariationSettings = "'FILL' 1";
+                playIcon.classList.remove('text-white/50');
+                playIcon.classList.add('text-primary');
+            });
+        });
+    </script>
+</body></html>

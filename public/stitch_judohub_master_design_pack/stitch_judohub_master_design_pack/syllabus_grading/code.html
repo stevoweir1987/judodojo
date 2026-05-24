@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>JUDOHUB - Syllabus &amp; Grading</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #131313;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.8s ease-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        .gold-glow {
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#2a2a2a",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "on-primary-container": "#554300",
+                        "inverse-on-surface": "#313030",
+                        "tertiary": "#d0cdd0",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "secondary": "#c8c6c5",
+                        "outline": "#99907c",
+                        "surface-dim": "#131313",
+                        "surface-variant": "#353534",
+                        "on-tertiary-container": "#454547",
+                        "on-surface-variant": "#d0c5af",
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "on-primary": "#3c2f00",
+                        "inverse-surface": "#e5e2e1",
+                        "outline-variant": "#4d4635",
+                        "on-tertiary": "#303032",
+                        "on-primary-fixed": "#241a00",
+                        "surface-container-highest": "#353534",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#b4b2b4",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "on-secondary": "#313030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#ffe088",
+                        "on-secondary-container": "#b7b5b4",
+                        "tertiary-fixed": "#e4e2e4",
+                        "primary-fixed-dim": "#e9c349",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "primary-container": "#d4af37",
+                        "inverse-primary": "#735c00",
+                        "primary": "#f2ca50",
+                        "secondary-container": "#474746",
+                        "on-primary-fixed-variant": "#574500",
+                        "surface-container": "#201f1f",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "background": "#131313",
+                        "surface": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-background": "#e5e2e1",
+                        "surface-tint": "#e9c349"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "card-gap": "12px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "max-width-desktop": "1200px",
+                        "container-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<header class="bg-background/80 backdrop-blur-md flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</button>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-bold tracking-tighter text-primary dark:text-primary-fixed-dim">JUDOHUB</h1>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full border border-white/5">
+<img alt="UK Flag" class="w-4 h-3 object-cover rounded-[1px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCS6lkYJjIZA-vZze7CaAl-b-MIU7LtQ2TeF0ZjYSKFFUZ2RcX-0rfDc01S31R-XSX_QYyH6MdyDwogYDwR1NWYwTg-NI966VTIFPLQ2fzdODpeGFLal7d14Zd0Dh9IfrEjKR3GWn_YWA-XSJOrJ9EXMRRAlVaKSVN1-k9OZoGA4O8f20ZedwWlezev1h7w-Wh4v_X3a1ilBWYUcU9EHWEPsaZrytaooUvJb96ZerHIpnCDb1Pridr4WzvZaL6sFz86xxnA7RerumH"/>
+<span class="text-label-sm font-label-sm text-on-surface-variant">BJA</span>
+</div>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-container-padding max-w-md mx-auto min-h-screen">
+<!-- Syllabus Header -->
+<section class="mb-8">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary scale-75" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<p class="text-label-md font-label-md text-on-surface-variant tracking-widest uppercase">Affiliation</p>
+</div>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface mb-1">British Judo Association</h2>
+<p class="text-body-md font-body-md text-on-surface-variant opacity-70">Grading Path: Mon / Kyu Syllabus</p>
+</section>
+<!-- Central Progress Hub -->
+<section class="mb-10 flex flex-col items-center">
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- SVG Progress Ring -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container stroke-current" cx="128" cy="128" fill="transparent" r="110" stroke-width="10"></circle>
+<circle class="text-primary-container stroke-current progress-ring-circle" cx="128" cy="128" fill="transparent" r="110" stroke-dasharray="691" stroke-dashoffset="172.75" stroke-linecap="round" stroke-width="10"></circle> <!-- 75% of 691 -->
+</svg>
+<!-- Inner Content -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<div class="w-20 h-6 bg-[#FFA500] rounded-full mb-3 shadow-[0_0_15px_rgba(255,165,0,0.4)]"></div>
+<span class="text-display-lg font-display-lg text-on-surface leading-none">6th Kyu</span>
+<span class="text-body-md font-body-md text-on-surface-variant mt-1">Orange Belt</span>
+<div class="mt-4 px-4 py-1.5 bg-surface-container rounded-full border border-white/5">
+<span class="text-headline-lg font-headline-lg text-primary">75%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Requirements Checklist -->
+<section class="space-y-4 mb-10">
+<h3 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest px-1">Grade Requirements</h3>
+<!-- Requirement Card: Nage-waza -->
+<div class="glass-panel rounded-xl p-5 flex items-center justify-between group active:scale-[0.98] transition-transform">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">directions_run</span>
+</div>
+<div>
+<p class="text-body-lg font-headline-lg-mobile text-on-surface">Nage-waza</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Throwing Techniques</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-headline-lg-mobile font-headline-lg-mobile text-primary">12 <span class="text-label-md text-on-surface-variant">/ 16</span></p>
+<div class="w-20 h-1 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary-container w-[75%]"></div>
+</div>
+</div>
+</div>
+<!-- Requirement Card: Katame-waza -->
+<div class="glass-panel rounded-xl p-5 flex items-center justify-between group active:scale-[0.98] transition-transform">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">sports_kabaddi</span>
+</div>
+<div>
+<p class="text-body-lg font-headline-lg-mobile text-on-surface">Katame-waza</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Grappling Techniques</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-headline-lg-mobile font-headline-lg-mobile text-primary">8 <span class="text-label-md text-on-surface-variant">/ 12</span></p>
+<div class="w-20 h-1 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary-container w-[66%]"></div>
+</div>
+</div>
+</div>
+<!-- Requirement Card: Ukemi & Theory -->
+<div class="glass-panel rounded-xl p-5 flex items-center justify-between group active:scale-[0.98] transition-transform">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="text-body-lg font-headline-lg-mobile text-on-surface">Ukemi &amp; Theory</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Breakfalls &amp; Knowledge</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-headline-lg-mobile font-headline-lg-mobile text-primary">6 <span class="text-label-md text-on-surface-variant">/ 8</span></p>
+<div class="w-20 h-1 bg-surface-container rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary-container w-[75%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Action -->
+<section>
+<button class="w-full py-4 bg-primary-container text-on-primary font-headline-lg-mobile rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-3">
+<span>View full syllabus</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</section>
+<!-- Featured Technique Teaser -->
+<section class="mt-12">
+<h3 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest px-1 mb-4">Focus Technique</h3>
+<div class="relative h-48 rounded-2xl overflow-hidden group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A cinematic, high-contrast action shot of two judokas performing a dynamic Tai Otoshi throw. The scene is set in a traditional Japanese dojo with soft, atmospheric lighting highlighting the discipline and intensity of the movement. The color palette is dominated by deep charcoals and warm gold accents from the belt, capturing a prestigious and focused martial arts atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5jWqyRLhm9E0Ft7_VZO6Qs0xQiYEsHVtGHmhn1Bn6p2iW0x-ynb9sPaor3dyzHQy8XGLDEVsRO2yoIvernXfLGcf7HeJv6I8Lndums7nTWcwKnKSfLFOO4SNJhBe6Qra7tFCP9bZi38AT6to55Fy7MesLS708987KoFq5qgnaiaU-CqdHzJskOnkBgQRhLBUdMeYTYY7l7wsss_Ode7nm8lVXrugSd_rnjrI-CzfWrSURwVhYLJxm52UOThP1ODLM4VBMZ-slK6TY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-4 left-5">
+<p class="text-primary font-label-md uppercase tracking-wider mb-1">Recommended for you</p>
+<h4 class="text-headline-lg text-white">Tai Otoshi</h4>
+<p class="text-on-surface-variant text-label-sm">Major Outer Reap</p>
+</div>
+<div class="absolute top-4 right-5 bg-black/40 backdrop-blur px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-primary scale-75" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<span class="text-label-sm text-white">05:20</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button Contextual Logic -->
+<!-- Suppressed on Syllabus/Profile as per rules -->
+<script>
+        // Micro-interaction for requirement cards
+        document.querySelectorAll('.glass-panel').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.add('scale-95');
+                setTimeout(() => card.classList.remove('scale-95'), 150);
+            });
+        });
+
+        // Simulating the 75% progress ring animation on load
+        window.addEventListener('load', () => {
+            const circle = document.querySelector('.progress-ring-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = circumference;
+
+            const setProgress = (percent) => {
+                const offset = circumference - (percent / 100 * circumference);
+                circle.style.strokeDashoffset = offset;
+            };
+
+            // Start animation after a slight delay
+            setTimeout(() => setProgress(75), 300);
+        });
+    </script>
+</body></html>

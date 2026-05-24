@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>JUDOHUB - Tai Otoshi: Grips</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .active-ring {
+            box-shadow: 0 0 15px rgba(242, 202, 80, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes subtle-glow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+        .animate-glow {
+            animation: subtle-glow 3s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "on-tertiary": "#303032",
+                        "on-secondary-container": "#b7b5b4",
+                        "background": "#131313",
+                        "primary": "#f2ca50",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "outline-variant": "#4d4635",
+                        "tertiary-fixed": "#e4e2e4",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "on-surface-variant": "#d0c5af",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#735c00",
+                        "on-tertiary-container": "#454547",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#e9c349",
+                        "primary-container": "#d4af37",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-container": "#b4b2b4",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary": "#3c2f00",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#99907c",
+                        "surface-tint": "#e9c349",
+                        "surface-variant": "#353534",
+                        "secondary-container": "#474746",
+                        "on-primary-container": "#554300",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#313030",
+                        "secondary-fixed": "#e5e2e1",
+                        "tertiary": "#d0cdd0",
+                        "on-background": "#e5e2e1",
+                        "surface-container-highest": "#353534",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "surface-bright": "#3a3939",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#c8c6c5",
+                        "on-surface": "#e5e2e1",
+                        "primary-fixed": "#ffe088"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "card-gap": "12px",
+                        "max-width-desktop": "1200px",
+                        "unit": "8px",
+                        "touch-target-min": "48px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Shell -->
+<nav class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface cursor-pointer hover:opacity-80 transition-opacity">menu</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile font-bold tracking-tighter text-primary">JUDOHUB</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface cursor-pointer hover:opacity-80 transition-opacity">notifications</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-24 min-h-screen flex flex-col items-center px-4 md:px-container-padding max-w-desktop mx-auto">
+<!-- Header Section -->
+<header class="w-full mb-8 space-y-2">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px]">military_tech</span>
+<span class="text-label-md font-label-md tracking-widest uppercase">Technique Syllabus</span>
+</div>
+<h1 class="text-display-lg font-display-lg text-on-surface">Tai Otoshi</h1>
+<p class="text-on-surface-variant font-body-md max-w-xl">Master the body drop. A powerful hand technique that relies on precise timing and off-balancing (Kuzushi).</p>
+</header>
+<!-- Syllabus Progress Navigation (Asymmetric/Bento style) -->
+<section class="w-full grid grid-cols-1 md:grid-cols-12 gap-4 mb-10">
+<!-- Current Stage Card -->
+<div class="md:col-span-8 glass-card rounded-xl overflow-hidden group border-primary/20 relative">
+<div class="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-label-md z-10 shadow-lg">
+                    STAGE 5C
+                </div>
+<div class="relative h-64 w-full">
+<img alt="Grip details" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A cinematic close-up shot of two judoka's hands engaging in a standard lapel and sleeve grip. The lighting is dramatic and low-key, highlighting the texture of the white cotton gi and the tension in the fingers. Deep charcoal shadows contrast with the warm golden rim lighting, creating a prestigious and focused martial arts atmosphere in a traditional dojo setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjOnj1QVp2OriuXigzeXBuj_ZoL0MYJtYlHBXqBAxLZZ2biTIEVM9Tymth50F2F5acRkQEIS1Vfxo3lc7kdxkAeIOuwv1086BfWq4RPhly6p3fZDNISsbKrkI0ps6u1j7CCaYtxamndmWTvEwqYGTDCRNXZvPgsK9-DIxzpMo1yoYuE1s1_5IwHa4_-OLBsJ2dVeJOlUOI0h-Kbo3G35sze9CBToLBl_8GFehBasyZUg7f_7DOyT7GN1Z51rsz9LCS1YYXfIHQ064b"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</div>
+<div class="p-6">
+<h2 class="text-headline-lg font-headline-lg text-primary mb-2">GRIPS</h2>
+<p class="text-on-surface-variant font-body-md mb-6">The foundation of every throw. Proper placement dictates your control over Uke's center of gravity.</p>
+<!-- Grip Options List -->
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container-high border border-white/5 hover:border-primary/50 transition-colors cursor-pointer group/item">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10 border border-primary text-primary font-bold text-label-md group-hover/item:bg-primary group-hover/item:text-on-primary transition-all">1</span>
+<div class="flex-1">
+<p class="text-on-surface font-label-md">Standard Lapel &amp; Sleeve</p>
+<p class="text-on-surface-variant text-label-sm">High control, balanced offense and defense.</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover/item:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container border border-white/5 hover:border-primary/50 transition-colors cursor-pointer group/item">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-on-surface-variant font-bold text-label-md group-hover/item:border-primary group-hover/item:text-primary transition-all">2</span>
+<div class="flex-1">
+<p class="text-on-surface font-label-md">Cross Grip</p>
+<p class="text-on-surface-variant text-label-sm">Aggressive variation for deep entry.</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover/item:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-lg bg-surface-container border border-white/5 hover:border-primary/50 transition-colors cursor-pointer group/item">
+<span class="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-on-surface-variant font-bold text-label-md group-hover/item:border-primary group-hover/item:text-primary transition-all">3</span>
+<div class="flex-1">
+<p class="text-on-surface font-label-md">Sleeve &amp; Belt</p>
+<p class="text-on-surface-variant text-label-sm">Power-focused grip for circular throws.</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover/item:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+<!-- Swipe Indicator -->
+<div class="mt-8 flex items-center justify-between">
+<div class="flex gap-1.5">
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<div class="w-6 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+<div class="w-2 h-2 rounded-full bg-white/20"></div>
+</div>
+<div class="flex items-center gap-2 text-primary group cursor-pointer">
+<span class="text-label-md font-label-md group-hover:mr-1 transition-all">Swipe for Setups</span>
+<span class="material-symbols-outlined animate-glow">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Stats/Context (ADHD-friendly bite-sized info) -->
+<div class="md:col-span-4 flex flex-col gap-4">
+<div class="glass-card p-6 rounded-xl flex-1 flex flex-col justify-center items-center text-center">
+<div class="relative w-32 h-32 mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-white/5" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary active-ring" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="91.1" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-lg font-headline-lg text-on-surface">75%</span>
+<span class="text-label-sm text-on-surface-variant">Mastery</span>
+</div>
+</div>
+<p class="text-label-md font-label-md text-on-surface">Module Completion</p>
+</div>
+<div class="glass-card p-6 rounded-xl">
+<div class="flex items-center gap-2 mb-4">
+<div class="w-3 h-3 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.5)]"></div>
+<span class="text-label-md font-label-md text-on-surface">BROWN BELT</span>
+</div>
+<h3 class="text-label-md font-label-md text-primary mb-1">PRO TIP</h3>
+<p class="text-body-md text-on-surface-variant italic">"Keep your pulling hand high to maximize Kuzushi before the step-in."</p>
+</div>
+<div class="glass-card p-4 rounded-xl border border-primary/10">
+<button class="w-full py-4 bg-primary text-on-primary rounded-lg font-label-md flex items-center justify-center gap-2 hover:brightness-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                        WATCH VIDEO DEMO
+                    </button>
+</div>
+</div>
+</section>
+<!-- Syllabus Timeline (Horizontal Scroll on Mobile) -->
+<section class="w-full">
+<h3 class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest mb-4">Syllabus Path</h3>
+<div class="flex gap-4 overflow-x-auto custom-scrollbar pb-4 -mx-4 px-4">
+<!-- Completed -->
+<div class="min-w-[140px] glass-card p-4 rounded-xl opacity-60 border-transparent">
+<span class="text-label-sm font-label-md text-primary block mb-1">5A</span>
+<span class="text-label-md text-on-surface block truncate">WHAT IS IT?</span>
+<span class="material-symbols-outlined text-green-500 mt-2">check_circle</span>
+</div>
+<div class="min-w-[140px] glass-card p-4 rounded-xl opacity-60 border-transparent">
+<span class="text-label-sm font-label-md text-primary block mb-1">5B</span>
+<span class="text-label-md text-on-surface block truncate">EXECUTION</span>
+<span class="material-symbols-outlined text-green-500 mt-2">check_circle</span>
+</div>
+<!-- Active -->
+<div class="min-w-[140px] glass-card p-4 rounded-xl border-primary bg-primary/5 active-ring">
+<span class="text-label-sm font-label-md text-primary block mb-1">5C</span>
+<span class="text-label-md text-on-surface block truncate">GRIPS</span>
+<div class="h-1.5 w-full bg-white/10 rounded-full mt-4 overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+<!-- Next -->
+<div class="min-w-[140px] glass-card p-4 rounded-xl border-transparent">
+<span class="text-label-sm font-label-md text-on-surface-variant block mb-1">5D</span>
+<span class="text-label-md text-on-surface block truncate">SETUPS</span>
+<span class="material-symbols-outlined text-on-surface-variant mt-2">lock</span>
+</div>
+<div class="min-w-[140px] glass-card p-4 rounded-xl border-transparent">
+<span class="text-label-sm font-label-md text-on-surface-variant block mb-1">5E</span>
+<span class="text-label-md text-on-surface block truncate">ERRORS</span>
+<span class="material-symbols-outlined text-on-surface-variant mt-2">lock</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary scale-110 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</a>
+</footer>
+<script>
+        // Micro-interaction for grip selection
+        document.querySelectorAll('.group\\/item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Reset all
+                document.querySelectorAll('.group\\/item').forEach(i => {
+                    i.classList.remove('bg-surface-container-high', 'border-primary/50');
+                    i.classList.add('bg-surface-container');
+                    const circle = i.querySelector('.rounded-full');
+                    circle.classList.remove('bg-primary', 'text-on-primary');
+                    circle.classList.add('bg-white/5', 'text-on-surface-variant');
+                });
+                
+                // Set active
+                this.classList.add('bg-surface-container-high', 'border-primary/50');
+                const circle = this.querySelector('.rounded-full');
+                circle.classList.add('bg-primary', 'text-on-primary');
+                circle.classList.remove('bg-white/5', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JUDOHUB - Quick Drills</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "on-tertiary": "#303032",
+                        "on-secondary-container": "#b7b5b4",
+                        "background": "#131313",
+                        "primary": "#f2ca50",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "outline-variant": "#4d4635",
+                        "tertiary-fixed": "#e4e2e4",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "on-surface-variant": "#d0c5af",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#735c00",
+                        "on-tertiary-container": "#454547",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#e9c349",
+                        "primary-container": "#d4af37",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-container": "#b4b2b4",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary": "#3c2f00",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#99907c",
+                        "surface-tint": "#e9c349",
+                        "surface-variant": "#353534",
+                        "secondary-container": "#474746",
+                        "on-primary-container": "#554300",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#313030",
+                        "secondary-fixed": "#e5e2e1",
+                        "tertiary": "#d0cdd0",
+                        "on-background": "#e5e2e1",
+                        "surface-container-highest": "#353534",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "surface-bright": "#3a3939",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#c8c6c5",
+                        "on-surface": "#e5e2e1",
+                        "primary-fixed": "#ffe088"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "card-gap": "12px",
+                        "max-width-desktop": "1200px",
+                        "unit": "8px",
+                        "touch-target-min": "48px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary min-h-screen">
+<!-- Top Navigation -->
+<nav class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity">menu</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile font-bold tracking-tighter text-primary md:text-headline-lg md:font-headline-lg">JUDOHUB</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity cursor-pointer">notifications</span>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-20 pb-28 px-4 max-w-max-desktop mx-auto">
+<!-- Header Section -->
+<header class="mb-8 px-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 bg-surface-container-high text-primary rounded-lg text-label-sm font-label-sm tracking-widest">5G. QUICK DRILLS</span>
+</div>
+<h1 class="text-display-lg font-display-lg mb-2">Tai Otoshi</h1>
+<p class="text-on-surface-variant text-body-lg font-body-lg">Refine your body mechanics through focused repetition.</p>
+</header>
+<!-- Focused Task Canvas (Bento-inspired) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Primary Technique Card (The Anchor) -->
+<div class="lg:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-low glass-card gold-glow">
+<div class="aspect-video w-full relative overflow-hidden">
+<img alt="Judo solo drill training" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A focused martial artist in a white judo gi performing a solo Tai Otoshi entry drill in a minimalist, dimly lit dojo. The floor is covered in traditional tatami mats with deep charcoal and muted olive tones. The lighting is cinematic and dramatic, casting soft shadows. The overall aesthetic is disciplined and prestigious, dominated by dark tones and subtle gold highlights, evoking a sense of calm intensity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbQ7P5kF40YQZU5A4cQ1-_l_aQBiVwQYPIbt3DxDrhdYKypYHWPW6aquAbAB_Hj1Fu3Mu30LWcthDaFWSsd3s7uEKbexyvrXwHYyfWI0sXr1Cq3giLM2rTV0zVRFPtsynpGMmQmWXtQivrmIDa5Ty6sK1raWXojEHllBdt85s5oPF6CsS9PeIAy-TMXNXvXrxtRSXKqBajUVZcYW6i7GFY9p9m1teSITQ7naJlyDVxCZS9HfSeipZztW0SfkIcqhambl_ONE_ymfBO"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-transparent opacity-60"></div>
+<!-- Confidence Meter Overlay -->
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between bg-black/40 backdrop-blur-md px-4 py-3 rounded-xl border border-white/10">
+<div class="flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-tighter">Confidence Meter</span>
+<div class="w-32 h-1 bg-surface-variant rounded-full mt-2 relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-[75%] bg-primary"></div>
+</div>
+</div>
+<span class="text-primary font-bold">75%</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="text-headline-lg font-headline-lg mb-1">Build the movement</h2>
+<p class="text-on-surface-variant text-body-md font-body-md">Understand the key mechanics in seconds.</p>
+</div>
+<div class="bg-surface-container-high px-3 py-1 rounded-full border border-white/5">
+<span class="text-label-md font-label-md text-primary">ADVANCED</span>
+</div>
+</div>
+<!-- Drills List -->
+<div class="space-y-4">
+<!-- Drill Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-primary text-primary font-bold text-label-md">1</div>
+<div class="flex-1">
+<h3 class="font-bold text-on-surface">Solo Drill</h3>
+<p class="text-on-surface-variant text-label-md">Shadow entry for muscle memory.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover/item:text-primary transition-colors">play_circle</span>
+</div>
+<!-- Drill Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-primary text-primary font-bold text-label-md">2</div>
+<div class="flex-1">
+<h3 class="font-bold text-on-surface">Band Drill</h3>
+<p class="text-on-surface-variant text-label-md">Resistance training for explosive power.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover/item:text-primary transition-colors">play_circle</span>
+</div>
+<!-- Drill Item 3 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-primary text-primary font-bold text-label-md">3</div>
+<div class="flex-1">
+<h3 class="font-bold text-on-surface">Partner Drill</h3>
+<p class="text-on-surface-variant text-label-md">Live kuzushi and timing practice.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover/item:text-primary transition-colors">play_circle</span>
+</div>
+</div>
+<!-- Swipe Indicator -->
+<div class="mt-8 flex justify-center items-center gap-6 opacity-60">
+<div class="flex gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+<div class="w-3 h-1.5 rounded-full bg-primary"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-surface-variant"></div>
+</div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm uppercase tracking-widest text-on-surface-variant">
+                            Swipe <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Panel (Desktop Focus) -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Mastery Progress -->
+<div class="p-6 rounded-xl bg-surface-container glass-card">
+<h4 class="text-label-md font-label-md text-on-surface-variant uppercase mb-4 tracking-widest">Syllabus Progress</h4>
+<div class="relative w-32 h-32 mx-auto mb-4">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-variant" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary transition-all duration-1000" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="91.1" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-lg font-headline-lg text-primary">75%</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">MASTERED</span>
+</div>
+</div>
+<p class="text-center text-label-md text-on-surface-variant">4 / 6 Drills Completed</p>
+</div>
+<!-- Next Action -->
+<button class="w-full h-[56px] flex items-center justify-center gap-2 bg-primary text-on-primary font-bold rounded-xl active:scale-95 transition-all hover:opacity-90">
+<span class="material-symbols-outlined">fitness_center</span>
+                    START TRAINING SESSION
+                </button>
+<!-- Quick Tips -->
+<div class="p-6 rounded-xl bg-surface-container-highest/50 border border-white/5">
+<h4 class="font-bold mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+                        Pro Tip
+                    </h4>
+<p class="text-body-md text-on-surface-variant italic">
+                        "Focus on your foot placement in Drill 1. The angle of your lead foot determines the power of the reaping leg."
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg">
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions for confidence meter and drill items
+        document.querySelectorAll('.group\\/item').forEach(item => {
+            item.addEventListener('click', () => {
+                const icon = item.querySelector('.material-symbols-outlined');
+                if(icon.innerText === 'play_circle') {
+                    icon.innerText = 'check_circle';
+                    icon.style.color = '#f2ca50';
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                } else {
+                    icon.innerText = 'play_circle';
+                    icon.style.color = '';
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                }
+            });
+        });
+    </script>
+</body></html>

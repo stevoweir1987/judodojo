@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JUDOHUB - Tai Otoshi Setups</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "on-tertiary": "#303032",
+                        "on-secondary-container": "#b7b5b4",
+                        "background": "#131313",
+                        "primary": "#f2ca50",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "outline-variant": "#4d4635",
+                        "tertiary-fixed": "#e4e2e4",
+                        "surface-container-low": "#1c1b1b",
+                        "surface": "#131313",
+                        "on-surface-variant": "#d0c5af",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#735c00",
+                        "on-tertiary-container": "#454547",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-fixed-dim": "#e9c349",
+                        "primary-container": "#d4af37",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary-container": "#b4b2b4",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary": "#3c2f00",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#99907c",
+                        "surface-tint": "#e9c349",
+                        "surface-variant": "#353534",
+                        "secondary-container": "#474746",
+                        "on-primary-container": "#554300",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#474746",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "on-secondary": "#313030",
+                        "secondary-fixed": "#e5e2e1",
+                        "tertiary": "#d0cdd0",
+                        "on-background": "#e5e2e1",
+                        "surface-container-highest": "#353534",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "surface-bright": "#3a3939",
+                        "inverse-on-surface": "#313030",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#c8c6c5",
+                        "on-surface": "#e5e2e1",
+                        "primary-fixed": "#ffe088"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "container-padding": "24px",
+                        "card-gap": "12px",
+                        "max-width-desktop": "1200px",
+                        "unit": "8px",
+                        "touch-target-min": "48px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(242, 202, 80, 0.3);
+        }
+        .active-dot {
+            box-shadow: 0 0 8px #f2ca50;
+        }
+        .step-number {
+            border: 1px solid rgba(242, 202, 80, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 999px;
+            margin-right: 12px;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353534;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">menu</span>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile md:text-headline-lg md:font-headline-lg font-bold tracking-tighter text-primary">JUDOHUB</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">notifications</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-24 md:pb-12 px-container-padding max-w-max-desktop mx-auto">
+<!-- Breadcrumb & Header Section -->
+<div class="mb-8 animate-fade-in">
+<div class="flex items-center gap-2 text-label-md font-label-md text-on-surface-variant mb-2">
+<span class="text-primary">05. THE SYLLABUS</span>
+<span class="opacity-30">/</span>
+<span>TAI OTOSHI (BODY DROP)</span>
+</div>
+<h2 class="text-headline-xl font-headline-xl text-on-surface mb-2">5D. SETUPS</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl">Master the art of creating openings. In Tai Otoshi, the setup is more critical than the execution itself.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Primary Technique Card - Left Column -->
+<div class="lg:col-span-7 group">
+<div class="relative rounded-xl overflow-hidden glass-card border-primary/20 shadow-2xl transition-all duration-500 hover:border-primary/40">
+<!-- Image Container -->
+<div class="relative aspect-video w-full">
+<img alt="Tai Otoshi setup movement" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" data-alt="A cinematic, high-contrast shot of two judo practitioners in a traditional dojo. The person performing the throw (tori) is in a blue gi, caught in mid-motion while pulling their opponent (uke) off balance. Golden glowing motion paths emphasize the circular entry movement of the feet and the directional pull of the hands. The lighting is dramatic, with soft shadows and a focused spotlight on the contact point of the two athletes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7uho6ffE-c5yJVbL22e3YRN0hdmJhkt99Ctuyumly8QC_n1Dul_rWuV_hem7y3HPsH1eLjAizE4bFplx4Vv0lNHsSDDJcCCVa-ZHgnwu5Wqt8834eJuFoYW3KZaxdISP4CLXcJHl3RZ33PI8VHdxyr4QYILi5Ta29fhtoBK7J4VnVd7lQigYFf0Z6BLpaT0DGkac3gdNN7kiRSlXszyv4Um3rw1Ckn4inmU0Vd-J_acoY-aCAw2o-kkpb19PB00JLatPPbAt4v3l_"/>
+<!-- Overlay Labels -->
+<div class="absolute top-4 left-4">
+<span class="bg-primary/20 backdrop-blur-md border border-primary/40 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm uppercase tracking-widest">Mastery Level: Advanced</span>
+</div>
+<!-- Play/Interaction Button Overlay -->
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-2xl scale-90 group-hover:scale-100 transition-transform">
+<span class="material-symbols-outlined font-variation-settings: 'FILL' 1;" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+<!-- Card Content -->
+<div class="p-6">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-headline-lg font-headline-lg text-primary mb-1">ENTRY &amp; KUZUSHI</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">The critical moment where stability is broken.</p>
+</div>
+<div class="px-4 py-2 rounded-lg bg-surface-container-high border border-white/5">
+<span class="text-label-md font-label-md text-on-surface">STEP 4/8</span>
+</div>
+</div>
+<!-- Setup List -->
+<div class="space-y-4">
+<div class="flex items-center p-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/10 group/item">
+<span class="step-number text-primary font-label-md">1</span>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-on-surface group-hover/item:text-primary transition-colors">Push Pull Entry</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Standard dynamic tension to force a reaction.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover/item:opacity-100 transition-opacity">chevron_right</span>
+</div>
+<div class="flex items-center p-4 rounded-xl bg-primary/5 border border-primary/20 shadow-inner group/item">
+<span class="step-number bg-primary text-on-primary border-none font-label-md">2</span>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-primary">Circle Entry</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Using circular momentum to bypass resistance.</p>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</div>
+<div class="flex items-center p-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/10 group/item">
+<span class="step-number text-primary font-label-md">3</span>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-on-surface group-hover/item:text-primary transition-colors">Fake Forward</h4>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Simulate an ouchi gari to force the step back.</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover/item:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+<!-- Swipe/Navigation Footer -->
+<div class="mt-8 flex items-center justify-between">
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-on-surface/20"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface/20"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface/20"></div>
+<div class="w-6 h-2 rounded-full bg-primary active-dot"></div>
+<div class="w-2 h-2 rounded-full bg-on-surface/20"></div>
+</div>
+<div class="flex items-center gap-2 text-primary group/swipe cursor-pointer">
+<span class="text-label-md font-label-md tracking-widest">SWIPE</span>
+<span class="material-symbols-outlined group-hover/swipe:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Contextual Insights - Right Column -->
+<div class="lg:col-span-5 space-y-6">
+<!-- Training Progress -->
+<div class="glass-card p-6 rounded-xl border border-white/5">
+<h4 class="text-label-md font-label-md text-primary uppercase tracking-widest mb-4">Module Progress</h4>
+<div class="flex items-center gap-6">
+<div class="relative w-20 h-20">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-highest" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary transition-all duration-1000" cx="40" cy="40" fill="transparent" r="36" stroke="currentColor" stroke-dasharray="226" stroke-dashoffset="68" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-label-md font-bold text-on-surface">70%</div>
+</div>
+<div class="flex-grow">
+<p class="text-body-md font-body-md text-on-surface mb-1">Setups Mastery</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Complete 2 more drills to unlock Advanced Variations.</p>
+</div>
+</div>
+</div>
+<!-- Confidence Meter -->
+<div class="glass-card p-6 rounded-xl border border-white/5">
+<div class="flex justify-between items-center mb-4">
+<h4 class="text-label-md font-label-md text-primary uppercase tracking-widest">Confidence Meter</h4>
+<span class="text-label-sm font-label-sm text-on-surface-variant" id="confidence-label">Strong (85%)</span>
+</div>
+<input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" oninput="updateConfidence(this.value)" type="range" value="85"/>
+<div class="flex justify-between mt-2 text-[10px] text-on-surface-variant uppercase tracking-tighter">
+<span>Uncertain</span>
+<span>Competent</span>
+<span>Instinctive</span>
+</div>
+</div>
+<!-- Quick Action Buttons -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 bg-primary text-on-primary h-touch-target-min rounded-xl font-label-md hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">fitness_center</span>
+                        START DRILL
+                    </button>
+<button class="flex items-center justify-center gap-2 border border-primary/40 text-primary h-touch-target-min rounded-xl font-label-md hover:bg-primary/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        SAVE CARD
+                    </button>
+</div>
+<!-- Step Breakdown (Progressive Disclosure) -->
+<div class="mt-4">
+<button class="w-full flex items-center justify-between p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors" onclick="toggleDetails()">
+<span class="font-label-md text-on-surface">Step-by-Step Breakdown</span>
+<span class="material-symbols-outlined transition-transform" id="detail-chevron">expand_more</span>
+</button>
+<div class="hidden overflow-hidden transition-all duration-300" id="detail-panel">
+<div class="p-6 space-y-4 text-on-surface-variant border-x border-b border-white/5 rounded-b-xl bg-surface-container-lowest/50">
+<div class="flex gap-4">
+<span class="text-primary font-bold">1.</span>
+<p class="text-label-sm">Establish a high lapel grip with your dominant hand, keeping the wrist stiff.</p>
+</div>
+<div class="flex gap-4">
+<span class="text-primary font-bold">2.</span>
+<p class="text-label-sm">Step deep between uke's legs, creating a triangle of balance with your feet.</p>
+</div>
+<div class="flex gap-4">
+<span class="text-primary font-bold">3.</span>
+<p class="text-label-sm">Rotate your shoulders while extending the leading leg to block uke's shin.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg">
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all">
+<span class="material-symbols-outlined font-variation-settings: 'FILL' 1;" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        function updateConfidence(val) {
+            const label = document.getElementById('confidence-label');
+            let text = "";
+            if (val < 30) text = `Uncertain (${val}%)`;
+            else if (val < 70) text = `Competent (${val}%)`;
+            else text = `Strong (${val}%)`;
+            label.innerText = text;
+        }
+
+        function toggleDetails() {
+            const panel = document.getElementById('detail-panel');
+            const chevron = document.getElementById('detail-chevron');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                panel.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        // Simple entry animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate-fade-in');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(10px)';
+                el.style.transition = 'all 0.6s ease-out';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body></html>

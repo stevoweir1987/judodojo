@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JUDOHUB - Tai Otoshi Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hero-gradient {
+            background: linear-gradient(to bottom, rgba(19, 19, 19, 0) 0%, rgba(19, 19, 19, 1) 100%);
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#474746",
+                        "primary-fixed-dim": "#e9c349",
+                        "inverse-primary": "#735c00",
+                        "on-surface": "#e5e2e1",
+                        "surface-tint": "#e9c349",
+                        "background": "#131313",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "surface-container-highest": "#353534",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-bright": "#3a3939",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed": "#1b1b1d",
+                        "surface-container": "#201f1f",
+                        "primary": "#f2ca50",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-primary-fixed-variant": "#574500",
+                        "primary-container": "#d4af37",
+                        "on-primary-fixed": "#241a00",
+                        "tertiary-fixed-dim": "#c8c6c8",
+                        "on-surface-variant": "#d0c5af",
+                        "on-primary": "#3c2f00",
+                        "on-secondary": "#313030",
+                        "secondary-container": "#474746",
+                        "surface-container-high": "#2a2a2a",
+                        "on-tertiary-fixed-variant": "#474649",
+                        "error": "#ffb4ab",
+                        "tertiary": "#d0cdd0",
+                        "on-tertiary": "#303032",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary": "#c8c6c5",
+                        "surface-dim": "#131313",
+                        "tertiary-container": "#b4b2b4",
+                        "tertiary-fixed": "#e4e2e4",
+                        "on-tertiary-container": "#454547",
+                        "outline-variant": "#4d4635",
+                        "surface-variant": "#353534",
+                        "surface": "#131313",
+                        "outline": "#99907c",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed": "#ffe088",
+                        "surface-container-low": "#1c1b1b",
+                        "on-background": "#e5e2e1",
+                        "on-primary-container": "#554300",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#b7b5b4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "max-width-desktop": "1200px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "unit": "8px",
+                        "card-gap": "12px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                        "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top AppBar (from JSON logic) -->
+<header class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<button class="w-10 h-10 flex items-center justify-center text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-headline-lg-mobile font-headline-lg-mobile font-bold tracking-tighter text-primary dark:text-primary-fixed-dim">JUDOHUB</div>
+<button class="w-10 h-10 flex items-center justify-center text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="pt-16 pb-24 max-w-max-desktop mx-auto">
+<!-- Hero Section -->
+<section class="relative w-full aspect-[4/5] md:aspect-video overflow-hidden">
+<img alt="Judo Master performing Tai Otoshi" class="w-full h-full object-cover" data-alt="A cinematic, high-contrast shot of a Judo practitioner executing a perfect Tai Otoshi throw in a dimly lit, traditional Japanese dojo. The athlete is caught in mid-motion, demonstrating intense focus and technical precision. The lighting is dramatic, highlighting the texture of the white judogi against a deep charcoal background. The atmosphere is disciplined and prestigious, with subtle golden highlights reflecting the premium brand identity of JUDOHUB." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8X2dMje5ZGgXC5dJprne-5oTrlRcX1tuQffrLFvMGLOlPK7Rrh4UgKJLEQZ5stBWRLQOE4Xy-dHY6dbbPMTB9tXJuSaMhHOT_ZWXRsFhcSWuwicEaesgN4SeXN8exudQMwj-_gimPCkW1zopyW2rMi9npsI3b6JFigQzFOjsskt-yB7vHcCkLn4MI3FVsx9it3iH4s3cMUL1JR3280ptmFrZBu5JvOLKiiPwzucEf8XYWRPwI__lakfDhR6kBToN2xzyY342fisYn"/>
+<div class="absolute inset-0 hero-gradient"></div>
+<div class="absolute bottom-0 left-0 w-full p-container-padding flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-primary text-on-primary font-label-md text-label-md rounded-full">Yellow Belt</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile opacity-60">体落</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl md:text-display-lg md:font-display-lg text-primary-fixed-dim">Tai Otoshi</h1>
+<p class="font-body-lg text-body-lg opacity-80 max-w-xl italic">Body Drop</p>
+</div>
+</section>
+<!-- Action Bar -->
+<section class="px-container-padding -mt-6 relative z-10">
+<div class="glass-card rounded-xl p-4 flex justify-between items-center">
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary">favorite</span>
+</div>
+<span class="font-label-sm text-label-sm opacity-60">Favorite</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+</div>
+<span class="font-label-sm text-label-sm opacity-60">Add Drill</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary">notes</span>
+</div>
+<span class="font-label-sm text-label-sm opacity-60">Notes</span>
+</button>
+<button class="flex flex-col items-center gap-1 group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary">share</span>
+</div>
+<span class="font-label-sm text-label-sm opacity-60">Share</span>
+</button>
+</div>
+</section>
+<!-- Syllabus Content Grid -->
+<section class="px-container-padding mt-gutter pb-8">
+<h2 class="font-headline-lg text-headline-lg mb-gutter flex items-center gap-2">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+                Technique Syllabus
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-card-gap">
+<!-- Card 1: What Is It? -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A focused close-up of a Judo instructor explaining the core philosophy and mechanics of a throw. The setting is a minimalist dojo with soft, cinematic side lighting that creates deep shadows and elegant highlights. The mood is instructional and calm, focusing on the mastery of the art form with a dark charcoal and gold color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQbJW7BscX4ANrTiKE75JNS41X8kGFQc6pbcsmcl_aleQLEV6H_QDsuD4E33IknhZlLK3URhG2bTsmLtBUPaLwHK5VKVY9vdk7Z6bjoXcGq-PUqwafHphkdZrsPdrUdW_99e4Y1Cf_54jac_xSeftPhIwqICDLY0rUGjApCl8QkKJwxgEgC3v-7xJRw4hhMTOPptmDo_HGSzezM5De2cX7GtcYv7upx-ZyDaIBeQuLdYZ2LzPC0eJyThNmiNBCFs8-pTF9a2pX0XUI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">play_circle</span>
+<span class="text-label-sm font-label-sm text-primary">0:20</span>
+</div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">What Is It?</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Overview &amp; Purpose</p>
+</div>
+</button>
+<!-- Card 2: How To Execute -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A step-by-step breakdown of a Judo throw, captured with motion blur to emphasize the fluid transition between balance-breaking and execution. The image is framed against a dark, textured wall, using a cinematic low-key lighting setup. The focus is on the mechanics of the movement, maintaining a prestigious and disciplined visual style consistent with JUDOHUB's dark mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9O3Y4ELic_hqn0PlDeLtfDS9j94ozXCVNirk88zlUWZtGGkFIFWrKiNevTztz2ZsbNbJjMGxnvROSDRlTS2gxbYeR93Hhi2PexLaZTGGUevyl_eQQUJkaFKTvLr6w-wc23i9mIdqaj3EypMPFHphsnZnJl5e5aiY_paN84R1L6o8kXzjywwbb97zzF0BpasdFduOC6u6NmXF7w_Vb7fmG_bFy0GQWofD31jhTICQvRuHjdKMTc7-9VB6YHoEtPuAxSNjoNnBTo4kq"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute bottom-2 right-2">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">How To Execute</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Step-by-step breakdown</p>
+</div>
+</button>
+<!-- Card 3: Grips -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Macro photography of judogi fabric being grasped by strong hands, showing the detail of the weave and the intensity of the grip. The lighting is moody and dramatic, with warm golden tones contrasting against the deep black shadows. This shot emphasizes the tactile mastery required in Judo, presented in a clean, cinematic, and professional style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGlD7bZDOXygdHjNOJjC7f5ldyD3Pi8Ew6x3fouf1CJG4V5n8Bxa7ApRrLiZvPZ3ENCqoXXxLLwO-S3C5YyFsR0bcbo6ikFXRpNGlxdUw6glDdlpD5vEm2bn1PfnZ5QrTiDnK5GjsHNEwaWq4TWT45zzOgudc-dRuIUySkM5rszuJfjZGnGLHiYhbvMvRGXaNmJ1cgd7gMDWpw5e_sCfNENW0Ou__QKzj44WL7PX8qBCHhGTf_UOVahFfPlhH6oPvh9p2RhPxUergA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Grips</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Entries &amp; Kuzushi</p>
+</div>
+</button>
+<!-- Card 4: Setups -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Two judokas in a dynamic stance, preparing for an engagement. The composition is wide and cinematic, emphasizing the spatial awareness and mental preparation before a throw. The lighting is atmospheric, with a soft glow illuminating the mat, creating a sense of focus and calm intensity within a modern digital dojo environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGDsRkBdT8_mazN0KuuEXoJNFNao5NLAQWewSf_1QK9TYqJFJyFH483o3abJdrcGNW0PE-7kufFWleKOOE1DuHpiq_vf4z8A84BAfZDHy5VINHXHWuXt2FgttSIxXwwSVu6pgh2H8hYK5D_ioHsZfeMXq5D2BpeOQthx8GI3XFnWPXO3dZPsjHgoADR9S6ZgbCIUdwFa5_H5vBHNMnoMUxzgiYh-szsFmqxnnDofgz0b7ZTzSwGmwhLj7XLzpL5hGkl4OgBKc5Ca2f"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Setups</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Movement patterns</p>
+</div>
+</button>
+<!-- Card 5: Common Errors -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="An instructional view highlighting incorrect posture in Judo, using subtle red glowing markers to pinpoint errors. The aesthetic remains high-end and cinematic, avoiding cluttered UI elements. The lighting is focused, with the background receding into deep shadows, ensuring the educational content is delivered with clarity and prestige." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9ophMRTaiz5wD8YTAxEqpO40lfYdpoutfsTQWhbYCK7WpeTi5aYggkHLhVzWQJLy8e1vShO57rrpdAs3VI9KFnB5B35nw9e_PwWln48ZWNHGVRNXCQ9k0wcRFGOJob1ARyJGzG8oceARwSjeK10UtyNAof_DlLPcdk5R9CCLcIyoJcS9sDui9wrZBUeniCs1FGxxpLTPIs7ePWZZBKZzF_KUoCyGnSB7Pg3wEWVVpVu_FVzBahBE--qgSFKnHLVHS7owdoRJRZCBI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Common Errors</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Mistakes to avoid</p>
+</div>
+</button>
+<!-- Card 6: Combos -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A montage of quick technical transitions between different Judo techniques. The imagery is captured with a high shutter speed to freeze the action, showcasing the complexity of combinations. The color palette is strictly deep blacks and rich golds, maintaining the cinematic and disciplined atmosphere of the digital training companion." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_O6CTOShwbLnxjbOsu6JO_Wzs6hwBbU-t6ewCCwM9eRcXji7wi5y7IQpI4uVp2mH05X5glRCnYJBarlWSdqaRj4gYCAzCq8m3u7P4-x2B3qo3fBoPetgjzf4r5KA9Oh9fx1_7LuKclTxmCi8VaGoBWqqEnaJ07ZGyLauA3mQcY8iprlh6-1Om0jx6z_gkRj3tJAN2_RRcy7Ivd2xKDq3hDkODVWXPguLh7L0L0t09heeBRUZXw7021T4grZ9tggIEowFGaXSKBr1B"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Combos</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Transitions &amp; Counters</p>
+</div>
+</button>
+<!-- Card 7: Quick Drills -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A solo practitioner practicing entry movements (uchikomi) against a heavy bag or band in a modern training space. The lighting is bright yet focused, creating a high-energy mood for active training. The visual style uses a clean, minimalist approach that prioritizes movement clarity, adhering to the ADHD-friendly design principles of the app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQHGhOKRntth3NZ_PP_pcT6YfPpz9FvHISH3uLAG6WDi0RNPDi78--rOkT1_vAxLCvCrVkvfwnuED-JCmzCwyhQ2CPflPcfwJdzbDBShk7NpaSAvzU5AKpjQrbMHsLaxgbLVMrqeI9Gtnm4R2LElZAxWUYgJxWu60APTFetHsUZfeYzbkIxr-0nH8tABp5yKqlhhSmHcdf2yPO6XVzmY6Fht8qGd2HZHXFKxi0KYSsPJDLqM-I6FclPcPJuSfFo_0t3lRXlLGFJj3s"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Quick Drills</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Solo &amp; Partner work</p>
+</div>
+</button>
+<!-- Card 8: Video Examples -->
+<button class="glass-card rounded-xl overflow-hidden aspect-square flex flex-col group active:scale-95 transition-all">
+<div class="relative h-2/3 w-full">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A wide-angle shot of a live Judo competition match, captured with a cinematic lens that isolates the athletes from the background. The scene is filled with energy and competitive intensity, framed by JUDOHUB's signature dark aesthetic. The lighting is crisp, highlighting the peak of the throw in a real-world scenario." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmPx-SS6zerCnwY731hAOdBAGlSW7uXm6qWFrXeCMxFeJ8cK09P_dK1TMehp-ENOppfVBRpC6jlz7TUFHpVMDMLql2YYpbqPVXcAM87VjtjbQLhcCcnMOuhFvxhXAVxLAdZHrghINhG3ZdQaSZmdkgkYKLcH2Gcnbdqd7lECIjPqLtRB_x5NNRtvBstraZ96LQ7UaQx2ZcvL4QlsfuVT5tY0KtAND-lGMAtEVkN2-31jpEUP4SqguuL4kw8RIr1N9OPh8wDLF7IbLG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+<div class="absolute bottom-2 left-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">play_circle</span>
+<span class="text-label-sm font-label-sm text-primary">1:35</span>
+</div>
+</div>
+<div class="p-3 text-left">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Real Application</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant line-clamp-1">Competition examples</p>
+</div>
+</button>
+</div>
+</section>
+<!-- Syllabus Progress Footer Action -->
+<div class="px-container-padding pb-32">
+<button class="w-full bg-primary text-on-primary h-touch-target-min rounded-xl font-label-md text-label-md active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(242,202,80,0.4)]">
+                Add to My Syllabus
+                <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Bar (from JSON logic) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/95 backdrop-blur-lg border-t border-white/5 shadow-lg">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="font-label-sm text-label-sm mt-1">Learn</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-sm text-label-sm mt-1">Grade</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="font-label-sm text-label-sm mt-1">Drills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('button.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = 'rgba(242, 202, 80, 0.3)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+            });
+        });
+
+        // Add active state to nav items (client-side simulation)
+        const navItems = document.querySelectorAll('nav a');
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                navItems.forEach(i => {
+                    i.classList.remove('text-primary', 'dark:text-primary-fixed-dim', 'scale-110');
+                    i.classList.add('text-on-secondary-fixed-variant', 'opacity-60');
+                });
+                item.classList.remove('text-on-secondary-fixed-variant', 'opacity-60');
+                item.classList.add('text-primary', 'dark:text-primary-fixed-dim', 'scale-110');
+            });
+        });
+    </script>
+</body></html>

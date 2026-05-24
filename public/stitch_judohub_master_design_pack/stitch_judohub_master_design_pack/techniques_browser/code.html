@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>JUDOHUB | Techniques</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#474746",
+                    "primary-fixed-dim": "#e9c349",
+                    "inverse-primary": "#735c00",
+                    "on-surface": "#e5e2e1",
+                    "surface-tint": "#e9c349",
+                    "background": "#131313",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "surface-container-highest": "#353534",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-bright": "#3a3939",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed": "#1b1b1d",
+                    "surface-container": "#201f1f",
+                    "primary": "#f2ca50",
+                    "secondary-fixed": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "primary-container": "#d4af37",
+                    "on-primary-fixed": "#241a00",
+                    "tertiary-fixed-dim": "#c8c6c8",
+                    "on-surface-variant": "#d0c5af",
+                    "on-primary": "#3c2f00",
+                    "on-secondary": "#313030",
+                    "secondary-container": "#474746",
+                    "surface-container-high": "#2a2a2a",
+                    "on-tertiary-fixed-variant": "#474649",
+                    "error": "#ffb4ab",
+                    "tertiary": "#d0cdd0",
+                    "on-tertiary": "#303032",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary": "#c8c6c5",
+                    "surface-dim": "#131313",
+                    "tertiary-container": "#b4b2b4",
+                    "tertiary-fixed": "#e4e2e4",
+                    "on-tertiary-container": "#454547",
+                    "outline-variant": "#4d4635",
+                    "surface-variant": "#353534",
+                    "surface": "#131313",
+                    "outline": "#99907c",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "inverse-on-surface": "#313030",
+                    "primary-fixed": "#ffe088",
+                    "surface-container-low": "#1c1b1b",
+                    "on-background": "#e5e2e1",
+                    "on-primary-container": "#554300",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-container": "#b7b5b4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-padding": "24px",
+                    "max-width-desktop": "1200px",
+                    "touch-target-min": "48px",
+                    "gutter": "16px",
+                    "unit": "8px",
+                    "card-gap": "12px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "headline-xl": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .belt-yellow { background: #F2CA50; color: #3C2F00; }
+        .belt-orange { background: #FF9800; color: #FFFFFF; }
+        .belt-green { background: #4CAF50; color: #FFFFFF; }
+        .belt-blue { background: #2196F3; color: #FFFFFF; }
+        .belt-brown { background: #795548; color: #FFFFFF; }
+        .belt-black { background: #000000; color: #FFFFFF; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Bar -->
+<nav class="flex justify-between items-center px-container-padding h-16 w-full fixed top-0 z-50 bg-background/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity">menu</span>
+<span class="text-headline-lg-mobile font-headline-lg-mobile font-bold tracking-tighter text-primary dark:text-primary-fixed-dim uppercase">JUDOHUB</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity">notifications</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/20">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc7IcmviETPTjmDGgE3013gwblH3j_q_KaNNP9_hZHgHDs00hraJqh2i0mPK87SBpm64qIOFEvk5EzEmnsCRFpq-bao1vv56Bi5ulZFonQKDcm9EJ5IMHQF1hWbKTz417RVwuGg-klrMt8Ks5Bd6nsumciR7nxQUir4uN1it3FXfbtG0heKYT2usax9EyYfEQwDoTWAG-vAEbCRPsBUA-hIGEYcN5w4Xs_1ZJbWLzUm54rCE8KRUHnbwjSzlNcnd9r328oOz1TrSpN"/>
+</div>
+</div>
+</nav>
+<main class="pt-20 pb-24 px-container-padding max-w-max-desktop mx-auto min-h-screen">
+<!-- Search & Filter Section -->
+<header class="mb-8">
+<h1 class="font-headline-xl text-headline-xl mb-4 text-primary">TECHNIQUES</h1>
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full h-12 bg-surface-container rounded-xl pl-12 pr-4 text-on-surface border-none focus:ring-2 focus:ring-primary transition-all font-body-md placeholder:text-on-surface-variant/50" placeholder="Search techniques..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-primary cursor-pointer">tune</span>
+</div>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<button class="px-5 py-2 rounded-full bg-primary text-on-primary font-label-md transition-all active:scale-95 whitespace-nowrap">All</button>
+<button class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant font-label-md hover:bg-surface-variant transition-all active:scale-95 whitespace-nowrap">Nage-waza</button>
+<button class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant font-label-md hover:bg-surface-variant transition-all active:scale-95 whitespace-nowrap">Katame-waza</button>
+<button class="px-5 py-2 rounded-full bg-surface-container text-on-surface-variant font-label-md hover:bg-surface-variant transition-all active:scale-95 whitespace-nowrap">A-Z</button>
+</div>
+</header>
+<!-- Pinned Techniques -->
+<section class="mb-10">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-headline-lg text-headline-lg">Pinned</h2>
+<span class="text-primary font-label-md cursor-pointer hover:underline">Edit</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="relative aspect-video rounded-xl overflow-hidden glass-card group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A cinematic, high-contrast shot of a judo practitioner performing a dynamic Tai Otoshi throw in a traditional Japanese dojo. The lighting is dramatic, with deep shadows and golden highlights reflecting off the wooden mats. The atmosphere is intense and disciplined, capturing the peak of technical execution. The color palette is dominated by deep blacks, charcoal greys, and warm golden tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuATThT2HB3eKTcFeA_9O9apdJqbnEq0AS4O6w_7iiIHyj5bi0VCMTZQNAwDgT6TPEocoY5QK8bG-jVROUtXOU59kzRIke4OMe_9cgrrExLjGXFVp51ZC-mwmeQ9DkPUkhsVYEGqn7oeeXdsvNmbszsJbOIUIDK_y4ci0gaO7ZFYcBDU_oqumOCalm-YkK43cUzBKvfMxSMf-lgIgSj9aUSvFD0aP02WGIOjHxkNUqqzknKQT4Of2PuyoCOXe3yfE47H_0gBJNBo04ft"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase belt-yellow">Yellow Belt</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-white">Tai Otoshi</h3>
+<p class="text-label-sm text-on-surface-variant">Body Drop Throw</p>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-primary fill-1">play_arrow</span>
+</div>
+</div>
+<div class="relative aspect-video rounded-xl overflow-hidden glass-card group cursor-pointer">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="A professional overhead shot of two judokas grappling on a traditional tatami mat, focused on a ground control technique. The aesthetic is clean and minimalist, emphasizing the geometry of the movement and the texture of the uniforms. Cool blue ambient lighting contrasts with the warm skin tones and the sharp shadows cast on the mat. The mood is one of quiet intensity and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvFF5KZTy0gzO2hgffif78ePtpsl3KROGdQ3rg5BVMVnaOIZUiGO92ekKGzodx5UljKG-Utwfq-7CnSBN_0rhms4EEAmsn-xMP7MRbpVoAJFV6iZ1fN9B-leBsjB9nKuqAMhpMVR17ViJ6Mo7NNKeiqsUtJbcvFFv__sDgrsCVj3kkSgtteRglpNbxzV_TgaRTezUWom0KNTQOEwTM5zMKAjfquhZaX62qs6GoQBJuGmmbXPvUu7-eQlvb54u4HSr-MXx-9eYbQAyx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase belt-orange">Orange Belt</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-white">Uchi Mata</h3>
+<p class="text-label-sm text-on-surface-variant">Inner Thigh Reaping</p>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-primary fill-1" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Categories Grid -->
+<section class="mb-10">
+<h2 class="font-headline-lg text-headline-lg mb-6">Categories</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-4 rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-variant transition-all active:scale-95 text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">front_hand</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Te-waza</h4>
+<p class="text-label-sm text-on-surface-variant">12 techniques</p>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-variant transition-all active:scale-95 text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">accessibility_new</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Koshi-waza</h4>
+<p class="text-label-sm text-on-surface-variant">15 techniques</p>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-variant transition-all active:scale-95 text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">directions_walk</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Ashi-waza</h4>
+<p class="text-label-sm text-on-surface-variant">21 techniques</p>
+</div>
+</div>
+<div class="glass-card p-4 rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-variant transition-all active:scale-95 text-center group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">airline_stops</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Sutemi-waza</h4>
+<p class="text-label-sm text-on-surface-variant">10 techniques</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recently Viewed -->
+<section class="mb-10">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-lg text-headline-lg">Recently Viewed</h2>
+<span class="text-primary font-label-md cursor-pointer hover:underline">See all</span>
+</div>
+<div class="space-y-4">
+<!-- List Item 1 -->
+<div class="glass-card p-3 rounded-xl flex items-center gap-4 cursor-pointer hover:bg-surface-variant transition-all">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close-up of a judoka's hands gripping a white gi collar, demonstrating technical precision and focus. The lighting is soft but directional, highlighting the textures of the fabric and the tension in the hands. The overall style is minimalist and cinematic, using a monochrome-leaning palette with subtle golden light spills. The mood is centered and disciplined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7x5tXBdKhHLKqeXZF5LZaSUpwAgNkYAfqOkGl6fBd64VGIET-7a0lKuAG3BL0A1j7HCoejhRt-jrW62q_W8k5kUJkrauxW0nym6fv7aL76AwQciW0m_v9TAmKjS8Md9qJOfv5H9vSDhh2hXbyvQORuinmL_eHX3VaW2-TiakEtHVmmcYl3gxo3iJYSVorV8A_0hQ4llZ9jmfrQMRLKA-JY1m7yLEreCo6XiGZ5jU3O9mc_lRmQk9RJUo8MrpKYlCyo0HJZsm39nEA"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">O Goshi</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase belt-yellow">Yellow Belt</span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Large Hip Throw</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<!-- List Item 2 -->
+<div class="glass-card p-3 rounded-xl flex items-center gap-4 cursor-pointer hover:bg-surface-variant transition-all">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A focused judoka executing a transition to a ground control technique on a dark mat. The image is captured with a shallow depth of field, blurring the background dojo elements to keep all focus on the athlete. Dramatic side-lighting creates strong highlights and deep shadows, emphasizing the physical effort and technical mastery. The aesthetic is prestigious and calm, using a deep charcoal and golden palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHyEOBNzjR3i6eQ71p7JT3rWIaRIKkCJpTxMewWnUc7UHAi4XpuS08M5SWVYsbFH4nA93uHemWZ-nN4FYfoLlUYYtI_B3w0PAwcSOyiE1_yiG5jPzOcbpPz6spFtrYEN7YzTI-NV3fYvnhoE_tdCrcPIrMshhaJO9reynctFkS_9AtczMXh9l8SCUrMzsO3fJM3MjFEco0PtPG81BHcWoV3sp5wyBVLA1LUURPeKz3g4r9E-0LkFlYlV_REqolybgx-tUNfScesrTt"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Osoto Gari</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase belt-orange">Orange Belt</span>
+</div>
+<p class="text-label-sm text-on-surface-variant">Large Outer Reap</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+<!-- List Item 3 -->
+<div class="glass-card p-3 rounded-xl flex items-center gap-4 cursor-pointer hover:bg-surface-variant transition-all">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="An artistic shot of a judo gi folded neatly on a wooden floor, with a black belt resting on top. Soft morning light filters through a window, creating a serene and respectful atmosphere. The image emphasizes the discipline and heritage of the martial art through a minimalist composition and a neutral color palette of off-whites, warm woods, and deep blacks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeCVuG3dzughftMWBuMdd4S7CArx1yg80C7Bk8eVBAKAKnFRMHw5PpPyeiUoAajL8WmPx3ofNzVXUqCZegU7WWQ7guVlAtLd5U-AEf6c04MZORscLkTE2pmAShXkn-ES84ivQfcD0fvbtAI_AyZBjW0u5jenIaluRVeijt2vEoSscM0Q1CM9O6fn5Pfhr2OHQCDmxrT4RV_AkR139a8b5GdtFqmYzMoRku3Leq54xeHhnuvUV9d_Ml4Dv7AHTi32n_lQhExiP16BRG"/>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-headline-lg-mobile">Ippon Seoi Nage</h4>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase belt-orange">Orange Belt</span>
+</div>
+<p class="text-label-sm text-on-surface-variant">One Arm Shoulder Throw</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container/95 backdrop-blur-lg border-t border-white/5 flex justify-around items-center px-4 py-3 pb-safe shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+<span class="text-label-sm font-label-sm">Learn</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-label-sm font-label-sm">Grade</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">fitness_center</span>
+<span class="text-label-sm font-label-sm">Drills</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant opacity-60 hover:text-primary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-sm font-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s ease';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Filter chip selection logic
+        const chips = document.querySelectorAll('header button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary');
+                    c.classList.add('bg-surface-container', 'text-on-surface-variant');
+                });
+                chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+                chip.classList.add('bg-primary', 'text-on-primary');
+            });
+        });
+    </script>
+</body></html>

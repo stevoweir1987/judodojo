@@ -86,7 +86,7 @@ tailwind.config = {
   .hide-scroll { -ms-overflow-style:none; scrollbar-width:none; }
   .active-scale:active { transform: scale(0.97); transition: transform 0.1s ease; }
   /* Screens */
-  .screen { display:none; position:absolute; inset:0; overflow-y:auto; overflow-x:clip; scrollbar-width:none; -ms-overflow-style:none; }
+  .screen { display:none; position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; scrollbar-width:none; -ms-overflow-style:none; }
   .screen::-webkit-scrollbar { display:none; }
   #app-shell { scrollbar-width:none; }
   #app-shell::-webkit-scrollbar { display:none; }
@@ -444,6 +444,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') FirebaseSync.flushNow();
   });
+});
+
+// ── Drag-to-scroll for horizontal lists (desktop) ──
+document.addEventListener('DOMContentLoaded', () => {
+  function enableDragScroll(el) {
+    let isDown = false, startX, scrollLeft;
+    el.addEventListener('mousedown', e => { isDown = true; el.classList.add('dragging'); startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
+    el.addEventListener('mouseleave', () => { isDown = false; el.classList.remove('dragging'); });
+    el.addEventListener('mouseup', () => { isDown = false; el.classList.remove('dragging'); });
+    el.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; el.scrollLeft = scrollLeft - (x - startX); });
+  }
+  document.querySelectorAll('.h-scroll').forEach(enableDragScroll);
+  // Re-apply after renders (MutationObserver on app-shell)
+  new MutationObserver(() => document.querySelectorAll('.h-scroll:not(.drag-ready)').forEach(el => { el.classList.add('drag-ready'); enableDragScroll(el); })).observe(document.getElementById('app-shell'), { childList:true, subtree:true });
 });
 </script>
 
